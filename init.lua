@@ -258,9 +258,13 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.termguicolors = true
 vim.o.wrap = false
 vim.cmd.colorscheme("catppuccin")
+vim.o.scrolloff = 8
+vim.o.relativenumber = true
 
 -- [[ Basic Keymaps ]]
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { silent = true })
+vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
