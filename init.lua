@@ -298,6 +298,9 @@ vim.o.relativenumber = true
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { silent = true })
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
+vim.keymap.set({ "n", "v" }, "tl", ":set number! norelativenumber<cr>",
+  { silent = true, desc = "Toggle line numbers" })
+vim.keymap.set({ "n", "v" }, "tr", ":set relativenumber!<cr>", { silent = true, desc = "Toggle relative line numbers" })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
