@@ -92,6 +92,9 @@ require("lazy").setup({
 		priority = 1000,
 		config = function() end,
 	},
+	{
+		"HiPhish/rainbow-delimiters.nvim",
+	},
 
 	{
 		"stevearc/conform.nvim",
@@ -552,6 +555,7 @@ require("which-key").register({
 		_ = "which_key_ignore",
 		cc = "Toggle line comment",
 		b = { c = "Toggle block comment", f = { ":Git blame<CR>", "Blame File" } },
+		n = { ":Neogit<cr>", "Neogit" },
 	},
 	["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
 	["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
