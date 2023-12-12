@@ -1,3 +1,37 @@
+-- =============================================================================
+--                                   INIT.LUA
+-- =============================================================================
+--
+-- Neovim configuration file written in Lua, licensed under the GPL-2.0 license.
+--
+-- Author:        Rahul Martim Juliato <rahul.juliato@gmail.com>
+-- Created:       2023-10-31
+-- Last Modified: always (check github.com/lionyx)
+--
+-- =============================================================================
+--                                  NOTES
+-- =============================================================================
+--
+-- This Neovim configuration started from kickstart.nvim
+-- (https://github.com/mhinz/vim-startify) and has been extended with
+-- additional customizations.
+--
+-- The configuration is provided under the terms of the GNU General Public
+-- License, version 2 (GPL-2.0). You are free to copy, modify, and distribute
+-- this configuration, provided you include this license notice.
+--
+-- For the full text of the GPL-2.0 license, please visit:
+-- https://www.gnu.org/licenses/gpl-2.0.html
+--
+-- This configuration uses the "lazy" plugin manager for lazy-loading plugins.
+-- For more information on "lazy," please refer to its documentation.
+--
+-- Make sure to check the documentation of plugins for additional settings.
+--
+-- =============================================================================
+--                                HAPPY VIMMING!
+-- =============================================================================
+
 ---[[ - ]] Set <space> as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "

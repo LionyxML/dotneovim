@@ -1,3 +1,3 @@
-# neovim config
+# LioVim
 
-My personal neovim config.
+This is the Lionyx NeoVim config (LioVim).
