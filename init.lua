@@ -723,10 +723,9 @@ require("which-key").register({
   ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
   ["<leader>g"] = {
     name = "[G]it",
-    _ = "which_key_ignore",
-    cc = "Toggle line comment",
-    b = { c = "Toggle block comment", f = { ":Git blame<CR>", "Blame File" } },
-    n = { ":Neogit<cr>", "Neogit" },
+    _    = "which_key_ignore",
+    b    = { ":Git blame<CR>", "Blame File" },
+    n    = { ":Neogit<cr>", "Neogit" },
   },
   ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
   ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
