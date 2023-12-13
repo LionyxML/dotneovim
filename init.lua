@@ -6,7 +6,7 @@
 --
 -- Author:        Rahul Martim Juliato <rahul.juliato@gmail.com>
 -- Created:       2023-10-31
--- Last Modified: always (check github.com/lionyx)
+-- Last Modified: today? yestarday? tomorrow? (check github.com/lionyxml)
 --
 -- =============================================================================
 --                                  NOTES
@@ -121,16 +121,93 @@ require("lazy").setup({
   },
 
   {
+    -- Automatically close tags (html, typescript, vue...)
+    "windwp/nvim-ts-autotag",
+    opts = {
+      autotag = {
+        enable = true
+      }
+    },
+  },
+
+  {
+    -- Keep treesitter context on top of buffer
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = {
+      enable = false -- Defaults to disabled, use <leader>tc to toggle Context
+    }
+  },
+
+  {
+    -- Aerial is a tree viewer of code symbols
+    "stevearc/aerial.nvim",
+    opts = {
+      enabled = false -- Defaults to disabled, use <leader>ta to toggle Aerial
+    }
+  },
+
+  { "MunifTanjim/nui.nvim",  lazy = true },
+
+  { "echasnovski/mini.nvim", version = "false" },
+
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
+    },
+    -- stylua: ignore
+    keys = {
+      { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                 desc = "Redirect Cmdline" },
+      { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
+      { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
+      { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
+      { "<c-n>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,              expr = true,              desc = "Scroll forward",  mode = { "i", "n", "s" } },
+      { "<c-p>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,              expr = true,              desc = "Scroll backward", mode = { "i", "n", "s" } },
+    },
+  },
+
+  {
+    -- Catppuccin Theme
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
     config = function() end,
   },
+
   {
+    -- Makes delimiters colorful
     "HiPhish/rainbow-delimiters.nvim",
   },
 
   {
+    -- Formatter by filetype
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
@@ -138,10 +215,10 @@ require("lazy").setup({
 
       conform.setup({
         formatters_by_ft = {
-          javascript = { "prettierd" },
-          typescript = { "prettierd" },
-          javascriptreact = { "prettierd" },
-          typescriptreact = { "prettierd" },
+          javascript = { "prettier" },
+          typescript = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescriptreact = { "prettier" },
           svelte = { "prettierd" },
           css = { "prettierd" },
           html = { "prettierd" },
@@ -168,6 +245,45 @@ require("lazy").setup({
       end, { desc = "Format file or range (in visual mode)" })
     end,
   },
+
+  {
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    keys = {
+      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",            desc = "Toggle pin" },
+      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
+      { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>",          desc = "Delete other buffers" },
+      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>",           desc = "Delete buffers to the right" },
+      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>",            desc = "Delete buffers to the left" },
+      { "<S-h>",      "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev buffer" },
+      { "<S-l>",      "<cmd>BufferLineCycleNext<cr>",            desc = "Next buffer" },
+      { "[b",         "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev buffer" },
+      { "]b",         "<cmd>BufferLineCycleNext<cr>",            desc = "Next buffer" },
+    },
+    opts = {
+      options = {
+        -- stylua: ignore
+        close_command = function(n) require("mini.bufremove").delete(n, false) end,
+        -- stylua: ignore
+        right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
+        diagnostics = "nvim_lsp",
+        always_show_bufferline = false,
+        separator_style = "slant",
+      },
+    },
+    config = function(_, opts)
+      require("bufferline").setup(opts)
+      -- Fix bufferline when restoring a session
+      vim.api.nvim_create_autocmd("BufAdd", {
+        callback = function()
+          vim.schedule(function()
+            pcall(nvim_bufferline)
+          end)
+        end,
+      })
+    end,
+  },
+
   -- Useful plugin to show you pending keybinds.
   { "folke/which-key.nvim", opts = {} },
   {
@@ -257,7 +373,9 @@ require("lazy").setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
     main = "ibl",
-    opts = {},
+    opts = {
+      enabled = false -- Defaults to disabled, use <leader>tI to toggle indentation
+    },
   },
 
   {
@@ -330,6 +448,7 @@ vim.o.wrap = false
 vim.cmd.colorscheme("catppuccin")
 vim.o.scrolloff = 8
 vim.o.relativenumber = true
+vim.o.showtabline = 0 -- Toggle Tabs with <leader>tt
 
 -- [[ Basic Keymaps ]]
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -524,16 +643,34 @@ vim.api.nvim_create_user_command("DiagnosticsToggle", function()
   end
 end, {})
 
+-- Command to toggle indentation lines
+vim.api.nvim_create_user_command("IndentationLineToggle", function()
+  require("ibl").setup_buffer(0, {
+    enabled = not require("ibl.config").get_config(0).enabled,
+  })
+end, {})
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>")
+vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>")
+vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>")
 vim.keymap.set("n", "<leader>ti", function()
   vim.cmd("DiagnosticsToggleVirtualText")
 end, { desc = "Toggle inline diagnostics" })
 vim.keymap.set("n", "<leader>td", function()
   vim.cmd("DiagnosticsToggle")
 end, { desc = "Toggle diagnostics" })
+vim.keymap.set("n", "<leader>tt", function()
+  if vim.o.showtabline == 2 then
+    vim.o.showtabline = 0
+  else
+    vim.o.showtabline = 2
+  end
+end, { desc = "Toggle tabs" })
+
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -593,7 +730,11 @@ require("which-key").register({
   },
   ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
   ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-  ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
+  ["<leader>s"] = {
+    name = "[S]earch",
+    _ = "which_key_ignore",
+    n = { name = "[N]oice" },
+  },
   ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
   ["<leader>t"] = {
     name = "[T]oggle",
@@ -622,8 +763,8 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  tsserver = {},
-  eslint = {},
+  tsserver = { filetypes = { 'typescript', 'typescriptreact', "javascript", "javascriptreact" } },
+  eslint = { filetypes = { 'typescript', 'typescriptreact', "javascript", "javascriptreact" } },
   html = {},
   cssls = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
