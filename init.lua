@@ -99,6 +99,7 @@ require("lazy").setup({
       "hrsh7th/cmp-nvim-lsp",
 
       "rafamadriz/friendly-snippets",
+      "onsails/lspkind.nvim"
     },
   },
 
@@ -111,6 +112,46 @@ require("lazy").setup({
     config = function()
       vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true })
     end,
+    opts = {
+      renderer = {
+        root_folder_modifier = ":t",
+        icons = {
+          glyphs = {
+            default = "",
+            symlink = "",
+            folder = {
+              arrow_open = "",
+              arrow_closed = "",
+              default = "",
+              open = "",
+              empty = "",
+              empty_open = "",
+              symlink = "",
+              symlink_open = "",
+            },
+            git = {
+              unstaged = "",
+              staged = "S",
+              unmerged = "",
+              renamed = "➜",
+              untracked = "U",
+              deleted = "",
+              ignored = "◌",
+            },
+          }
+        }
+      },
+      diagnostics = {
+        enable = true,
+        show_on_dirs = true,
+        icons = {
+          hint = "",
+          info = "",
+          warning = "",
+          error = "",
+        }
+      }
+    }
   },
 
   {
@@ -151,6 +192,7 @@ require("lazy").setup({
   { "echasnovski/mini.nvim", version = "false" },
 
   {
+    -- Beautiful UI for neovim (mostly for the "Command Pallete")
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
@@ -179,6 +221,7 @@ require("lazy").setup({
         command_palette = true,
         long_message_to_split = true,
         inc_rename = true,
+        lsp_doc_border = true,
       },
     },
     -- stylua: ignore
@@ -247,6 +290,7 @@ require("lazy").setup({
   },
 
   {
+    -- Provides Buffers as Tabs
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
     keys = {
@@ -268,7 +312,18 @@ require("lazy").setup({
         right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
         diagnostics = "nvim_lsp",
         always_show_bufferline = false,
-        separator_style = "slant",
+        separator_style = "slant", -- slant, slope, thick, thin, {"", ""}
+        modified_icon = '●',
+        show_close_icon = false,
+        show_buffer_close_icons = false,
+        offsets = {
+          {
+            filetype = "NvimTree",
+            text = "Nvim Tree",
+            separator = true,
+            text_align = "left"
+          }
+        },
       },
     },
     config = function(_, opts)
@@ -284,8 +339,26 @@ require("lazy").setup({
     end,
   },
 
-  -- Useful plugin to show you pending keybinds.
-  { "folke/which-key.nvim", opts = {} },
+  {
+    -- Useful plugin to show you pending keybinds.
+    "folke/which-key.nvim",
+    opts = {
+      window = {
+        border = "rounded",       -- none, single, double, shadow
+        position = "bottom",      -- bottom, top
+        margin = { 1, 0, 1, 0 },  -- extra window margin [top, right, bottom, left]
+        padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+        winblend = 0,
+      }
+      ,
+      layout = {
+        height = { min = 4, max = 25 }, -- min and max height of the columns
+        width = { min = 20, max = 50 }, -- min and max width of the columns
+        spacing = 3,                    -- spacing between columns
+        align = "left",                 -- align columns left, center or right
+      },
+    }
+  },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     "lewis6991/gitsigns.nvim",
@@ -379,6 +452,7 @@ require("lazy").setup({
   },
 
   {
+    -- Provides commenting capabilities on line and selection
     "numToStr/Comment.nvim",
     opts = {
       toggler = {
@@ -398,8 +472,8 @@ require("lazy").setup({
     lazy = false,
   },
 
-  -- Fuzzy Finder (files, lsp, etc)
   {
+    -- Fuzzy Finder (files, lsp, etc)
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
     dependencies = {
@@ -430,7 +504,7 @@ require("lazy").setup({
   },
 }, {})
 
--- [[ Setting options ]]
+-- [[ Settings options ]]
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.mouse = "a"
@@ -801,19 +875,31 @@ mason_lspconfig.setup_handlers({
   end,
 })
 
--- [[ Configure nvim-cmp ]]
--- See `:help cmp`
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup({})
 
+
+local lspkind = require('lspkind')
 ---@diagnostic disable-next-line: missing-fields
 cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  ---@diagnostic disable-next-line: missing-fields
+  formatting = {
+    format = lspkind.cmp_format({
+      mode = 'symbol',       -- show only symbol annotations
+      maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+      ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+    })
   },
   mapping = cmp.mapping.preset.insert({
     ["<C-n>"] = cmp.mapping.select_next_item(),
