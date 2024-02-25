@@ -189,7 +189,7 @@ require("lazy").setup({
 
   { "MunifTanjim/nui.nvim",  lazy = true },
 
-  { "echasnovski/mini.nvim", version = "false" },
+  { "echasnovski/mini.nvim", version = false },
 
   {
     -- Beautiful UI for neovim (mostly for the "Command Pallete")
