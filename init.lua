@@ -104,35 +104,40 @@ require("lazy").setup({
 	},
 
 	{
-		"goolord/alpha-nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-
+		"glepnir/dashboard-nvim",
+		event = "VimEnter",
 		config = function()
-			local alpha = require("alpha")
-			local dashboard = require("alpha.themes.startify")
+			local logo = [[
+				                                                                       
+                                                                    
+      ████ ██████           █████      ██                     
+     ███████████             █████                             
+     █████████ ███████████████████ ███   ███████████   
+    █████████  ███    █████████████ █████ ██████████████   
+   █████████ ██████████ █████████ █████ █████ ████ █████   
+ ███████████ ███    ███ █████████ █████ █████ ████ █████  
+██████  █████████████████████ ████ █████ █████ ████ ██████ 
+				                                                                       
+  ]]
 
-			dashboard.section.header.val = {
-				[[                                                                       ]],
-				[[                                                                       ]],
-				[[                                                                       ]],
-				[[                                                                       ]],
-				[[                                                                     ]],
-				[[       ████ ██████           █████      ██                     ]],
-				[[      ███████████             █████                             ]],
-				[[      █████████ ███████████████████ ███   ███████████   ]],
-				[[     █████████  ███    █████████████ █████ ██████████████   ]],
-				[[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
-				[[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
-				[[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
-				[[                                                                       ]],
-				[[                                                                       ]],
-				[[                                                                       ]],
-			}
+			logo = string.rep("\n", 8) .. logo .. "\n\n"
 
-			alpha.setup(dashboard.opts)
+			require("dashboard").setup({
+				theme = "doom",
+				config = {
+					header = vim.split(logo, "\n"),
+					center = { { action = "", desc = "", icon = " " } },
+					footer = function()
+						local stats = require("lazy").stats()
+						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+						return {
+							"Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+						}
+					end,
+				},
+			})
 		end,
+		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 
 	{
@@ -145,44 +150,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true })
 		end,
 		opts = {
-			renderer = {
-				root_folder_modifier = ":t",
-				icons = {
-					glyphs = {
-						default = "",
-						symlink = "",
-						folder = {
-							arrow_open = "",
-							arrow_closed = "",
-							default = "",
-							open = "",
-							empty = "",
-							empty_open = "",
-							symlink = "",
-							symlink_open = "",
-						},
-						git = {
-							unstaged = "",
-							staged = "S",
-							unmerged = "",
-							renamed = "➜",
-							untracked = "U",
-							deleted = "",
-							ignored = "◌",
-						},
-					},
-				},
-			},
-			diagnostics = {
-				enable = true,
-				show_on_dirs = true,
-				icons = {
-					hint = "",
-					info = "",
-					warning = "",
-					error = "",
-				},
-			},
+			-- cofigs done below on the file
 		},
 	},
 
@@ -584,7 +552,36 @@ require("catppuccin").setup({
 	},
 	transparent_background = true,
 	integrations = {
+		aerial = true,
+		alpha = true,
+		cmp = true,
+		dashboard = true,
+		flash = true,
+		gitsigns = true,
+		headlines = true,
+		illuminate = true,
+		indent_blankline = { enabled = true },
+		leap = true,
+		lsp_trouble = true,
+		mason = true,
+		markdown = true,
+		mini = true,
+		native_lsp = {
+			enabled = true,
+			underlines = {
+				errors = { "undercurl" },
+				hints = { "undercurl" },
+				warnings = { "undercurl" },
+				information = { "undercurl" },
+			},
+		},
+		navic = { enabled = true, custom_bg = "lualine" },
 		nvimtree = true,
+		noice = true,
+		telescope = true,
+		treesitter = true,
+		treesitter_context = true,
+		which_key = true,
 	},
 })
 
@@ -594,9 +591,6 @@ require("nvim-tree").setup({
 	view = {
 		width = 30,
 	},
-	renderer = {
-		group_empty = true,
-	},
 	filters = {
 		dotfiles = false,
 	},
@@ -604,6 +598,48 @@ require("nvim-tree").setup({
 		enable = true,
 		ignore = false,
 		timeout = 500,
+	},
+
+	renderer = {
+		group_empty = true,
+		highlight_git = false,
+		root_folder_label = ":t",
+		icons = {
+			git_placement = "after",
+			glyphs = {
+				default = "",
+				symlink = "",
+				folder = {
+					arrow_open = "",
+					arrow_closed = "",
+					default = "",
+					open = "",
+					empty = "",
+					empty_open = "",
+					symlink = "",
+					symlink_open = "",
+				},
+				git = {
+					unstaged = "",
+					staged = "S",
+					unmerged = "",
+					renamed = "➜",
+					untracked = "U",
+					deleted = "",
+					ignored = "◌",
+				},
+			},
+		},
+	},
+	diagnostics = {
+		enable = true,
+		show_on_dirs = true,
+		icons = {
+			hint = "",
+			info = "",
+			warning = "",
+			error = "",
+		},
 	},
 })
 
@@ -793,6 +829,12 @@ local on_attach = function(_, bufnr)
 		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 	end
 
+	if vim.lsp.inlay_hint then
+		vim.keymap.set("n", "<leader>th", function()
+			vim.lsp.inlay_hint(0, nil)
+		end, { desc = "Toggle inlay [H]int" })
+	end
+
 	nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 	nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ctions")
 
@@ -865,17 +907,17 @@ local servers = {
 	-- clangd = {},
 	-- gopls = {},
 	-- pyright = {},
-	-- rust_analyzer = {},
+	rust_analyzer = {},
 	tsserver = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
 	eslint = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
 	html = {},
 	cssls = {},
 	-- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
 	lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = false },
 			telemetry = { enable = false },
+			hint = { enable = true },
 		},
 	},
 }
