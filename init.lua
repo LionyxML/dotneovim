@@ -243,10 +243,10 @@ require("lazy").setup({
     config = function() end,
   },
 
-  -- { -- Makes delimiters colorful
-  -- 	"HiPhish/rainbow-delimiters.nvim",
-  -- },
-  --
+  { -- Makes delimiters colorful
+    "HiPhish/rainbow-delimiters.nvim",
+  },
+
   {
     -- Formatter by filetype
     "stevearc/conform.nvim",
@@ -542,12 +542,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- [[ Catppuccin Setup ]]
 require("catppuccin").setup({
-  flavour = "mocha",
   color_overrides = {
     mocha = {
       base = "#000000",
     },
   },
+  flavour = "mocha",
   transparent_background = true,
   integrations = {
     aerial = true,
