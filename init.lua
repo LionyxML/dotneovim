@@ -240,13 +240,16 @@ require("lazy").setup({
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    config = function() end,
+    opts = {
+      transparent_background = false,
+    },
+    -- config = function() end,
   },
 
-  { -- Makes delimiters colorful
-    "HiPhish/rainbow-delimiters.nvim",
-  },
-
+  -- { -- Makes delimiters colorful
+  --   "HiPhish/rainbow-delimiters.nvim",
+  -- },
+  --
   {
     -- Formatter by filetype
     "stevearc/conform.nvim",
@@ -520,48 +523,48 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- [[ Catppuccin Setup ]]
-require("catppuccin").setup({
-  color_overrides = {
-    mocha = {
-      base = "#000000",
-    },
-  },
-  flavour = "mocha",
-  transparent_background = true,
-  integrations = {
-    aerial = true,
-    alpha = true,
-    cmp = true,
-    dashboard = true,
-    flash = true,
-    gitsigns = true,
-    headlines = true,
-    illuminate = true,
-    indent_blankline = { enabled = true },
-    leap = true,
-    lsp_trouble = true,
-    mason = true,
-    markdown = true,
-    mini = true,
-    native_lsp = {
-      enabled = true,
-      underlines = {
-        errors = { "undercurl" },
-        hints = { "undercurl" },
-        warnings = { "undercurl" },
-        information = { "undercurl" },
-      },
-    },
-    navic = { enabled = true, custom_bg = "lualine" },
-    nvimtree = true,
-    noice = true,
-    telescope = true,
-    treesitter = true,
-    treesitter_context = true,
-    which_key = true,
-  },
-})
-
+-- require("catppuccin").setup({
+--   color_overrides = {
+--     mocha = {
+--       base = "#000000",
+--     },
+--   },
+--   flavour = "mocha",
+--   transparent_background = true,
+--   integrations = {
+--     aerial = true,
+--     alpha = true,
+--     cmp = true,
+--     dashboard = true,
+--     flash = true,
+--     gitsigns = true,
+--     headlines = true,
+--     illuminate = true,
+--     indent_blankline = { enabled = true },
+--     leap = true,
+--     lsp_trouble = true,
+--     mason = true,
+--     markdown = true,
+--     mini = true,
+--     native_lsp = {
+--       enabled = true,
+--       underlines = {
+--         errors = { "undercurl" },
+--         hints = { "undercurl" },
+--         warnings = { "undercurl" },
+--         information = { "undercurl" },
+--       },
+--     },
+--     navic = { enabled = true, custom_bg = "lualine" },
+--     nvimtree = true,
+--     noice = true,
+--     telescope = true,
+--     treesitter = true,
+--     treesitter_context = true,
+--     which_key = true,
+--   },
+-- })
+--
 -- [[ Configure nvim-tree ]]
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
@@ -648,7 +651,7 @@ vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc =
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
   require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-    winblend = 10,
+    winblend = 0,
     previewer = true,
     sorter = require("telescope.sorters").get_substr_matcher(),
   }))
