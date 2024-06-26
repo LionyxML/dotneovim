@@ -241,7 +241,7 @@ require("lazy").setup({
     name = "catppuccin",
     priority = 1000,
     opts = {
-      transparent_background = false,
+      transparent_background = true,
     },
     -- config = function() end,
   },
@@ -523,48 +523,55 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- [[ Catppuccin Setup ]]
--- require("catppuccin").setup({
---   color_overrides = {
---     mocha = {
---       base = "#000000",
---     },
---   },
---   flavour = "mocha",
---   transparent_background = true,
---   integrations = {
---     aerial = true,
---     alpha = true,
---     cmp = true,
---     dashboard = true,
---     flash = true,
---     gitsigns = true,
---     headlines = true,
---     illuminate = true,
---     indent_blankline = { enabled = true },
---     leap = true,
---     lsp_trouble = true,
---     mason = true,
---     markdown = true,
---     mini = true,
---     native_lsp = {
---       enabled = true,
---       underlines = {
---         errors = { "undercurl" },
---         hints = { "undercurl" },
---         warnings = { "undercurl" },
---         information = { "undercurl" },
---       },
---     },
---     navic = { enabled = true, custom_bg = "lualine" },
---     nvimtree = true,
---     noice = true,
---     telescope = true,
---     treesitter = true,
---     treesitter_context = true,
---     which_key = true,
---   },
--- })
---
+require("catppuccin").setup({
+  color_overrides = {
+    mocha = {
+      base = "#000000",
+    },
+  },
+  flavour = "mocha",
+  transparent_background = true,
+  integrations = {
+    aerial = true,
+    alpha = true,
+    cmp = true,
+    dashboard = true,
+    flash = true,
+    gitsigns = true,
+    headlines = true,
+    illuminate = true,
+    indent_blankline = { enabled = true },
+    leap = true,
+    lsp_trouble = true,
+    mason = true,
+    markdown = true,
+    mini = {
+      enabled = true,
+      indentscope_color = ""
+
+    },
+    native_lsp = {
+      enabled = true,
+      underlines = {
+        errors = { "undercurl" },
+        hints = { "undercurl" },
+        warnings = { "undercurl" },
+        information = { "undercurl" },
+      },
+    },
+    navic = { enabled = true, custom_bg = "lualine" },
+    noice = true,
+    neogit = true,
+    notify = true,
+    nvimtree = true,
+    telescope = true,
+    treesitter = true,
+    treesitter_context = true,
+    which_key = true,
+    rainbow_delimiters = true,
+  },
+})
+
 -- [[ Configure nvim-tree ]]
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
