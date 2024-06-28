@@ -32,6 +32,9 @@
 --                                HAPPY VIMMING!
 -- =============================================================================
 
+
+--- Pre-config
+--- {{{
 ---[[ - ]] Set <space> as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -52,12 +55,17 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+--- }}}
 
--- Plugins
+--- Lazy Package Manager + Plugins
 require("lazy").setup({
-  -- Git related plugins
-  "tpope/vim-fugitive",
-  "tpope/vim-rhubarb",
+  -- {{{ Vim-Fugitive - A git wrapper for vim
+  { "tpope/vim-fugitive" },
+  --}}}
+  -- {{{ Vim-Rhubarb - rhubarb.vim is the Hub.
+  { "tpope/vim-rhubarb" },
+  -- }}}
+  -- {{{ Neogit - the Emacs Magit on Neovim
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -68,10 +76,13 @@ require("lazy").setup({
     },
     config = true,
   },
-
-  -- Detect tabstop and shiftwidth automatically
-  "tpope/vim-sleuth",
-
+  -- }}}
+  -- {{{ Vim-Sleuth - Detect tabstop and shiftwidth automatically
+  {
+    "tpope/vim-sleuth",
+  },
+  -- }}}
+  -- {{{ LSPConfig
   {
     -- LSP Configuration & Plugins
     "neovim/nvim-lspconfig",
@@ -88,9 +99,9 @@ require("lazy").setup({
       "folke/neodev.nvim",
     },
   },
-
+  -- }}}
+  -- {{{ Nvim-Cmp - Autocompletion
   {
-    -- Autocompletion
     "hrsh7th/nvim-cmp",
     dependencies = {
       "L3MON4D3/LuaSnip",
@@ -102,9 +113,9 @@ require("lazy").setup({
       "onsails/lspkind.nvim",
     },
   },
-
+  -- }}}
+  -- {{{ Dashboard-Nvim - Initial dashboard screen
   {
-    -- A Dashboard for Neovim
     "glepnir/dashboard-nvim",
     event = "VimEnter",
     config = function()
@@ -139,7 +150,8 @@ require("lazy").setup({
     end,
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
   },
-
+  -- }}}
+  -- {{{ Nvim-Tree - The side window tree explorer
   {
     -- Tree explorer
     "nvim-tree/nvim-tree.lua",
@@ -212,16 +224,15 @@ require("lazy").setup({
       }
       )
     end,
-
   },
-
+  -- }}}
+  -- {{{ Nvim-Autopairs - Automatically closes parens, breakets, etc.
   {
-    -- Automatically insert closing parens
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     opts = {}, -- this is equalent to setup({}) function
   },
-
+  -- }}}
   {
     -- Automatically close tags (html, typescript, vue...)
     "windwp/nvim-ts-autotag",
@@ -990,3 +1001,4 @@ cmp.setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+-- vim: fileencoding=utf-8:foldmethod=marker
