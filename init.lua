@@ -104,6 +104,7 @@ require("lazy").setup({
   },
 
   {
+    -- A Dashboard for Neovim
     "glepnir/dashboard-nvim",
     event = "VimEnter",
     config = function()
@@ -145,12 +146,73 @@ require("lazy").setup({
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
+
     config = function()
-      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true })
+      vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })     -- toggle file explorer
+      vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>",
+        { desc = "Toggle file explorer on current file" })                                                -- toggle file explorer on current file
+      vim.keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
+      vim.keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
+
+      require("nvim-tree").setup({
+        sort_by = "case_sensitive",
+        view = {
+          width = 30,
+        },
+        filters = {
+          dotfiles = false,
+        },
+        git = {
+          enable = true,
+          ignore = false,
+          timeout = 500,
+        },
+
+        renderer = {
+          group_empty = true,
+          highlight_git = false,
+          root_folder_label = ":t",
+          icons = {
+            git_placement = "after",
+            glyphs = {
+              default = "",
+              symlink = "",
+              folder = {
+                arrow_open = "",
+                arrow_closed = "",
+                default = "",
+                open = "",
+                empty = "",
+                empty_open = "",
+                symlink = "",
+                symlink_open = "",
+              },
+              git = {
+                unstaged = "",
+                staged = "S",
+                unmerged = "",
+                renamed = "➜",
+                untracked = "U",
+                deleted = "",
+                ignored = "◌",
+              },
+            },
+          },
+        },
+        diagnostics = {
+          enable = true,
+          show_on_dirs = true,
+          icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+          },
+        },
+      }
+      )
     end,
-    opts = {
-      -- cofigs done below on the file
-    },
+
   },
 
   {
@@ -241,15 +303,55 @@ require("lazy").setup({
     name = "catppuccin",
     priority = 1000,
     opts = {
+      -- color_overrides = {
+      --   mocha = {
+      --     base = "#000000",
+      --   },
+      -- },
+      flavour = "mocha",
       transparent_background = true,
+      integrations = {
+        aerial = true,
+        alpha = true,
+        cmp = true,
+        dashboard = true,
+        flash = true,
+        gitsigns = true,
+        headlines = true,
+        illuminate = true,
+        indent_blankline = { enabled = true },
+        leap = true,
+        lsp_trouble = true,
+        mason = true,
+        markdown = true,
+        mini = {
+          enabled = true,
+          indentscope_color = ""
+
+        },
+        native_lsp = {
+          enabled = true,
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+          },
+        },
+        navic = { enabled = true, custom_bg = "lualine" },
+        noice = true,
+        neogit = true,
+        notify = true,
+        nvimtree = true,
+        telescope = true,
+        treesitter = true,
+        treesitter_context = true,
+        which_key = true,
+        rainbow_delimiters = true,
+      },
     },
-    -- config = function() end,
   },
 
-  -- { -- Makes delimiters colorful
-  --   "HiPhish/rainbow-delimiters.nvim",
-  -- },
-  --
   {
     -- Formatter by filetype
     "stevearc/conform.nvim",
@@ -291,52 +393,21 @@ require("lazy").setup({
   },
 
   {
-    -- Provides Buffers as Tabs
-    "akinsho/bufferline.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",            desc = "Toggle pin" },
-      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
-      { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>",          desc = "Delete other buffers" },
-      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>",           desc = "Delete buffers to the right" },
-      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>",            desc = "Delete buffers to the left" },
-      { "<S-h>",      "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev buffer" },
-      { "<S-l>",      "<cmd>BufferLineCycleNext<cr>",            desc = "Next buffer" },
-      { "[b",         "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev buffer" },
-      { "]b",         "<cmd>BufferLineCycleNext<cr>",            desc = "Next buffer" },
-    },
-    opts = {
-      options = {
-        -- stylua: ignore
-        close_command = function(n) require("mini.bufremove").delete(n, false) end,
-        -- stylua: ignore
-        right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
-        diagnostics = "nvim_lsp",
-        always_show_bufferline = false,
-        separator_style = "slant", -- slant, slope, thick, thin, {"", ""}
-        modified_icon = "●",
-        show_close_icon = false,
-        show_buffer_close_icons = false,
-        offsets = {
-          {
-            filetype = "NvimTree",
-            text = "Nvim Tree",
-            separator = true,
-            text_align = "left",
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      require("bufferline").setup(opts)
-      -- Fix bufferline when restoring a session
-      vim.api.nvim_create_autocmd("BufAdd", {
-        callback = function()
-          vim.schedule(function()
-            pcall(nvim_bufferline)
-          end)
-        end,
+    -- Restores the current session for that particular folder
+    "rmagatti/auto-session",
+    config = function()
+      local auto_session = require("auto-session")
+
+      auto_session.setup({
+        auto_restore_enabled = false,
+        auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
       })
+
+      local keymap = vim.keymap
+
+      keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "[W]orkspace [R]estore session for cwd" }) -- restore last workspace session for current directory
+      keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>",
+        { desc = "[W]orkspace [S]ave session for auto session root dir" })                                         -- save workspace session for current working directory
     end,
   },
 
@@ -429,9 +500,9 @@ require("lazy").setup({
           "NvimTree",
         },
         icons_enabled = true,
-        -- theme = "catppuccin",
+        theme = "catppuccin",
         -- theme = "palenight",
-        theme = "nightfly",
+        -- theme = "nightfly",
         component_separators = "",
         -- component_separators = { left = '', right = '' },
         section_separators = { left = "", right = "" },
@@ -500,8 +571,13 @@ vim.o.termguicolors = true
 vim.o.wrap = false
 vim.cmd.colorscheme("catppuccin")
 vim.o.scrolloff = 8
-vim.o.relativenumber = false -- Toggle with <leader>tr
-vim.o.showtabline = 0        -- Toggle Tabs with <leader>tt
+vim.o.relativenumber = false         -- Toggle with <leader>tr
+vim.o.showtabline = 0                -- Toggle Tabs with <leader>tt
+vim.o.swapfile = false
+vim.o.backspace = "indent,eol,start" -- Allow backspace on ident
+vim.o.cursorline = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 
 -- [[ Basic Keymaps ]]
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -512,6 +588,15 @@ vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Quick clearing search highlights
+vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
+
+-- Buffer navigation
+vim.keymap.set("n", "<S-h>", ":bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-l>", ":bprev<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer" })
+
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -520,114 +605,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
   group = highlight_group,
   pattern = "*",
-})
-
--- [[ Catppuccin Setup ]]
-require("catppuccin").setup({
-  color_overrides = {
-    mocha = {
-      base = "#000000",
-    },
-  },
-  flavour = "mocha",
-  transparent_background = true,
-  integrations = {
-    aerial = true,
-    alpha = true,
-    cmp = true,
-    dashboard = true,
-    flash = true,
-    gitsigns = true,
-    headlines = true,
-    illuminate = true,
-    indent_blankline = { enabled = true },
-    leap = true,
-    lsp_trouble = true,
-    mason = true,
-    markdown = true,
-    mini = {
-      enabled = true,
-      indentscope_color = ""
-
-    },
-    native_lsp = {
-      enabled = true,
-      underlines = {
-        errors = { "undercurl" },
-        hints = { "undercurl" },
-        warnings = { "undercurl" },
-        information = { "undercurl" },
-      },
-    },
-    navic = { enabled = true, custom_bg = "lualine" },
-    noice = true,
-    neogit = true,
-    notify = true,
-    nvimtree = true,
-    telescope = true,
-    treesitter = true,
-    treesitter_context = true,
-    which_key = true,
-    rainbow_delimiters = true,
-  },
-})
-
--- [[ Configure nvim-tree ]]
-require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    width = 30,
-  },
-  filters = {
-    dotfiles = false,
-  },
-  git = {
-    enable = true,
-    ignore = false,
-    timeout = 500,
-  },
-
-  renderer = {
-    group_empty = true,
-    highlight_git = false,
-    root_folder_label = ":t",
-    icons = {
-      git_placement = "after",
-      glyphs = {
-        default = "",
-        symlink = "",
-        folder = {
-          arrow_open = "",
-          arrow_closed = "",
-          default = "",
-          open = "",
-          empty = "",
-          empty_open = "",
-          symlink = "",
-          symlink_open = "",
-        },
-        git = {
-          unstaged = "",
-          staged = "S",
-          unmerged = "",
-          renamed = "➜",
-          untracked = "U",
-          deleted = "",
-          ignored = "◌",
-        },
-      },
-    },
-  },
-  diagnostics = {
-    enable = true,
-    show_on_dirs = true,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    },
-  },
 })
 
 -- [[ Configure Telescope ]]
@@ -817,11 +794,10 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
   end
 
-  if vim.lsp.inlay_hint then
-    vim.keymap.set("n", "<leader>th", function()
-      vim.lsp.inlay_hint(0, nil)
-    end, { desc = "Toggle inlay [H]int" })
-  end
+  vim.keymap.set("n", "<leader>th", function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+  end, { desc = "Toggle inlay [H]int" })
+
 
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ctions")
@@ -831,7 +807,7 @@ local on_attach = function(_, bufnr)
   nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-  nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+  -- nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
   -- See `:help K` for why this keymap
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -839,11 +815,11 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-  nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-  nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-  nmap("<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, "[W]orkspace [L]ist Folders")
+  -- nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+  -- nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+  -- nmap("<leader>wl", function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, "[W]orkspace [L]ist Folders")
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
@@ -896,7 +872,24 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
-  tsserver = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
+  tsserver = {
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    -- TODO: this is not working yet for typescript
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = 'all',
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        }
+      }
+    }
+  },
   eslint = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
   html = {},
   cssls = {},
