@@ -37,7 +37,7 @@
 -- =============================================================================
 -- }}}
 
---- {{{ Pre-config
+-- {{{ Pre-config
 ---[[ - ]] Set <space> as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -62,13 +62,13 @@ vim.opt.rtp:prepend(lazypath)
 
 --- Lazy Package Manager + Plugins
 require("lazy").setup({
-  -- {{{ Vim-Fugitive - A git wrapper for vim
+  -- {{{ Vim-Fugitive                    A git wrapper for vim
   { "tpope/vim-fugitive" },
   --}}}
-  -- {{{ Vim-Rhubarb - rhubarb.vim is the Hub.
+  -- {{{ Vim-Rhubarb                     rhubarb.vim is the Hub.
   { "tpope/vim-rhubarb" },
   -- }}}
-  -- {{{ Neogit - the Emacs Magit on Neovim
+  -- {{{ Neogit                          The Emacs Magit on Neovim
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -80,12 +80,12 @@ require("lazy").setup({
     config = true,
   },
   -- }}}
-  -- {{{ Vim-Sleuth - Detect tabstop and shiftwidth automatically
+  -- {{{ Vim-Sleuth                      Detect tabstop and shiftwidth automatically
   {
     "tpope/vim-sleuth",
   },
   -- }}}
-  -- {{{ LSPConfig
+  -- {{{ LSPConfig                       LSP Configurations ans plugins
   {
     -- LSP Configuration & Plugins
     "neovim/nvim-lspconfig",
@@ -103,7 +103,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Nvim-Cmp - Autocompletion
+  -- {{{ Nvim-Cmp                        Autocompletion
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -117,7 +117,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Dashboard-Nvim - Initial dashboard screen
+  -- {{{ Dashboard-Nvim                  Initial dashboard screen
   {
     "glepnir/dashboard-nvim",
     event = "VimEnter",
@@ -154,7 +154,7 @@ require("lazy").setup({
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
   },
   -- }}}
-  -- {{{ Nvim-Tree - The side window tree explorer
+  -- {{{ Nvim-Tree                       The side window tree explorer
   {
     -- Tree explorer
     "nvim-tree/nvim-tree.lua",
@@ -229,14 +229,14 @@ require("lazy").setup({
     end,
   },
   -- }}}
-  -- {{{ Nvim-Autopairs - Automatically closes parens, breakets, etc.
+  -- {{{ Nvim-Autopairs                  Automatically closes parens, breakets, etc.
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     opts = {}, -- this is equalent to setup({}) function
   },
   -- }}}
-  -- {{{ Nvim-Ts-Autotag - Automatically close tags on html, typescript, vue...
+  -- {{{ Nvim-Ts-Autotag                 Automatically close tags on html, typescript, vue...
   {
     "windwp/nvim-ts-autotag",
     opts = {
@@ -246,7 +246,7 @@ require("lazy").setup({
     },
   },
   --}}}
-  -- {{{ Nvim-Treesitter-Context - Adds tree sitter context to the buffer
+  -- {{{ Nvim-Treesitter-Context         Adds tree sitter context to the buffer
   {
     "nvim-treesitter/nvim-treesitter-context",
     opts = {
@@ -254,7 +254,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Aerial - The tree viewer for symbols
+  -- {{{ Aerial                          The tree viewer for symbols
   {
     "stevearc/aerial.nvim",
     opts = {
@@ -262,13 +262,13 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ NUI - The UI Component library for Neovim
+  -- {{{ NUI                             The UI Component library for Neovim
   { "MunifTanjim/nui.nvim",  lazy = true },
   -- }}}
-  -- {{{ Mini - The Lua Modules library for Neovim
+  -- {{{ Mini                            The Lua Modules library for Neovim
   { "echasnovski/mini.nvim", version = false },
   -- }}}
-  -- {{{ Noice - The beautiful UI for Neovim
+  -- {{{ Noice                           The beautiful UI for Neovim
   {
     -- Beautiful UI for neovim (mostly for the "Command Pallete")
     "folke/noice.nvim",
@@ -314,7 +314,7 @@ require("lazy").setup({
     },
   },
   --- }}}
-  -- {{{ Catppuccin - The Only and One Theme :)
+  -- {{{ Catppuccin                      The Only and One Theme :)
   {
     -- Catppuccin Theme
     "catppuccin/nvim",
@@ -370,7 +370,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Conform - the universal formatter wrapper
+  -- {{{ Conform                         The universal formatter wrapper
   {
     -- Formatter by filetype
     "stevearc/conform.nvim",
@@ -411,7 +411,7 @@ require("lazy").setup({
     end,
   },
   -- }}}
-  -- {{{ Auto-Session - Automatically restores saved sessions
+  -- {{{ Auto-Session                    Automatically restores saved sessions
   {
     "rmagatti/auto-session",
     config = function()
@@ -430,7 +430,7 @@ require("lazy").setup({
     end,
   },
   -- }}}
-  -- {{{ Which-Key - The (another Emacs stolen) plugin that shows pending keybindings
+  -- {{{ Which-Key                       The (another Emacs stolen) plugin that shows pending keybindings
   {
     "folke/which-key.nvim",
     opts = {
@@ -450,7 +450,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Gitsigns - Adds git gutter / hunk blame&diff
+  -- {{{ Gitsigns                        Adds git gutter / hunk blame&diff
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     "lewis6991/gitsigns.nvim",
@@ -511,7 +511,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Lualine - the cool statusline
+  -- {{{ Lualine                         The cool statusline
   {
     "nvim-lualine/lualine.nvim",
     -- See `:help lualine.txt`
@@ -532,7 +532,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Indent-Blankline - Provides indentation vertical line
+  -- {{{ Indent-Blankline                Provides indentation vertical line
   {
     -- Add indentation guides even on blank lines
     "lukas-reineke/indent-blankline.nvim",
@@ -544,7 +544,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ Telescope - The cool finder/visualizer with previews
+  -- {{{ Telescope                       The cool finder/visualizer with previews
   {
     -- Fuzzy Finder (files, lsp, etc)
     "nvim-telescope/telescope.nvim",
@@ -567,7 +567,7 @@ require("lazy").setup({
     },
   },
   -- }}}
-  -- {{{ TreeSitter - Highlight, edit and navigate code
+  -- {{{ TreeSitter                      Highlight, edit and navigate code
   {
     -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
@@ -580,7 +580,7 @@ require("lazy").setup({
 }, {})
 
 --- Extra Configurations
--- {{{ VIM: Options / Keymaps
+-- {{{ VIM:                           Options / Keymaps
 -- [[ Settings options ]]
 vim.o.hlsearch = true
 vim.wo.number = true
@@ -655,7 +655,7 @@ vim.keymap.set("n", "<leader>tt", function()
   end
 end, { desc = "Toggle tabs" })
 --- }}}
--- {{{ Telescope - Extra config
+-- {{{ Telescope                      Extra config
 -- [[ Configure Telescope ]]
 require("telescope").setup({
   extensions = {
@@ -699,7 +699,7 @@ vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { de
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 vim.keymap.set("n", "<leader>x", ":bd<CR>", { desc = "Close buffer" })
 -- }}}
--- {{{ Treesitter - Extra config
+-- {{{ Treesitter                     Extra config
 -- [[ Configure Treesitter ]]
 vim.defer_fn(function()
   ---@diagnostic disable-next-line: missing-fields
@@ -778,7 +778,7 @@ vim.defer_fn(function()
   })
 end, 0)
 -- }}}
--- {{{ Diagnostics - Extra config
+-- {{{ Diagnostics                    Extra config
 vim.diagnostic.config {
   float = { border = "rounded" },
 }
@@ -804,7 +804,7 @@ vim.api.nvim_create_user_command("DiagnosticsToggle", function()
 end, {})
 
 --- }}}
--- {{{ Indent-Blankline - Extra config
+-- {{{ Indent-Blankline               Extra config
 -- Command to toggle indentation lines
 vim.api.nvim_create_user_command("IndentationLineToggle", function()
   require("ibl").setup_buffer(0, {
@@ -812,7 +812,7 @@ vim.api.nvim_create_user_command("IndentationLineToggle", function()
   })
 end, {})
 -- }}}
--- {{{ LSP - Extra config
+-- {{{ LSP                            Extra config
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -999,7 +999,7 @@ cmp.setup({
 })
 
 -- }}}
--- {{{ Which-Key - Extra config
+-- {{{ Which-Key                      Extra config
 require("which-key").register({
   ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
   ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
