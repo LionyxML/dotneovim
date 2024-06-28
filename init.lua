@@ -1,3 +1,7 @@
+--
+-- Welcome to LioVim!
+--
+-- {{{ About this config
 -- =============================================================================
 --                                   INIT.LUA
 -- =============================================================================
@@ -31,10 +35,9 @@
 -- =============================================================================
 --                                HAPPY VIMMING!
 -- =============================================================================
+-- }}}
 
-
---- Pre-config
---- {{{
+--- {{{ Pre-config
 ---[[ - ]] Set <space> as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -233,8 +236,8 @@ require("lazy").setup({
     opts = {}, -- this is equalent to setup({}) function
   },
   -- }}}
+  -- {{{ Nvim-Ts-Autotag - Automatically close tags on html, typescript, vue...
   {
-    -- Automatically close tags (html, typescript, vue...)
     "windwp/nvim-ts-autotag",
     opts = {
       autotag = {
@@ -242,27 +245,30 @@ require("lazy").setup({
       },
     },
   },
-
+  --}}}
+  -- {{{ Nvim-Treesitter-Context - Adds tree sitter context to the buffer
   {
-    -- Keep treesitter context on top of buffer
     "nvim-treesitter/nvim-treesitter-context",
     opts = {
       enable = false, -- Defaults to disabled, use <leader>tc to toggle Context
     },
   },
-
+  -- }}}
+  -- {{{ Aerial - The tree viewer for symbols
   {
-    -- Aerial is a tree viewer of code symbols
     "stevearc/aerial.nvim",
     opts = {
       enabled = false, -- Defaults to disabled, use <leader>ta to toggle Aerial
     },
   },
-
+  -- }}}
+  -- {{{ NUI - The UI Component library for Neovim
   { "MunifTanjim/nui.nvim",  lazy = true },
-
+  -- }}}
+  -- {{{ Mini - The Lua Modules library for Neovim
   { "echasnovski/mini.nvim", version = false },
-
+  -- }}}
+  -- {{{ Noice - The beautiful UI for Neovim
   {
     -- Beautiful UI for neovim (mostly for the "Command Pallete")
     "folke/noice.nvim",
@@ -307,7 +313,8 @@ require("lazy").setup({
       { "<c-p>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,              expr = true,              desc = "Scroll backward", mode = { "i", "n", "s" } },
     },
   },
-
+  --- }}}
+  -- {{{ Catppuccin - The Only and One Theme :)
   {
     -- Catppuccin Theme
     "catppuccin/nvim",
@@ -362,7 +369,8 @@ require("lazy").setup({
       },
     },
   },
-
+  -- }}}
+  -- {{{ Conform - the universal formatter wrapper
   {
     -- Formatter by filetype
     "stevearc/conform.nvim",
@@ -402,9 +410,9 @@ require("lazy").setup({
       end, { desc = "Format file or range (in visual mode)" })
     end,
   },
-
+  -- }}}
+  -- {{{ Auto-Session - Automatically restores saved sessions
   {
-    -- Restores the current session for that particular folder
     "rmagatti/auto-session",
     config = function()
       local auto_session = require("auto-session")
@@ -421,9 +429,9 @@ require("lazy").setup({
         { desc = "[W]orkspace [S]ave session for auto session root dir" })                                         -- save workspace session for current working directory
     end,
   },
-
+  -- }}}
+  -- {{{ Which-Key - The (another Emacs stolen) plugin that shows pending keybindings
   {
-    -- Useful plugin to show you pending keybinds.
     "folke/which-key.nvim",
     opts = {
       window = {
@@ -441,6 +449,8 @@ require("lazy").setup({
       },
     },
   },
+  -- }}}
+  -- {{{ Gitsigns - Adds git gutter / hunk blame&diff
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     "lewis6991/gitsigns.nvim",
@@ -500,9 +510,9 @@ require("lazy").setup({
       end,
     },
   },
-
+  -- }}}
+  -- {{{ Lualine - the cool statusline
   {
-    -- Set lualine as statusline
     "nvim-lualine/lualine.nvim",
     -- See `:help lualine.txt`
     opts = {
@@ -521,7 +531,8 @@ require("lazy").setup({
       },
     },
   },
-
+  -- }}}
+  -- {{{ Indent-Blankline - Provides indentation vertical line
   {
     -- Add indentation guides even on blank lines
     "lukas-reineke/indent-blankline.nvim",
@@ -532,7 +543,8 @@ require("lazy").setup({
       enabled = false, -- Defaults to disabled, use <leader>tI to toggle indentation
     },
   },
-
+  -- }}}
+  -- {{{ Telescope - The cool finder/visualizer with previews
   {
     -- Fuzzy Finder (files, lsp, etc)
     "nvim-telescope/telescope.nvim",
@@ -554,7 +566,8 @@ require("lazy").setup({
       },
     },
   },
-
+  -- }}}
+  -- {{{ TreeSitter - Highlight, edit and navigate code
   {
     -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
@@ -563,8 +576,11 @@ require("lazy").setup({
     },
     build = ":TSUpdate",
   },
+  --- }}}
 }, {})
 
+--- Extra Configurations
+-- {{{ VIM: Options
 -- [[ Settings options ]]
 vim.o.hlsearch = true
 vim.wo.number = true
@@ -617,7 +633,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   pattern = "*",
 })
-
+--- }}}
+-- {{{ Telescope - Extra config
 -- [[ Configure Telescope ]]
 require("telescope").setup({
   extensions = {
@@ -660,7 +677,8 @@ vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 vim.keymap.set("n", "<leader>x", ":bd<CR>", { desc = "Close buffer" })
-
+-- }}}
+-- {{{ Treesitter - Extra config
 -- [[ Configure Treesitter ]]
 vim.defer_fn(function()
   ---@diagnostic disable-next-line: missing-fields
@@ -738,7 +756,8 @@ vim.defer_fn(function()
     },
   })
 end, 0)
-
+-- }}}
+-- {{{ Diagnostics - Extra config
 -- Diagnostics toggle
 -- Command to toggle inline diagnostics
 vim.api.nvim_create_user_command("DiagnosticsToggleVirtualText", function()
@@ -758,13 +777,6 @@ vim.api.nvim_create_user_command("DiagnosticsToggle", function()
   else
     vim.diagnostic.disable()
   end
-end, {})
-
--- Command to toggle indentation lines
-vim.api.nvim_create_user_command("IndentationLineToggle", function()
-  require("ibl").setup_buffer(0, {
-    enabled = not require("ibl.config").get_config(0).enabled,
-  })
 end, {})
 
 -- Diagnostic keymaps
@@ -787,7 +799,16 @@ vim.keymap.set("n", "<leader>tt", function()
     vim.o.showtabline = 2
   end
 end, { desc = "Toggle tabs" })
-
+--- }}}
+-- {{{ Indent-Blankline - Extra config
+-- Command to toggle indentation lines
+vim.api.nvim_create_user_command("IndentationLineToggle", function()
+  require("ibl").setup_buffer(0, {
+    enabled = not require("ibl.config").get_config(0).enabled,
+  })
+end, {})
+-- }}}
+-- {{{ LSP - Extra config
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -837,32 +858,6 @@ local on_attach = function(_, bufnr)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
 end
-
--- document existing key chains
-require("which-key").register({
-  ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-  ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-  ["<leader>g"] = {
-    name = "[G]it",
-    _ = "which_key_ignore",
-    b = { ":Git blame<CR>", "Blame File" },
-    n = { ":Neogit<cr>", "Neogit" },
-  },
-  ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
-  ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-  ["<leader>s"] = {
-    name = "[S]earch",
-    _ = "which_key_ignore",
-    n = { name = "[N]oice" },
-  },
-  ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-  ["<leader>t"] = {
-    name = "[T]oggle",
-    _ = "which_key_ignore",
-    l = { ":set number! norelativenumber<cr>", "Toggle line number" },
-    r = { ":set relativenumber!<cr>", "Toggle relative line number" },
-  },
-})
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
@@ -998,6 +993,34 @@ cmp.setup({
     { name = "luasnip" },
   },
 })
+
+-- }}}
+-- {{{ Which-Key - Extra config
+require("which-key").register({
+  ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
+  ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
+  ["<leader>g"] = {
+    name = "[G]it",
+    _ = "which_key_ignore",
+    b = { ":Git blame<CR>", "Blame File" },
+    n = { ":Neogit<cr>", "Neogit" },
+  },
+  ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
+  ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
+  ["<leader>s"] = {
+    name = "[S]earch",
+    _ = "which_key_ignore",
+    n = { name = "[N]oice" },
+  },
+  ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
+  ["<leader>t"] = {
+    name = "[T]oggle",
+    _ = "which_key_ignore",
+    l = { ":set number! norelativenumber<cr>", "Toggle line number" },
+    r = { ":set relativenumber!<cr>", "Toggle relative line number" },
+  },
+})
+-- }}}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
