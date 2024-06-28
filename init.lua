@@ -580,7 +580,7 @@ require("lazy").setup({
 }, {})
 
 --- Extra Configurations
--- {{{ VIM: Options
+-- {{{ VIM: Options / Keymaps
 -- [[ Settings options ]]
 vim.o.hlsearch = true
 vim.wo.number = true
@@ -633,6 +633,27 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   pattern = "*",
 })
+
+-- Plugins Keymaps
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>")
+vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>")
+vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>")
+vim.keymap.set("n", "<leader>ti", function()
+  vim.cmd("DiagnosticsToggleVirtualText")
+end, { desc = "Toggle inline diagnostics" })
+vim.keymap.set("n", "<leader>td", function()
+  vim.cmd("DiagnosticsToggle")
+end, { desc = "Toggle diagnostics" })
+vim.keymap.set("n", "<leader>tt", function()
+  if vim.o.showtabline == 2 then
+    vim.o.showtabline = 0
+  else
+    vim.o.showtabline = 2
+  end
+end, { desc = "Toggle tabs" })
 --- }}}
 -- {{{ Telescope - Extra config
 -- [[ Configure Telescope ]]
@@ -758,6 +779,9 @@ vim.defer_fn(function()
 end, 0)
 -- }}}
 -- {{{ Diagnostics - Extra config
+vim.diagnostic.config {
+  float = { border = "rounded" },
+}
 -- Diagnostics toggle
 -- Command to toggle inline diagnostics
 vim.api.nvim_create_user_command("DiagnosticsToggleVirtualText", function()
@@ -779,26 +803,6 @@ vim.api.nvim_create_user_command("DiagnosticsToggle", function()
   end
 end, {})
 
--- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>")
-vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>")
-vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>")
-vim.keymap.set("n", "<leader>ti", function()
-  vim.cmd("DiagnosticsToggleVirtualText")
-end, { desc = "Toggle inline diagnostics" })
-vim.keymap.set("n", "<leader>td", function()
-  vim.cmd("DiagnosticsToggle")
-end, { desc = "Toggle diagnostics" })
-vim.keymap.set("n", "<leader>tt", function()
-  if vim.o.showtabline == 2 then
-    vim.o.showtabline = 0
-  else
-    vim.o.showtabline = 2
-  end
-end, { desc = "Toggle tabs" })
 --- }}}
 -- {{{ Indent-Blankline - Extra config
 -- Command to toggle indentation lines
