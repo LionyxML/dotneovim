@@ -576,7 +576,21 @@ require("lazy").setup({
     },
     build = ":TSUpdate",
   },
-  --- }}}
+  -- }}}
+  -- {{{ UndoTree                        Perfect pitch Undoing
+  {
+    "jiaoshijie/undotree",
+    dependencies = "nvim-lua/plenary.nvim",
+    config = true,
+    keys = { -- load the plugin only when using it's keybinding:
+      { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
+    },
+    opts = {
+      float_diff = false,
+      position = "right",
+    }
+  }
+  -- }}}
 }, {})
 
 --- Extra Configurations
@@ -675,7 +689,7 @@ require("telescope").setup({
 
 -- Use Telescope Undo
 require("telescope").load_extension("undo")
-vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
+vim.keymap.set("n", "<leader>U", "<cmd>Telescope undo<cr>")
 
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
