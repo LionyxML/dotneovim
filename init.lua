@@ -154,6 +154,12 @@ require("lazy").setup({
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
   },
   -- }}}
+  -- {{{ Dressing-Nvim                   Beautiful UI stuff
+  {
+    'stevearc/dressing.nvim',
+    opts = {},
+  },
+  -- }}}
   -- {{{ Nvim-Tree                       The side window tree explorer
   {
     -- Tree explorer
@@ -612,7 +618,7 @@ vim.o.termguicolors = true
 vim.o.wrap = false
 vim.cmd.colorscheme("catppuccin")
 vim.o.scrolloff = 8
-vim.o.relativenumber = false         -- Toggle with <leader>tr
+vim.o.relativenumber = true          -- Toggle with <leader>tr
 vim.o.showtabline = 0                -- Toggle Tabs with <leader>tt
 vim.o.swapfile = false
 vim.o.backspace = "indent,eol,start" -- Allow backspace on ident
@@ -647,6 +653,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   pattern = "*",
 })
+
+-- Better symbols on gutter column for diagnostics
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 -- Plugins Keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -896,6 +909,7 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
+  ccsls = {},
   tsserver = {
     filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
     -- TODO: this is not working yet for typescript
@@ -911,7 +925,7 @@ local servers = {
           includeInlayFunctionLikeReturnTypeHints = true,
           includeInlayEnumMemberValueHints = true,
         }
-      }
+      },
     }
   },
   eslint = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
