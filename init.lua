@@ -909,7 +909,7 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
-  ccsls = {},
+  cssls = {},
   tsserver = {
     filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
     -- TODO: this is not working yet for typescript
