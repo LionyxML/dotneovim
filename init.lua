@@ -1,5 +1,5 @@
 --
--- Welcome to LioVim!
+--    Welcome to LioVim!
 --
 -- {{{ About this config
 -- =============================================================================
@@ -481,16 +481,23 @@ require("lazy").setup({
       on_attach = function(bufnr)
         vim.keymap.set(
           "n",
-          "<leader>hp",
+          "<leader>gp",
           require("gitsigns").preview_hunk,
           { buffer = bufnr, desc = "Hunk diff preview" }
         )
 
         vim.keymap.set(
           "n",
-          "<leader>hb",
+          "<leader>gB",
           require("gitsigns").blame_line,
           { buffer = bufnr, desc = "Hunk blame" }
+        )
+
+        vim.keymap.set(
+          "n",
+          "<leader>tb",
+          require("gitsigns").toggle_current_line_blame,
+          { buffer = bufnr, desc = "Line blaming" }
         )
 
         -- don't override the built-in and fugitive keymaps
@@ -599,7 +606,7 @@ require("lazy").setup({
   -- }}}
 }, {})
 
---- Extra Configurations
+--- Extra Configurations (ideally this will all move upwards sometime...)
 -- {{{ VIM:                           Options / Keymaps
 -- [[ Settings options ]]
 vim.o.hlsearch = true
@@ -822,11 +829,11 @@ end, {})
 
 -- Command to toggle diagnostics
 vim.api.nvim_create_user_command("DiagnosticsToggle", function()
-  local current_value = vim.diagnostic.is_disabled()
+  local current_value = not vim.diagnostic.is_enabled()
   if current_value then
     vim.diagnostic.enable()
   else
-    vim.diagnostic.disable()
+    vim.diagnostic.enable(false)
   end
 end, {})
 
@@ -858,6 +865,7 @@ local on_attach = function(_, bufnr)
   end
 
   vim.keymap.set("n", "<leader>th", function()
+    ---@diagnostic disable-next-line: missing-parameter
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
   end, { desc = "Toggle inlay [H]int" })
 
@@ -930,7 +938,6 @@ local servers = {
   },
   eslint = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
   html = {},
-  cssls = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
   lua_ls = {
     Lua = {
