@@ -1,3 +1,3 @@
 # LioVim
 
-This is the Lionyx NeoVim config (LioVim).
+This is the Lionyx NeoVim config (LioVim? 😜).
