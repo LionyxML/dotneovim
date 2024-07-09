@@ -624,6 +624,18 @@ require("lazy").setup({
       vim.keymap.set("n", "<Leader>iy", "<cmd>IconPickerYank<cr>", opts) --> Yank the selected icon into register
       vim.keymap.set("i", "<C-i>", "<cmd>IconPickerInsert<cr>", opts)
     end
+  },
+  -- }}}
+  -- {{{ Remote.Nvim                   Allows remote development
+  {
+    "amitds1997/remote-nvim.nvim",
+    version = "*",                     -- Pin to GitHub releases
+    dependencies = {
+      "nvim-lua/plenary.nvim",         -- For standard functions
+      "MunifTanjim/nui.nvim",          -- To build the plugin UI
+      "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+    },
+    config = true,
   }
   -- }}}
 }, {})
