@@ -674,7 +674,7 @@ require("lazy").setup({
     end
   },
   -- }}}
-  -- {{{ Remote.Nvim                   Allows remote development
+  -- {{{ Remote.Nvim                     Allows remote development
   {
     "amitds1997/remote-nvim.nvim",
     version = "*",                     -- Pin to GitHub releases
@@ -684,6 +684,62 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
     },
     config = true,
+  },
+  -- }}}
+  -- {{{ Oil-Nvim                        Dired for neovim
+  {
+    'stevearc/oil.nvim',
+    opts = {
+      columns = {
+        "permissions",
+        "size",
+        "mtime",
+        "icon",
+      },
+      delete_to_trash = true,
+    },
+    -- Optional dependencies
+    -- dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+  },
+  -- }}}
+  -- {{{ Trouble                         Lists project errors
+  {
+    "folke/trouble.nvim",
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = "Trouble",
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      {
+        "<leader>cs",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<leader>cl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      {
+        "<leader>xL",
+        "<cmd>Trouble loclist toggle<cr>",
+        desc = "Location List (Trouble)",
+      },
+      {
+        "<leader>xQ",
+        "<cmd>Trouble qflist toggle<cr>",
+        desc = "Quickfix List (Trouble)",
+      },
+    },
   }
   -- }}}
 }, {})
@@ -813,7 +869,7 @@ vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { de
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
-vim.keymap.set("n", "<leader>x", ":bd<CR>", { desc = "Close buffer" })
+vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer" })
 -- }}}
 -- {{{ Treesitter                     Extra config
 -- [[ Configure Treesitter ]]
