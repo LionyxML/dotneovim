@@ -772,7 +772,7 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 
 -- [[ Basic Keymaps ]]
-vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+-- vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { silent = true })
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
 
@@ -784,10 +784,10 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- Buffer navigation
-vim.keymap.set("n", "<S-h>", ":bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<S-l>", ":bprev<CR>", { desc = "Previous buffer" })
-vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<S-h>", ":bnext<CR>", { desc = "Next buffer", silent = true })
+vim.keymap.set("n", "<S-l>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
+vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer", silent = true })
+vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
