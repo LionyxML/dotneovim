@@ -742,7 +742,11 @@ require("lazy").setup({
     },
   }
   -- }}}
-}, {})
+}, {
+  ui = {
+    border = "rounded"
+  }
+})
 
 --- Extra Configurations (ideally this will all move upwards sometime...)
 -- {{{ VIM:                           Options / Keymaps
@@ -1038,7 +1042,11 @@ end
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
-require("mason").setup()
+require("mason").setup({
+  ui = {
+    border = "rounded"
+  }
+})
 require("mason-lspconfig").setup()
 
 -- Enable the following language servers
