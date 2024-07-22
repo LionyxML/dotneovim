@@ -1403,5 +1403,9 @@ vim.api.nvim_create_user_command("IndentationLineToggle", function()
 	})
 end, {})
 
+vim.diagnostic.config({
+	float = { border = "rounded" },
+})
+
 --- }}}
 -- vim: ts=2 sts=2 sw=2 et fileencoding=utf-8:foldmethod=marker
