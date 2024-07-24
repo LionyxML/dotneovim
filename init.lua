@@ -71,6 +71,24 @@ require("lazy").setup({
 	-- {{{ Vim-Rhubarb                     rhubarb.vim is the Hub.
 	{ "tpope/vim-rhubarb" },
 	-- }}}
+	-- {{{ Nvim-Tmux-Navigator              Integration with tmux
+	{
+		"alexghergh/nvim-tmux-navigation",
+		config = function()
+			require("nvim-tmux-navigation").setup({
+				disable_when_zoomed = true, -- defaults to false
+				keybindings = {
+					left = "<C-h>",
+					down = "<C-j>",
+					up = "<C-k>",
+					right = "<C-l>",
+					-- last_active = "<C-\\>",
+					-- next = "<C-Space>",
+				},
+			})
+		end,
+	},
+	-- }}}
 	-- {{{ Neogit                          The Emacs Magit on Neovim
 	{
 		"NeogitOrg/neogit",
