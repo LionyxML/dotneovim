@@ -412,6 +412,7 @@ require("lazy").setup({
 						mode = "symbol", -- show only symbol annotations
 						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+						symbol_map = { Codeium = "" },
 					}),
 				},
 				completion = { completeopt = "menu,menuone,noinsert" },
@@ -472,6 +473,7 @@ require("lazy").setup({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
+					{ name = "codeium" },
 				},
 			})
 		end,
@@ -1337,6 +1339,65 @@ require("lazy").setup({
 		},
 	},
 	-- }}}
+	-- {{{ Codeium                         Copilot like alternative
+	{
+		"Exafunction/codeium.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"hrsh7th/nvim-cmp",
+		},
+		config = function()
+			require("codeium").setup({})
+
+			local Source = require("codeium.source")
+
+			local function is_codeium_enabled()
+				local enabled = vim.b["codeium_enabled"]
+				if enabled == nil then
+					enabled = vim.g["codeium_enabled"]
+					if enabled == nil then
+						enabled = true -- enable by default
+					end
+				end
+				return enabled
+			end
+
+			function Source:is_available()
+				local enabled = is_codeium_enabled()
+				return enabled and self.server.is_healthy()
+			end
+
+			vim.api.nvim_set_keymap("n", "<leader>tC", "", {
+				desc = "[C]odium Toggle",
+				callback = function()
+					local new_enabled = not is_codeium_enabled()
+					vim.b["codeium_enabled"] = new_enabled
+					if new_enabled then
+						vim.notify("Codeium enabled in buffer")
+					else
+						vim.notify("Codeium disabled in buffer")
+					end
+				end,
+				noremap = true,
+			})
+
+			vim.api.nvim_set_keymap("n", "<leader>tC", "", {
+				desc = "[C]odium Toggle",
+				callback = function()
+					local new_enabled = not is_codeium_enabled()
+					vim.b["codeium_enabled"] = new_enabled
+					if new_enabled then
+						vim.notify("Codeium enabled in buffer")
+					else
+						vim.notify("Codeium disabled in buffer")
+					end
+				end,
+				noremap = true,
+			})
+		end,
+	},
+
+	-- }}}
 }, {
 	-- {{{ Lazy Package Manager UI
 	ui = {
@@ -1371,7 +1432,7 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.laststatus = 3
 vim.opt.spelllang = { "en", "pt_br" }
-vim.o.spell = true
+vim.o.spell = false
 
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { silent = true })
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
