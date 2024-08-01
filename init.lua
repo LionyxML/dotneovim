@@ -1370,7 +1370,7 @@ vim.o.cursorline = true
 vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.laststatus = 3
-vim.o.spelllang = "en_us"
+vim.opt.spelllang = { "en", "pt_br" }
 vim.o.spell = true
 
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { silent = true })
