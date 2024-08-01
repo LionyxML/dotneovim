@@ -71,7 +71,7 @@ require("lazy").setup({
 	-- {{{ Vim-Rhubarb                     rhubarb.vim is the Hub.
 	{ "tpope/vim-rhubarb" },
 	-- }}}
-	-- {{{ Nvim-Tmux-Navigator              Integration with tmux
+	-- {{{ Nvim-Tmux-Navigator             Integration with tmux
 	{
 		"alexghergh/nvim-tmux-navigation",
 		config = function()
