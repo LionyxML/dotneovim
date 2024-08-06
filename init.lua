@@ -1443,7 +1443,8 @@ vim.keymap.set("n", "<S-h>", ":bnext<CR>", { desc = "Next buffer", silent = true
 vim.keymap.set("n", "<S-l>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer", silent = true })
 vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer", silent = true })
-
+vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix item", silent = true })
+vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix item", silent = true })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
