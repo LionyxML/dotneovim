@@ -961,6 +961,7 @@ require("lazy").setup({
 			end, { desc = "[/] Fuzzily search in current buffer" })
 
 			vim.keymap.set("n", "<leader>gf", tscopebi.git_files, { desc = "Search [G]it [F]iles" })
+			vim.keymap.set("n", "<leader>gc", tscopebi.git_branches, { desc = "[G]it [C]heckout Branch" })
 			vim.keymap.set("n", "<leader>sf", tscopebi.find_files, { desc = "[S]earch [F]iles" })
 			vim.keymap.set("n", "<leader>sh", tscopebi.help_tags, { desc = "[S]earch [H]elp" })
 			vim.keymap.set("n", "<leader>sw", tscopebi.grep_string, { desc = "[S]earch current [W]ord" })
@@ -1034,16 +1035,6 @@ require("lazy").setup({
 				"<Plug>(YankyGPutBefore)",
 				mode = { "n", "x" },
 				desc = "Put yanked text before selection",
-			},
-			{
-				"<c-p>",
-				"<Plug>(YankyPreviousEntry)",
-				desc = "Select previous entry through yank history",
-			},
-			{
-				"<c-n>",
-				"<Plug>(YankyNextEntry)",
-				desc = "Select next entry through yank history",
 			},
 			{
 				"]p",
