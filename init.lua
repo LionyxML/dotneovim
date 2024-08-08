@@ -270,9 +270,7 @@ require("lazy").setup({
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
 				-- clangd = {},
-				-- gopls = {},
 				-- pyright = {},
-				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
 				-- Some languages (like typescript) have entire language plugins that can be useful:
@@ -281,7 +279,7 @@ require("lazy").setup({
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				-- tsserver = {},
 				--
-
+				gopls = {},
 				rust_analyzer = {},
 				cssls = {},
 				tsserver = {
@@ -1353,8 +1351,10 @@ require("lazy").setup({
 				return enabled
 			end
 
+			---@diagnostic disable-next-line: duplicate-set-field
 			function Source:is_available()
 				local enabled = is_codeium_enabled()
+				---@diagnostic disable-next-line: undefined-field
 				return enabled and self.server.is_healthy()
 			end
 
@@ -1387,7 +1387,31 @@ require("lazy").setup({
 			})
 		end,
 	},
-
+	-- }}}
+	-- {{{ Nvim-Surround                   Copilot like alternative
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Using the defaults, just adding it here to remember:
+				keymaps = {
+					insert = "<C-g>s",
+					insert_line = "<C-g>S",
+					normal = "ys",
+					normal_cur = "yss",
+					normal_line = "yS",
+					normal_cur_line = "ySS",
+					visual = "S",
+					visual_line = "gS",
+					delete = "ds",
+					change = "cs",
+					change_line = "cS",
+				},
+			})
+		end,
+	},
 	-- }}}
 }, {
 	-- {{{ Lazy Package Manager UI
@@ -1408,7 +1432,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.wo.signcolumn = "yes"
 vim.o.updatetime = 250
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 1000
 vim.o.completeopt = "menuone,noselect"
 vim.o.termguicolors = true
 vim.o.wrap = false
