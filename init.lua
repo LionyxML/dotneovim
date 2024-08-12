@@ -86,18 +86,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Neogit                          The Emacs Magit on Neovim
-	{
-		"NeogitOrg/neogit",
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"nvim-telescope/telescope.nvim", -- optional
-			"sindrets/diffview.nvim", -- optional
-			"ibhagwan/fzf-lua", -- optional
-		},
-		config = true,
-	},
-	-- }}}
 	-- {{{ Vim-Sleuth                      Detect tabstop and shiftwidth automatically
 	{
 		"tpope/vim-sleuth",
@@ -797,7 +785,6 @@ require("lazy").setup({
 				{ "<leader>g", group = "[G]it" },
 				{ "<leader>g_", hidden = true },
 				{ "<leader>gb", ":Git blame<CR>", desc = "Blame File" },
-				{ "<leader>gn", ":Neogit<cr>", desc = "Neogit" },
 				{ "<leader>r", group = "[R]ename" },
 				{ "<leader>r_", hidden = true },
 				{ "<leader>s", group = "[S]earch" },
@@ -1351,7 +1338,6 @@ require("lazy").setup({
 				},
 				navic = { enabled = true, custom_bg = "lualine" },
 				noice = true,
-				neogit = true,
 				notify = true,
 				nvimtree = true,
 				telescope = true,
