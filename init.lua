@@ -617,7 +617,26 @@ require("lazy").setup({
 	{ "MunifTanjim/nui.nvim", lazy = true },
 	-- }}}
 	-- {{{ Mini                            The Lua Modules library for Neovim
-	{ "echasnovski/mini.nvim", version = false },
+	{
+		"echasnovski/mini.nvim",
+		version = false,
+		config = function()
+			-- Better Around/Inside textobjects
+			--
+			-- Examples:
+			--  - va)  - [V]isually select [A]round [)]paren
+			--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
+			--  - ci'  - [C]hange [I]nside [']quote
+			require("mini.ai").setup({ n_lines = 500 })
+
+			-- Add/delete/replace surroundings (brackets, quotes, etc.)
+			--
+			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+			-- - sd'   - [S]urround [D]elete [']quotes
+			-- - sr)'  - [S]urround [R]eplace [)] [']
+			require("mini.surround").setup()
+		end,
+	},
 	-- }}}
 	-- {{{ Noice                           The beautiful UI for Neovim
 	{
@@ -1406,31 +1425,6 @@ require("lazy").setup({
 					end
 				end,
 				noremap = true,
-			})
-		end,
-	},
-	-- }}}
-	-- {{{ Nvim-Surround                   Copilot like alternative
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup({
-				-- Using the defaults, just adding it here to remember:
-				keymaps = {
-					insert = "<C-g>s",
-					insert_line = "<C-g>S",
-					normal = "ys",
-					normal_cur = "yss",
-					normal_line = "yS",
-					normal_cur_line = "ySS",
-					visual = "S",
-					visual_line = "gS",
-					delete = "ds",
-					change = "cs",
-					change_line = "cS",
-				},
 			})
 		end,
 	},
