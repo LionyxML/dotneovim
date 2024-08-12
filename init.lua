@@ -67,9 +67,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	-- {{{ Vim-Fugitive                    A git wrapper for vim
 	{ "tpope/vim-fugitive" },
-	--}}}
-	-- {{{ Vim-Rhubarb                     rhubarb.vim is the Hub.
-	{ "tpope/vim-rhubarb" },
 	-- }}}
 	-- {{{ Nvim-Tmux-Navigator             Integration with tmux
 	{
