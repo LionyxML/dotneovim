@@ -67,6 +67,42 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	-- {{{ Vim-Fugitive                    A git wrapper for vim
 	{ "tpope/vim-fugitive" },
+	-- }}},
+	-- {{{ Cloack-Nvim                     Hides secrets on env files
+	{
+		"laytan/cloak.nvim",
+		opts = {
+			enabled = true,
+			cloak_character = "*",
+			-- The applied highlight group (colors) on the cloaking, see `:h highlight`.
+			highlight_group = "Comment",
+			-- Applies the length of the replacement characters for all matched
+			-- patterns, defaults to the length of the matched pattern.
+			cloak_length = nil, -- Provide a number if you want to hide the true length of the value.
+			-- Whether it should try every pattern to find the best fit or stop after the first.
+			try_all_patterns = true,
+			-- Set to true to cloak Telescope preview buffers. (Required feature not in 0.1.x)
+			cloak_telescope = true,
+			-- Re-enable cloak when a matched buffer leaves the window.
+			cloak_on_leave = false,
+			patterns = {
+				{
+					-- Match any file starting with '.env'.
+					-- This can be a table to match multiple file patterns.
+					file_pattern = ".env*",
+					-- Match an equals sign and any character after it.
+					-- This can also be a table of patterns to cloak,
+					-- example: cloak_pattern = { ':.+', '-.+' } for yaml files.
+					cloak_pattern = "=.+",
+					-- A function, table or string to generate the replacement.
+					-- The actual replacement will contain the 'cloak_character'
+					-- where it doesn't cover the original text.
+					-- If left empty the legacy behavior of keeping the first character is retained.
+					replace = nil,
+				},
+			},
+		},
+	},
 	-- }}}
 	-- {{{ Nvim-Tmux-Navigator             Integration with tmux
 	{
@@ -261,6 +297,7 @@ require("lazy").setup({
 				-- tsserver = {},
 				--
 				gopls = {},
+				htmx = {},
 				rust_analyzer = {},
 				cssls = {},
 				tsserver = {
@@ -777,6 +814,7 @@ require("lazy").setup({
 				auto_session_enabled = true,
 				auto_restore_enabled = true,
 				auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
+				silent_restore = false,
 			})
 
 			local keymap = vim.keymap
@@ -1008,7 +1046,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sg", tscopebi.live_grep, { desc = "[S]earch by [G]rep" })
 			vim.keymap.set("n", "<leader>sd", tscopebi.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			vim.keymap.set("n", "<leader>sr", tscopebi.resume, { desc = "[S]earch [R]esume" })
-			vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer" })
+			vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer", silent = true })
 		end,
 		branch = "0.1.x",
 		dependencies = {
@@ -1151,6 +1189,7 @@ require("lazy").setup({
 						"vimdoc",
 						"vim",
 						"bash",
+						"html",
 					},
 
 					auto_install = false,
