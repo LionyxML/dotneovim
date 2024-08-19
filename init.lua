@@ -298,6 +298,7 @@ require("lazy").setup({
 				--
 				gopls = {},
 				htmx = {},
+				bashls = {},
 				rust_analyzer = {},
 				cssls = {},
 				tsserver = {
@@ -773,6 +774,7 @@ require("lazy").setup({
 
 			conform.setup({
 				formatters_by_ft = {
+					bash = { "shfmt" },
 					javascript = { "prettier" },
 					typescript = { "prettier" },
 					javascriptreact = { "prettier" },
