@@ -49,6 +49,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+vim.o.termguicolors = true
 -- }}}
 -- {{{ Lazy Package Manager --- Bootloader & Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -1470,6 +1472,14 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
+	-- {{{ Colorizer                         Colorizere color codes
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+	},
+	-- }}}
 }, {
 	-- {{{ Lazy Package Manager UI
 	ui = {
@@ -1491,7 +1501,6 @@ vim.wo.signcolumn = "yes"
 vim.o.updatetime = 250
 vim.o.timeoutlen = 1000
 vim.o.completeopt = "menuone,noselect"
-vim.o.termguicolors = true
 vim.o.wrap = false
 vim.cmd.colorscheme("catppuccin")
 vim.o.scrolloff = 8
