@@ -299,6 +299,7 @@ require("lazy").setup({
 				-- tsserver = {},
 				--
 				gopls = {},
+				prismals = {},
 				htmx = {},
 				bashls = {},
 				rust_analyzer = {},
@@ -1194,6 +1195,7 @@ require("lazy").setup({
 						"vim",
 						"bash",
 						"html",
+						"prisma",
 					},
 
 					auto_install = false,
