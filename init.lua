@@ -68,7 +68,16 @@ vim.opt.rtp:prepend(lazypath)
 --- }}}
 require("lazy").setup({
 	-- {{{ Vim-Fugitive                    A git wrapper for vim
-	{ "tpope/vim-fugitive" },
+	{
+		"tpope/vim-fugitive",
+		config = function()
+			vim.keymap.set("n", "<leader>gg", ":G<CR>", { desc = "Status", silent = true })
+			vim.keymap.set("n", "<leader>gb", ":Git blame<CR>", { desc = "Blame file", silent = true })
+			vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Vertical Diff", silent = true })
+			vim.keymap.set("n", "<leader>gl", ":Git log --oneline --graph<CR>", { desc = "Log", silent = true })
+			vim.keymap.set("n", "<leader>gL", ":GlLog -S ", { desc = "Log search", silent = true })
+		end,
+	},
 	-- }}},
 	-- {{{ Cloack-Nvim                     Hides secrets on env files
 	{
@@ -847,7 +856,8 @@ require("lazy").setup({
 				{ "<leader>d_", hidden = true },
 				{ "<leader>g", group = "[G]it" },
 				{ "<leader>g_", hidden = true },
-				{ "<leader>gb", ":Git blame<CR>", desc = "Blame File" },
+				{ "<leader>b", group = "[B]uffer" },
+				{ "<leader>b_", hidden = true },
 				{ "<leader>r", group = "[R]ename" },
 				{ "<leader>r_", hidden = true },
 				{ "<leader>s", group = "[S]earch" },
@@ -1051,7 +1061,6 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sg", tscopebi.live_grep, { desc = "[S]earch by [G]rep" })
 			vim.keymap.set("n", "<leader>sd", tscopebi.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			vim.keymap.set("n", "<leader>sr", tscopebi.resume, { desc = "[S]earch [R]esume" })
-			vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer", silent = true })
 		end,
 		branch = "0.1.x",
 		dependencies = {
@@ -1547,6 +1556,9 @@ vim.keymap.set("n", "<leader>tt", function()
 		vim.o.showtabline = 2
 	end
 end, { desc = "Toggle tabs" })
+
+vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer", silent = true })
+vim.keymap.set("n", "<leader>bX", ":bufdo bd<CR>", { desc = "Close all buffers", silent = true })
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
