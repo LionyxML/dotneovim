@@ -77,6 +77,9 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>gl", ":Git log --oneline --graph<CR>", { desc = "Log", silent = true })
 			vim.keymap.set("n", "<leader>gL", ":GlLog -S ", { desc = "Log search", silent = true })
 		end,
+		dependencies = {
+			"tpope/vim-rhubarb",
+		},
 	},
 	-- }}},
 	-- {{{ Cloack-Nvim                     Hides secrets on env files
