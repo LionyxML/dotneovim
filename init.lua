@@ -803,6 +803,7 @@ require("lazy").setup({
 					graphql = { "prettierd" },
 					lua = { "stylua" },
 					python = { "isort", "black" },
+					go = { "gofmt" },
 				},
 				format_on_save = {
 					lsp_fallback = true,
@@ -1197,6 +1198,7 @@ require("lazy").setup({
 						"c",
 						"cpp",
 						"go",
+						"gomod",
 						"lua",
 						"python",
 						"rust",
