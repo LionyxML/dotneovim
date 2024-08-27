@@ -310,6 +310,8 @@ require("lazy").setup({
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				-- tsserver = {},
 				--
+				ruff_lsp = {},
+				pyright = {},
 				gopls = {},
 				prismals = {},
 				htmx = {},
@@ -802,7 +804,7 @@ require("lazy").setup({
 					markdown = { "prettierd" },
 					graphql = { "prettierd" },
 					lua = { "stylua" },
-					python = { "isort", "black" },
+					python = { "ruff" },
 					go = { "gofmt" },
 				},
 				format_on_save = {
