@@ -71,11 +71,10 @@ require("lazy").setup({
 	{
 		"tpope/vim-fugitive",
 		config = function()
-			vim.keymap.set("n", "<leader>gg", ":G<CR>", { desc = "Status", silent = true })
-			vim.keymap.set("n", "<leader>gb", ":Git blame<CR>", { desc = "Blame file", silent = true })
-			vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Vertical Diff", silent = true })
-			vim.keymap.set("n", "<leader>gl", ":Git log --oneline --graph<CR>", { desc = "Log", silent = true })
-			vim.keymap.set("n", "<leader>gL", ":GlLog -S ", { desc = "Log search", silent = true })
+			vim.keymap.set("n", "<leader>gg", ":G<CR>", { desc = "[g]it status", silent = true })
+			vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Vertical [d]iff", silent = true })
+			vim.keymap.set("n", "<leader>gl", ":Git log --oneline --graph<CR>", { desc = "[l]og", silent = true })
+			vim.keymap.set("n", "<leader>gL", ":GlLog -S ", { desc = "[L]og search", silent = true })
 		end,
 		dependencies = {
 			"tpope/vim-rhubarb",
@@ -924,14 +923,14 @@ require("lazy").setup({
 					"n",
 					"<leader>gp",
 					require("gitsigns").preview_hunk,
-					{ buffer = bufnr, desc = "Hunk diff preview" }
+					{ buffer = bufnr, desc = "Hunk diff [p]review" }
 				)
 
 				vim.keymap.set(
 					"n",
 					"<leader>gB",
 					require("gitsigns").blame_line,
-					{ buffer = bufnr, desc = "Hunk blame" }
+					{ buffer = bufnr, desc = "Hunk [B]lame" }
 				)
 
 				vim.keymap.set(
@@ -940,6 +939,8 @@ require("lazy").setup({
 					require("gitsigns").toggle_current_line_blame,
 					{ buffer = bufnr, desc = "Toggle line blaming" }
 				)
+
+				vim.keymap.set("n", "<leader>gb", ":Gitsigns blame<CR>", { desc = "[b]lame file", silent = true })
 
 				-- don't override the built-in and fugitive keymaps
 				local gs = package.loaded.gitsigns
@@ -1060,13 +1061,13 @@ require("lazy").setup({
 			end, { desc = "[/] Fuzzily search in current buffer" })
 
 			vim.keymap.set("n", "<leader>gf", tscopebi.git_files, { desc = "Search [G]it [F]iles" })
-			vim.keymap.set("n", "<leader>gc", tscopebi.git_branches, { desc = "[G]it [C]heckout Branch" })
-			vim.keymap.set("n", "<leader>sf", tscopebi.find_files, { desc = "[S]earch [F]iles" })
-			vim.keymap.set("n", "<leader>sh", tscopebi.help_tags, { desc = "[S]earch [H]elp" })
-			vim.keymap.set("n", "<leader>sw", tscopebi.grep_string, { desc = "[S]earch current [W]ord" })
-			vim.keymap.set("n", "<leader>sg", tscopebi.live_grep, { desc = "[S]earch by [G]rep" })
-			vim.keymap.set("n", "<leader>sd", tscopebi.diagnostics, { desc = "[S]earch [D]iagnostics" })
-			vim.keymap.set("n", "<leader>sr", tscopebi.resume, { desc = "[S]earch [R]esume" })
+			vim.keymap.set("n", "<leader>gc", tscopebi.git_branches, { desc = "[c]heckout Branch" })
+			vim.keymap.set("n", "<leader>sf", tscopebi.find_files, { desc = "[s]earch [f]iles" })
+			vim.keymap.set("n", "<leader>sh", tscopebi.help_tags, { desc = "[s]earch [h]elp" })
+			vim.keymap.set("n", "<leader>sw", tscopebi.grep_string, { desc = "[s]earch current [w]ord" })
+			vim.keymap.set("n", "<leader>sg", tscopebi.live_grep, { desc = "[s]earch by [g]rep" })
+			vim.keymap.set("n", "<leader>sd", tscopebi.diagnostics, { desc = "[s]earch [d]iagnostics" })
+			vim.keymap.set("n", "<leader>sr", tscopebi.resume, { desc = "[s]earch [r]esume" })
 		end,
 		branch = "0.1.x",
 		dependencies = {
