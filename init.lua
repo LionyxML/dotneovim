@@ -67,7 +67,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 --- }}}
 require("lazy").setup({
-	-- {{{ Legendary
+	-- {{{ Legendary                            A cool command palette
 	{
 		"mrjones2014/legendary.nvim",
 		-- since legendary.nvim handles all your keymaps/commands,
@@ -76,6 +76,12 @@ require("lazy").setup({
 		lazy = false,
 		-- sqlite is only needed if you want to use frecency sorting
 		-- dependencies = { 'kkharji/sqlite.lua' }
+	},
+	-- }}}
+	--
+	-- {{{ Rainbow Delimiters                   Colorize parentheses, brackets, etc
+	{
+		"HiPhish/rainbow-delimiters.nvim",
 	},
 	-- }}}
 	-- {{{ Vim-Fugitive                    A git wrapper for vim
