@@ -78,7 +78,6 @@ require("lazy").setup({
 		-- dependencies = { 'kkharji/sqlite.lua' }
 	},
 	-- }}}
-	--
 	-- {{{ Rainbow Delimiters                   Colorize parentheses, brackets, etc
 	{
 		"HiPhish/rainbow-delimiters.nvim",
@@ -130,6 +129,14 @@ require("lazy").setup({
 					-- If left empty the legacy behavior of keeping the first character is retained.
 					replace = nil,
 				},
+			},
+		},
+		keys = {
+			{
+				"<leader>tk",
+				":CloakToggle<CR>",
+				desc = "Toggle Cloa[k]",
+				silent = true,
 			},
 		},
 	},
