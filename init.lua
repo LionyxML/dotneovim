@@ -67,18 +67,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 --- }}}
 require("lazy").setup({
-	-- {{{ Legendary                            A cool command palette
-	{
-		"mrjones2014/legendary.nvim",
-		-- since legendary.nvim handles all your keymaps/commands,
-		-- its recommended to load legendary.nvim before other plugins
-		priority = 10000,
-		lazy = false,
-		-- sqlite is only needed if you want to use frecency sorting
-		-- dependencies = { 'kkharji/sqlite.lua' }
-	},
-	-- }}}
-	-- {{{ Rainbow Delimiters                   Colorize parentheses, brackets, etc
+	-- {{{ Rainbow Delimiters              Colorize parentheses, brackets, etc
 	{
 		"HiPhish/rainbow-delimiters.nvim",
 	},
@@ -97,6 +86,27 @@ require("lazy").setup({
 		},
 	},
 	-- }}},
+	-- {{{ Org-mode                        Org-mode for Neovim
+	{
+		"nvim-orgmode/orgmode",
+		event = "VeryLazy",
+		ft = { "org" },
+		config = function()
+			-- Setup orgmode
+			require("orgmode").setup({
+				org_agenda_files = "~/orgfiles/**/*",
+				org_default_notes_file = "~/orgfiles/refile.org",
+			})
+
+			-- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option
+			-- add ~org~ to ignore_install
+			-- require('nvim-treesitter.configs').setup({
+			--   ensure_installed = 'all',
+			--   ignore_install = { 'org' },
+			-- })
+		end,
+	},
+	-- }}}
 	-- {{{ Cloack-Nvim                     Hides secrets on env files
 	{
 		"laytan/cloak.nvim",
@@ -1239,6 +1249,7 @@ require("lazy").setup({
 						"bash",
 						"html",
 						"prisma",
+						"vue",
 					},
 
 					auto_install = false,
