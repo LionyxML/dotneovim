@@ -70,6 +70,14 @@ require("lazy").setup({
 	-- {{{ Rainbow Delimiters              Colorize parentheses, brackets, etc
 	{
 		"HiPhish/rainbow-delimiters.nvim",
+		config = function()
+			require("rainbow-delimiters.setup").setup({
+				query = {
+					[""] = "rainbow-delimiters",
+					lua = "rainbow-blocks",
+				},
+			})
+		end,
 	},
 	-- }}}
 	-- {{{ Vim-Fugitive                    A git wrapper for vim
@@ -1530,7 +1538,7 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Colorizer                         Colorizere color codes
+	-- {{{ Colorizer                       Colorizere color codes
 	{
 		"norcalli/nvim-colorizer.lua",
 		config = function()
