@@ -359,7 +359,7 @@ require("lazy").setup({
 				bashls = {},
 				rust_analyzer = {},
 				cssls = {},
-				tsserver = {
+				ts_ls = {
 					filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 					-- TODO: this is not working yet for typescript
 					settings = {
@@ -413,7 +413,6 @@ require("lazy").setup({
 			require("mason-lspconfig").setup({
 				handlers = {
 					function(server_name)
-						server_name = server_name == "tsserver" and "ts_ls" or server_name
 
 						local server = servers[server_name] or {}
 						-- This handles overriding only values explicitly passed
