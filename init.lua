@@ -413,7 +413,6 @@ require("lazy").setup({
 			require("mason-lspconfig").setup({
 				handlers = {
 					function(server_name)
-
 						local server = servers[server_name] or {}
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling
@@ -633,11 +632,14 @@ require("lazy").setup({
 				},
 
 				renderer = {
+					indent_markers = {
+						enable = true,
+					},
 					group_empty = true,
 					highlight_git = false,
 					root_folder_label = ":t",
 					icons = {
-						git_placement = "after",
+						git_placement = "signcolumn",
 						glyphs = {
 							default = "",
 							symlink = "",
@@ -1103,6 +1105,8 @@ require("lazy").setup({
 
 			vim.keymap.set("n", "<leader>?", tscopebi.oldfiles, { desc = "[?] Find recently opened files" })
 			vim.keymap.set("n", "<leader><space>", tscopebi.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader>bl", tscopebi.buffers, { desc = "Buffer [l]ist" })
+			vim.keymap.set("n", "<leader>bq", tscopebi.quickfix, { desc = "Buffer [q]uickfix" })
 			vim.keymap.set("n", "<leader>/", function()
 				tscopebi.current_buffer_fuzzy_find(tscopeth.get_dropdown({
 					winblend = 0,
@@ -1113,6 +1117,8 @@ require("lazy").setup({
 
 			vim.keymap.set("n", "<leader>gf", tscopebi.git_files, { desc = "Search [G]it [F]iles" })
 			vim.keymap.set("n", "<leader>gc", tscopebi.git_branches, { desc = "[c]heckout Branch" })
+			vim.keymap.set("n", "<leader>gs", tscopebi.git_status, { desc = "[S]tatus" })
+			vim.keymap.set("n", "<leader>gC", tscopebi.git_commits, { desc = "[C]ommits" })
 			vim.keymap.set("n", "<leader>sf", tscopebi.find_files, { desc = "[s]earch [f]iles" })
 			vim.keymap.set("n", "<leader>sh", tscopebi.help_tags, { desc = "[s]earch [h]elp" })
 			vim.keymap.set("n", "<leader>sw", tscopebi.grep_string, { desc = "[s]earch current [w]ord" })
