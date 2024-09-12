@@ -1086,16 +1086,51 @@ require("lazy").setup({
 		},
 	},
 	-- }}}
-	-- {{{ Indent-Blankline                Provides indentation vertical line
+	-- {{{ HL-Chunk                        Provides chunk/indent line + cdolores linum
 	{
-		-- Add indentation guides even on blank lines
-		"lukas-reineke/indent-blankline.nvim",
-		-- Enable `lukas-reineke/indent-blankline.nvim`
-		-- See `:help ibl`
-		main = "ibl",
-		opts = {
-			enabled = false, -- Defaults to disabled, use <leader>tI to toggle indentation
-		},
+		"shellRaining/hlchunk.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			require("hlchunk").setup({
+				indent = {
+					enable = false,
+					priority = 10,
+					style = { vim.api.nvim_get_hl(0, { name = "Whitespace" }) },
+					use_treesitter = false,
+					chars = { "│" },
+					ahead_lines = 5,
+					delay = 100,
+				},
+				chunk = {
+					enable = true,
+					priority = 15,
+					style = {
+						{ fg = "#aab4f1" },
+						{ fg = "#cd758f" },
+					},
+					use_treesitter = true,
+					chars = {
+						horizontal_line = "─",
+						vertical_line = "│",
+						left_top = "╭",
+						left_bottom = "╰",
+						right_arrow = "─",
+					},
+					textobject = "",
+					max_file_size = 1024 * 1024,
+					error_sign = true,
+					-- animation related
+					duration = 0,
+					delay = 0,
+				},
+				line_num = {
+					enable = true,
+					style = "#7ba2e2",
+					priority = 10,
+					use_treesitter = true,
+				},
+			})
+		end,
 	},
 	-- }}}
 	-- {{{ Telescope                       The cool finder/visualizer with previews
@@ -1662,12 +1697,6 @@ for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
-
-vim.api.nvim_create_user_command("IndentationLineToggle", function()
-	require("ibl").setup_buffer(0, {
-		enabled = not require("ibl.config").get_config(0).enabled,
-	})
-end, {})
 
 vim.diagnostic.config({
 	float = { border = "rounded" },
