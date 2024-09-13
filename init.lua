@@ -830,6 +830,10 @@ require("lazy").setup({
 		},
 		dependencies = {
 			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			-- "rcarriga/nvim-notify",
 		},
 	},
 	--- }}}
@@ -1045,6 +1049,53 @@ require("lazy").setup({
 				end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
 			end,
 		},
+	},
+	-- }}}
+	-- {{{ Bufferline                      The cool tabs line
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		config = function()
+			vim.o.mousemoveevent = true
+
+			require("bufferline").setup({
+				options = {
+					buffer_close_icon = "",
+					show_buffer_close_icons = false,
+					custom_filter = function(buf, buf_nums)
+						return vim.bo[buf].filetype ~= "qf"
+					end,
+					diagnostics = false,
+					middle_mouse_command = "bdelete! %d",
+					right_mouse_command = nil,
+					separator_style = "thin",
+					hover = {
+						enabled = true,
+						delay = 100,
+						reveal = { "close" },
+					},
+					indicator = {
+						style = "icon",
+					},
+					max_name_length = 50,
+					numbers = function(opts)
+						return string.format("%s", opts.raise(opts.ordinal))
+					end,
+					modified_icon = "",
+					offsets = {
+						{
+							filetype = "NvimTree",
+							text = function()
+								return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+							end,
+							text_align = "center",
+						},
+					},
+				},
+				highlights = require("catppuccin.groups.integrations.bufferline").get({}),
+			})
+		end,
+		dependencies = "nvim-tree/nvim-web-devicons",
 	},
 	-- }}}
 	-- {{{ Lualine                         The cool statusline
@@ -1509,6 +1560,7 @@ require("lazy").setup({
 			integrations = {
 				aerial = true,
 				alpha = true,
+				bufferline = false, -- done whithin bufferline config
 				cmp = true,
 				dashboard = true,
 				flash = true,
@@ -1542,6 +1594,7 @@ require("lazy").setup({
 				treesitter_context = true,
 				which_key = true,
 				rainbow_delimiters = true,
+				fidget = true,
 			},
 		},
 	},
@@ -1654,8 +1707,8 @@ vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
-vim.keymap.set("n", "<S-h>", ":bnext<CR>", { desc = "Next buffer", silent = true })
-vim.keymap.set("n", "<S-l>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer", silent = true })
+vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer", silent = true })
 vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix item", silent = true })
