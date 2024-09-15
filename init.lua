@@ -1670,7 +1670,6 @@ require("lazy").setup({
 }, {
 	-- {{{ Lazy Package Manager UI
 	ui = {
-
 		border = "rounded",
 	},
 	-- }}}
@@ -1719,12 +1718,16 @@ vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floa
 vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle aerial" })
 vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>", { desc = "Toggle treesitter context" })
 vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle indent line" })
+
 vim.keymap.set("n", "<leader>ti", function()
-	vim.cmd("DiagnosticsToggleVirtualText")
+	local virtual_text = vim.diagnostic.config().virtual_text
+	vim.diagnostic.config({ virtual_text = not virtual_text })
 end, { desc = "Toggle inline diagnostics" })
+
 vim.keymap.set("n", "<leader>td", function()
-	vim.cmd("DiagnosticsToggle")
+	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle diagnostics" })
+
 vim.keymap.set("n", "<leader>tt", function()
 	if vim.o.showtabline == 2 then
 		vim.o.showtabline = 0
