@@ -928,7 +928,7 @@ require("lazy").setup({
 			wk.add({
 				{ "<leader>c", group = "[C]ode" },
 				{ "<leader>c_", hidden = true },
-				{ "<leader>d", group = "[D]ocument" },
+				{ "<leader>d", group = "[D]ocument / [D]AP" },
 				{ "<leader>d_", hidden = true },
 				{ "<leader>g", group = "[G]it" },
 				{ "<leader>g_", hidden = true },
@@ -1651,6 +1651,110 @@ require("lazy").setup({
 		config = function()
 			require("colorizer").setup()
 		end,
+	},
+	-- }}}
+	-- {{{ Nvim-DAP                        DAP - The Debugger Adapter Protocol and Controls
+	{
+		"mfussenegger/nvim-dap",
+		opts = {},
+		config = function()
+			vim.keymap.set("n", "<leader>dc", require("dap").continue, { desc = "DAP - [c]ontinue" })
+			vim.keymap.set("n", "<leader>dO", require("dap").step_over, { desc = "DAP - Step [O]ver" })
+			vim.keymap.set("n", "<leader>di", require("dap").step_into, { desc = "DAP - Setp [i]nto" })
+			vim.keymap.set("n", "<leader>do", require("dap").step_out, { desc = "DAP - Step [o]ut" })
+			vim.keymap.set("n", "<leader>db", require("dap").toggle_breakpoint, { desc = "DAP - Toggle [b]reakpoint" })
+			vim.keymap.set("n", "<leader>dB", function()
+				require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+			end, { desc = "DAP - [B]reakpoint condition" })
+
+			local js_based_languages = { "typescript", "javascript", "typescriptreact" }
+
+			for _, language in ipairs(js_based_languages) do
+				require("dap").configurations[language] = {
+					{
+						type = "pwa-node",
+						request = "launch",
+						name = "Launch file",
+						program = "${file}",
+						cwd = "${workspaceFolder}",
+					},
+					{
+						type = "pwa-node",
+						request = "attach",
+						name = "Attach",
+						processId = require("dap.utils").pick_process,
+						cwd = "${workspaceFolder}",
+					},
+					{
+						type = "pwa-chrome",
+						request = "launch",
+						name = 'Start Chrome with "localhost"',
+						url = "http://localhost:3000",
+						webRoot = "${workspaceFolder}",
+						userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir",
+					},
+				}
+			end
+		end,
+	},
+	-- }}}
+	-- {{{ VSCODE-JS-Debug                 DAP - The debug from vscode!
+	{
+		"microsoft/vscode-js-debug",
+		-- NOTE: This is a huge build, it needs Chromium :(
+		-- If this build fails or timeout, might need to go in
+		-- ~/.local/share/nvim/lazy/vscode-js-debug and run:
+		build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+	},
+	-- }}}
+	-- {{{ Nvim-DAP-VSCode-JS              DAP - What makes the VSCODE-JS-Debug work with neovim DAP!
+	{
+		"mxsdev/nvim-dap-vscode-js",
+		config = function()
+			---@diagnostic disable-next-line: missing-fields
+			require("dap-vscode-js").setup({
+				-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+				-- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
+				debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
+				-- debugger_cmd = { "extension" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+				adapters = {
+					"chrome",
+					"pwa-node",
+					"pwa-chrome",
+					"pwa-msedge",
+					"node-terminal",
+					"pwa-extensionHost",
+					"node",
+					"chrome",
+				}, -- which adapters to register in nvim-dap
+				-- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+				-- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+				-- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+			})
+		end,
+	},
+	-- }}}
+	-- {{{ Nvim-DAP-UI                     DAP - Beautiful UI!
+	{
+		"rcarriga/nvim-dap-ui",
+		config = function()
+			require("dapui").setup()
+
+			local dap, dapui = require("dap"), require("dapui")
+
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open({})
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close({})
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close({})
+			end
+
+			vim.keymap.set("n", "<leader>tD", require("dapui").toggle)
+		end,
+		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 	},
 	-- }}}
 }, {
