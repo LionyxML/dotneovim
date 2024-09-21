@@ -1529,6 +1529,13 @@ require("lazy").setup({
 		},
 	},
 	-- }}}
+	-- {{{ TODO-Comments                   Highlights TODO HACK FIXME BUG ISSUE...
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
+	},
+	-- }}}
 	-- {{{ Catppuccin                      The Only and One Theme :)
 	{
 		-- Catppuccin Theme
