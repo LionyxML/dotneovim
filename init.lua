@@ -1104,8 +1104,18 @@ require("lazy").setup({
 			},
 			sections = {
 				lualine_a = { "mode" },
-				lualine_c = { "branch", "diff", "diagnostics" },
 				lualine_b = {
+					{
+						"branch",
+						fmt = function(branch)
+							local limit = 20
+							return branch:sub(1, limit) .. (branch:len() > limit and "…" or "")
+						end,
+					},
+					"diff",
+					"diagnostics",
+				},
+				lualine_c = {
 					{
 						"filename",
 						path = 4,
