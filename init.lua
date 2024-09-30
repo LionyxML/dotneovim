@@ -719,6 +719,16 @@ require("lazy").setup({
 	-- {{{ NUI                             The UI Component library for Neovim
 	{ "MunifTanjim/nui.nvim", lazy = true },
 	-- }}}
+	-- {{{ CURL.nvim                            A curl interface
+	{
+		"oysandvik94/curl.nvim",
+		cmd = { "CurlOpen" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = true,
+	},
+	-- }}}
 	-- {{{ Mini                            The Lua Modules library for Neovim
 	{
 		"echasnovski/mini.nvim",
