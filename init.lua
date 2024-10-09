@@ -1726,13 +1726,14 @@ require("lazy").setup({
 	},
 	-- }}}
 	-- {{{ VSCODE-JS-Debug                 DAP - The debug from vscode!
-	{
-		"microsoft/vscode-js-debug",
-		-- NOTE: This is a huge build, it needs Chromium :(
-		-- If this build fails or timeout, might need to go in
-		-- ~/.local/share/nvim/lazy/vscode-js-debug and run:
-		build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-	},
+	-- Just uncomment when debug is needed. This is noisy with Lazy Update
+	-- {
+	-- 	"microsoft/vscode-js-debug",
+	-- 	-- NOTE: This is a huge build, it needs Chromium :(
+	-- 	-- If this build fails or timeout, might need to go in
+	-- 	-- ~/.local/share/nvim/lazy/vscode-js-debug and run:
+	-- 	build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+	-- },
 	-- }}}
 	-- {{{ Nvim-DAP-VSCode-JS              DAP - What makes the VSCODE-JS-Debug work with neovim DAP!
 	{
