@@ -347,7 +347,7 @@ require("lazy").setup({
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				-- tsserver = {},
 				--
-				ruff_lsp = {},
+				ruff = {},
 				pyright = {},
 				gopls = {},
 				prismals = {},
