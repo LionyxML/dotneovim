@@ -719,7 +719,7 @@ require("lazy").setup({
 	-- {{{ NUI                             The UI Component library for Neovim
 	{ "MunifTanjim/nui.nvim", lazy = true },
 	-- }}}
-	-- {{{ CURL.nvim                            A curl interface
+	-- {{{ CURL.nvim                       A curl interface
 	{
 		"oysandvik94/curl.nvim",
 		cmd = { "CurlOpen" },
@@ -1505,6 +1505,13 @@ require("lazy").setup({
 			},
 			delete_to_trash = true,
 		},
+		keys = {
+			{
+				"<leader>ed",
+				"<cmd>Oil<CR>",
+				desc = "Open Oil File Manager",
+			},
+		},
 		-- Optional dependencies
 		-- dependencies = { "echasnovski/mini.icons" },
 		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
@@ -1728,11 +1735,11 @@ require("lazy").setup({
 	-- {{{ VSCODE-JS-Debug                 DAP - The debug from vscode!
 	-- Just uncomment when debug is needed. This is noisy with Lazy Update
 	-- {
-	-- 	"microsoft/vscode-js-debug",
-	-- 	-- NOTE: This is a huge build, it needs Chromium :(
-	-- 	-- If this build fails or timeout, might need to go in
-	-- 	-- ~/.local/share/nvim/lazy/vscode-js-debug and run:
-	-- 	build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+	--  "microsoft/vscode-js-debug",
+	--  -- NOTE: This is a huge build, it needs Chromium :(
+	--  -- If this build fails or timeout, might need to go in
+	--  -- ~/.local/share/nvim/lazy/vscode-js-debug and run:
+	--  build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
 	-- },
 	-- }}}
 	-- {{{ Nvim-DAP-VSCode-JS              DAP - What makes the VSCODE-JS-Debug work with neovim DAP!
