@@ -355,6 +355,7 @@ require("lazy").setup({
 				bashls = {},
 				rust_analyzer = {},
 				cssls = {},
+				biome = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				ts_ls = {
 					filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 					-- TODO: this is not working yet for typescript
