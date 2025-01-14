@@ -336,6 +336,8 @@ require("lazy").setup({
 				htmx = {},
 				bashls = {},
 				rust_analyzer = {},
+				rubocop = {},
+				ruby_lsp = {},
 				cssls = {},
 				biome = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				ts_ls = {
