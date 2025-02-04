@@ -685,6 +685,24 @@ require("lazy").setup({
 		},
 	},
 	-- }}}
+	-- {{{ Nvim-Tmux-Navigator             Integration with tmux
+	{
+		"alexghergh/nvim-tmux-navigation",
+		config = function()
+			require("nvim-tmux-navigation").setup({
+				disable_when_zoomed = true, -- defaults to false
+				keybindings = {
+					left = "<C-h>",
+					down = "<C-j>",
+					up = "<C-k>",
+					right = "<C-l>",
+					-- last_active = "<C-\\>",
+					-- next = "<C-Space>",
+				},
+			})
+		end,
+	},
+	-- }}}
 	-- {{{ TS-Comments                     Adds tree sitter context to nvim built-in commenter
 	{
 		"folke/ts-comments.nvim",
