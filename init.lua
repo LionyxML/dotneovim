@@ -80,17 +80,30 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Vim-Fugitive                    A git wrapper for vim
+	-- {{{ Neogit                          A git interface based on Emacs Magit
 	{
-		"tpope/vim-fugitive",
+		"NeogitOrg/neogit",
 		config = function()
-			vim.keymap.set("n", "<leader>gg", ":G<CR>", { desc = "[g]it status", silent = true })
-			vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Vertical [d]iff", silent = true })
-			vim.keymap.set("n", "<leader>gl", ":Git log --oneline --graph<CR>", { desc = "[l]og", silent = true })
-			vim.keymap.set("n", "<leader>gL", ":GlLog -S ", { desc = "[L]og search", silent = true })
+			local neogit = require("neogit")
+			neogit.setup({
+				graph_style = "unicode", -- was ascii
+			})
+
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>gg",
+				":Neogit<CR>",
+				{ noremap = true, silent = true, desc = "neoGit" }
+			)
 		end,
 		dependencies = {
-			"tpope/vim-rhubarb",
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+
+			-- Only one of these is needed.
+			"nvim-telescope/telescope.nvim", -- optional
+			-- "ibhagwan/fzf-lua", -- optional
+			-- "echasnovski/mini.pick", -- optional
 		},
 	},
 	-- }}},
