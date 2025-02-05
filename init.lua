@@ -1070,31 +1070,35 @@ require("lazy").setup({
 			},
 
 			on_attach = function(bufnr)
-				vim.keymap.set(
-					"n",
-					"<leader>gp",
-					require("gitsigns").preview_hunk,
-					{ buffer = bufnr, desc = "Hunk diff [p]review" }
-				)
-
-				vim.keymap.set(
-					"n",
-					"<leader>gB",
-					require("gitsigns").blame_line,
-					{ buffer = bufnr, desc = "Hunk [B]lame" }
-				)
-
-				vim.keymap.set(
-					"n",
-					"<leader>tb",
-					require("gitsigns").toggle_current_line_blame,
-					{ buffer = bufnr, desc = "Toggle line blaming" }
-				)
-
-				vim.keymap.set("n", "<leader>gb", ":Gitsigns blame<CR>", { desc = "[b]lame file", silent = true })
-
-				-- don't override the built-in and fugitive keymaps
 				local gs = package.loaded.gitsigns
+
+				local function map(mode, l, r, opts)
+					opts = opts or {}
+					opts.buffer = bufnr
+					vim.keymap.set(mode, l, r, opts)
+				end
+
+				-- Navigation
+				map("n", "]c", function()
+					if vim.wo.diff then
+						return "]c"
+					end
+					vim.schedule(function()
+						gs.next_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+
+				map("n", "[c", function()
+					if vim.wo.diff then
+						return "[c"
+					end
+					vim.schedule(function()
+						gs.prev_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+
 				vim.keymap.set({ "n", "v" }, "]c", function()
 					if vim.wo.diff then
 						return "]c"
@@ -1113,6 +1117,23 @@ require("lazy").setup({
 					end)
 					return "<Ignore>"
 				end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
+
+				-- Actions
+				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
+				map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+				map("n", "<leader>hS", gs.stage_buffer, { desc = "[S]tage buffer" })
+				map("n", "<leader>ha", gs.stage_hunk, { desc = "Stage [A] hunk" })
+				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "[U]ndo stage hunk" })
+				map("n", "<leader>hR", gs.reset_buffer, { desc = "[R]eset Buffer" })
+				map("n", "<leader>hp", gs.preview_hunk, { desc = "[P]review [H]unk" })
+				map("n", "<leader>hb", function()
+					gs.blame_line({ full = true })
+				end, { desc = "[B]lame Line" })
+				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "[T]oggle [B]lame line" })
+				map("n", "<leader>hd", gs.diffthis, { desc = "[H]unk [D]iff this" })
+				map("n", "<leader>hD", function()
+					gs.diffthis("~")
+				end, { desc = "[h]unk Diff this" })
 			end,
 		},
 	},
