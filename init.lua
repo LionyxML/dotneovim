@@ -75,6 +75,8 @@ require("lazy").setup({
 				query = {
 					[""] = "rainbow-delimiters",
 					lua = "rainbow-blocks",
+					typescript = "rainbow-parens",
+					tsx = "rainbow-parens",
 				},
 			})
 		end,
