@@ -348,7 +348,7 @@ require("lazy").setup({
 				pyright = {},
 				gopls = {},
 				prismals = {},
-				htmx = {},
+				-- htmx = {},
 				bashls = {},
 				rust_analyzer = {},
 				rubocop = {},
