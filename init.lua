@@ -728,7 +728,7 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		opts = {
-			enable = false, -- Defaults to disabled, use <leader>tc to toggle Context
+			enable = true, -- Defaults to disabled, use <leader>tc to toggle Context
 		},
 	},
 	-- }}}
@@ -1160,7 +1160,7 @@ require("lazy").setup({
 				options = {
 					buffer_close_icon = "",
 					show_buffer_close_icons = false,
-					custom_filter = function(buf, buf_nums)
+					custom_filter = function(buf)
 						return vim.bo[buf].filetype ~= "qf"
 					end,
 					diagnostics = false,
@@ -1254,7 +1254,7 @@ require("lazy").setup({
 				indent = {
 					enable = false,
 					priority = 10,
-					style = { vim.api.nvim_get_hl(0, { name = "Whitespace" }) },
+					-- style = { vim.api.nvim_get_hl(0, { name = "Whitespace" }) },
 					use_treesitter = false,
 					chars = { "│" },
 					ahead_lines = 5,
