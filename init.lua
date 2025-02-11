@@ -82,7 +82,7 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Neogit                          A git interface based on Emacs Magit
+	-- {{{ Neogit                          VC: A git interface based on Emacs Magit
 	{
 		"NeogitOrg/neogit",
 		config = function()
@@ -109,6 +109,116 @@ require("lazy").setup({
 		},
 	},
 	-- }}},
+	-- {{{ Diffview                        VC: Diff visualizer
+	{
+		"sindrets/diffview.nvim",
+		config = function()
+			vim.keymap.set("n", "<leader>gd", function()
+				if next(require("diffview.lib").views) == nil then
+					vim.cmd("DiffviewOpen")
+				else
+					vim.cmd("DiffviewClose")
+				end
+			end)
+
+			local diffview = require("diffview")
+			diffview.setup({
+				hg_cmd = { "" },
+			})
+		end,
+	},
+	-- }}},
+	-- {{{ Gitsigns                        VC: Adds git gutter / hunk blame&diff
+	{
+		-- Adds git related signs to the gutter, as well as utilities for managing changes
+		"lewis6991/gitsigns.nvim",
+		opts = {
+			-- See `:help gitsigns.txt`
+			-- signs = {
+			-- add = { text = '+' },
+			-- change = { text = '~' },
+			-- delete = { text = '_' },
+			-- topdelete = { text = '‾' },
+			-- changedelete = { text = '~' },
+			-- },
+			signs = {
+				add = { text = "│" },
+				change = { text = "│" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+				untracked = { text = "┆" },
+			},
+
+			on_attach = function(bufnr)
+				local gs = package.loaded.gitsigns
+
+				local function map(mode, l, r, opts)
+					opts = opts or {}
+					opts.buffer = bufnr
+					vim.keymap.set(mode, l, r, opts)
+				end
+
+				-- Navigation
+				map("n", "]c", function()
+					if vim.wo.diff then
+						return "]c"
+					end
+					vim.schedule(function()
+						gs.next_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+
+				map("n", "[c", function()
+					if vim.wo.diff then
+						return "[c"
+					end
+					vim.schedule(function()
+						gs.prev_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true })
+
+				vim.keymap.set({ "n", "v" }, "]c", function()
+					if vim.wo.diff then
+						return "]c"
+					end
+					vim.schedule(function()
+						gs.next_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
+				vim.keymap.set({ "n", "v" }, "[c", function()
+					if vim.wo.diff then
+						return "[c"
+					end
+					vim.schedule(function()
+						gs.prev_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
+
+				-- Actions
+				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
+				map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+				map("n", "<leader>hS", gs.stage_buffer, { desc = "[S]tage buffer" })
+				map("n", "<leader>ha", gs.stage_hunk, { desc = "Stage [A] hunk" })
+				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "[U]ndo stage hunk" })
+				map("n", "<leader>hR", gs.reset_buffer, { desc = "[R]eset Buffer" })
+				map("n", "<leader>hp", gs.preview_hunk, { desc = "[P]review [H]unk" })
+				map("n", "<leader>hb", function()
+					gs.blame_line({ full = true })
+				end, { desc = "[B]lame Line" })
+				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "[T]oggle [B]lame line" })
+				map("n", "<leader>hd", gs.diffthis, { desc = "[H]unk [D]iff this" })
+				map("n", "<leader>hD", function()
+					gs.diffthis("~")
+				end, { desc = "[h]unk Diff this" })
+			end,
+		},
+	},
+	-- }}}
 	-- {{{ Org-mode                        Org-mode for Neovim
 	{
 		"nvim-orgmode/orgmode",
@@ -887,97 +997,6 @@ require("lazy").setup({
 				},
 			})
 		end,
-	},
-	-- }}}
-	-- {{{ Gitsigns                        Adds git gutter / hunk blame&diff
-	{
-		-- Adds git related signs to the gutter, as well as utilities for managing changes
-		"lewis6991/gitsigns.nvim",
-		opts = {
-			-- See `:help gitsigns.txt`
-			-- signs = {
-			-- add = { text = '+' },
-			-- change = { text = '~' },
-			-- delete = { text = '_' },
-			-- topdelete = { text = '‾' },
-			-- changedelete = { text = '~' },
-			-- },
-			signs = {
-				add = { text = "│" },
-				change = { text = "│" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				changedelete = { text = "~" },
-				untracked = { text = "┆" },
-			},
-
-			on_attach = function(bufnr)
-				local gs = package.loaded.gitsigns
-
-				local function map(mode, l, r, opts)
-					opts = opts or {}
-					opts.buffer = bufnr
-					vim.keymap.set(mode, l, r, opts)
-				end
-
-				-- Navigation
-				map("n", "]c", function()
-					if vim.wo.diff then
-						return "]c"
-					end
-					vim.schedule(function()
-						gs.next_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true })
-
-				map("n", "[c", function()
-					if vim.wo.diff then
-						return "[c"
-					end
-					vim.schedule(function()
-						gs.prev_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true })
-
-				vim.keymap.set({ "n", "v" }, "]c", function()
-					if vim.wo.diff then
-						return "]c"
-					end
-					vim.schedule(function()
-						gs.next_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
-				vim.keymap.set({ "n", "v" }, "[c", function()
-					if vim.wo.diff then
-						return "[c"
-					end
-					vim.schedule(function()
-						gs.prev_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
-
-				-- Actions
-				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
-				map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
-				map("n", "<leader>hS", gs.stage_buffer, { desc = "[S]tage buffer" })
-				map("n", "<leader>ha", gs.stage_hunk, { desc = "Stage [A] hunk" })
-				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "[U]ndo stage hunk" })
-				map("n", "<leader>hR", gs.reset_buffer, { desc = "[R]eset Buffer" })
-				map("n", "<leader>hp", gs.preview_hunk, { desc = "[P]review [H]unk" })
-				map("n", "<leader>hb", function()
-					gs.blame_line({ full = true })
-				end, { desc = "[B]lame Line" })
-				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "[T]oggle [B]lame line" })
-				map("n", "<leader>hd", gs.diffthis, { desc = "[H]unk [D]iff this" })
-				map("n", "<leader>hD", function()
-					gs.diffthis("~")
-				end, { desc = "[h]unk Diff this" })
-			end,
-		},
 	},
 	-- }}}
 	-- {{{ Bufferline                      The cool tabs line
