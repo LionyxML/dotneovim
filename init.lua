@@ -768,6 +768,12 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
+	-- {{{ Dressing-Nvim                   UI: Beautiful UI stuff
+	{
+		"stevearc/dressing.nvim",
+		opts = {}, -- I like the defaults, this is mostly for code-actions menu
+	},
+	-- }}}
 	-- {{{ Noice                           The beautiful UI for Neovim
 	{
 		"folke/noice.nvim",
