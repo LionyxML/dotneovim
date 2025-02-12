@@ -347,29 +347,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Nvim-DAP-UI                     DAP - Beautiful UI!
-	{
-		"rcarriga/nvim-dap-ui",
-		config = function()
-			require("dapui").setup()
-
-			local dap, dapui = require("dap"), require("dapui")
-
-			dap.listeners.after.event_initialized["dapui_config"] = function()
-				dapui.open({})
-			end
-			dap.listeners.before.event_terminated["dapui_config"] = function()
-				dapui.close({})
-			end
-			dap.listeners.before.event_exited["dapui_config"] = function()
-				dapui.close({})
-			end
-
-			vim.keymap.set("n", "<leader>tD", require("dapui").toggle)
-		end,
-		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-	},
-	-- }}}
 	-- {{{ Nvim-Cmp                        EDIT - Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
@@ -1337,7 +1314,30 @@ require("lazy").setup({
 		opts = {}, -- I like the defaults, this is mostly for code-actions menu
 	},
 	-- }}}
-	-- {{{ Noice                           UI - The beautiful UI for Neovim
+	-- {{{ Nvim-DAP-UI                     UI - Beautiful DAP UI!
+	{
+		"rcarriga/nvim-dap-ui",
+		config = function()
+			require("dapui").setup()
+
+			local dap, dapui = require("dap"), require("dapui")
+
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open({})
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close({})
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close({})
+			end
+
+			vim.keymap.set("n", "<leader>tD", require("dapui").toggle)
+		end,
+		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+	},
+	-- }}}
+	-- {{{ Noice                           UI - THE Beautiful UI for Neovim
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
