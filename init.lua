@@ -268,6 +268,7 @@ require("lazy").setup({
 	-- {{{ Nvim-DAP                        DAP - The Debugger Adapter Protocol and Controls
 	{
 		"mfussenegger/nvim-dap",
+		event = "VeryLazy",
 		opts = {},
 		config = function()
 			vim.keymap.set("n", "<leader>dc", require("dap").continue, { desc = "DAP - [C]ontinue" })
@@ -323,6 +324,7 @@ require("lazy").setup({
 	-- {{{ Nvim-DAP-VSCode-JS              DAP - What makes the VSCODE-JS-Debug work with neovim DAP!
 	{
 		"mxsdev/nvim-dap-vscode-js",
+		event = "VeryLazy",
 		config = function()
 			---@diagnostic disable-next-line: missing-fields
 			require("dap-vscode-js").setup({
@@ -466,6 +468,7 @@ require("lazy").setup({
 	-- {{{ Nvim-Ts-Autotag                 EDIT - Automatically close tags on html, typescript, vue...
 	{
 		"windwp/nvim-ts-autotag",
+		event = "VeryLazy",
 		opts = {
 			autotag = {
 				enable = true,
@@ -680,6 +683,7 @@ require("lazy").setup({
 	-- {{{ IconPicker                      EDIT - Icons picker (utf, nerdfonts, alt font, symbols...)
 	{
 		"ziontee113/icon-picker.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("icon-picker").setup({ disable_legacy_commands = true })
 
@@ -694,6 +698,7 @@ require("lazy").setup({
 	-- {{{ Codeium                         EDIT - Copilot like alternative
 	{
 		"Exafunction/codeium.nvim",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"hrsh7th/nvim-cmp",
@@ -749,6 +754,24 @@ require("lazy").setup({
 				noremap = true,
 			})
 		end,
+	},
+	-- }}}
+	-- {{{ Vim-Dadbod                      DB - multi db client
+	{
+		"tpope/vim-dadbod",
+		event = "VeryLazy",
+	},
+	-- }}}
+	-- {{{ Vim-Dadbod-completion           DB - dadbod completion
+	{
+		"kristijanhusak/vim-dadbod-completion",
+		event = "VeryLazy",
+	},
+	-- }}}
+	-- {{{ Vim-Dadbod-ui                   DB - dadbod better ui
+	{
+		"kristijanhusak/vim-dadbod-ui",
+		event = "VeryLazy",
 	},
 	-- }}}
 	-- {{{ Oil-Nvim                        FILE - Dired for neovim
@@ -934,6 +957,7 @@ require("lazy").setup({
 	-- {{{ Remote.Nvim                     REMOTE - Allows remote development
 	{
 		"amitds1997/remote-nvim.nvim",
+		event = "VeryLazy",
 		version = "*", -- Pin to GitHub releases
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- For standard functions
@@ -1212,53 +1236,6 @@ require("lazy").setup({
 		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 	-- }}}
-	-- {{{ Bufferline                      UI - The cool tabs line
-	{
-		"akinsho/bufferline.nvim",
-		version = "*",
-		config = function()
-			vim.o.mousemoveevent = true
-
-			require("bufferline").setup({
-				options = {
-					buffer_close_icon = "",
-					show_buffer_close_icons = false,
-					custom_filter = function(buf)
-						return vim.bo[buf].filetype ~= "qf"
-					end,
-					diagnostics = false,
-					middle_mouse_command = "bdelete! %d",
-					right_mouse_command = nil,
-					separator_style = "thin",
-					hover = {
-						enabled = true,
-						delay = 100,
-						reveal = { "close" },
-					},
-					indicator = {
-						style = "icon",
-					},
-					max_name_length = 50,
-					numbers = function(opts)
-						return string.format("%s", opts.raise(opts.ordinal))
-					end,
-					modified_icon = "",
-					offsets = {
-						{
-							filetype = "NvimTree",
-							text = function()
-								return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-							end,
-							text_align = "center",
-						},
-					},
-				},
-				highlights = require("catppuccin.groups.integrations.bufferline").get({}),
-			})
-		end,
-		dependencies = "nvim-tree/nvim-web-devicons",
-	},
-	-- }}}
 	-- {{{ Lualine                         UI - The cool statusline
 	{
 		"nvim-lualine/lualine.nvim",
@@ -1317,6 +1294,7 @@ require("lazy").setup({
 	-- {{{ Nvim-DAP-UI                     UI - Beautiful DAP UI!
 	{
 		"rcarriga/nvim-dap-ui",
+		event = "VeryLazy",
 		config = function()
 			require("dapui").setup()
 
@@ -1497,7 +1475,7 @@ require("lazy").setup({
 			integrations = {
 				aerial = true,
 				alpha = true,
-				bufferline = false, -- done whithin bufferline config
+				bufferline = false,
 				cmp = true,
 				dashboard = true,
 				flash = true,
@@ -1631,6 +1609,7 @@ require("lazy").setup({
 	-- {{{ Neogit                          VC - A git interface based on Emacs Magit
 	{
 		"NeogitOrg/neogit",
+		event = "VeryLazy",
 		config = function()
 			local neogit = require("neogit")
 			neogit.setup({
@@ -1658,6 +1637,7 @@ require("lazy").setup({
 	-- {{{ Diffview                        VC - Diff visualizer
 	{
 		"sindrets/diffview.nvim",
+		event = "VeryLazy",
 		config = function()
 			vim.keymap.set("n", "<leader>gd", function()
 				if next(require("diffview.lib").views) == nil then
