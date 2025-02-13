@@ -1320,6 +1320,16 @@ require("lazy").setup({
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		opts = {
+			routes = { -- Hides written messages
+				{
+					filter = {
+						event = "msg_show",
+						kind = "",
+						find = "written",
+					},
+					opts = { skip = true },
+				},
+			},
 			lsp = {
 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 				override = {
@@ -1408,6 +1418,20 @@ require("lazy").setup({
 			--   If not available, we use `mini` as the fallback
 			"rcarriga/nvim-notify",
 		},
+	},
+	--- }}}
+	-- {{{ Nvim-notify                     UI - Notifications framework (used by noice.nvim)
+	{
+		"rcarriga/nvim-notify",
+		event = "VeryLazy",
+		config = function()
+			local notify = require("notify")
+			notify.setup({
+				render = "minimal",
+				stages = "slide", -- can be: static, slide, fade, fade_in_slide_out
+				timeout = 1000,
+			})
+		end,
 	},
 	--- }}}
 	-- {{{ Which-Key                       UI - The (another Emacs stolen) plugin that shows pending keybindings
