@@ -1428,8 +1428,8 @@ require("lazy").setup({
 			local notify = require("notify")
 			notify.setup({
 				render = "minimal",
-				stages = "slide", -- can be: static, slide, fade, fade_in_slide_out
-				timeout = 1000,
+				stages = "static", -- can be: static, slide, fade, fade_in_slide_out
+				timeout = 800,
 			})
 		end,
 	},
