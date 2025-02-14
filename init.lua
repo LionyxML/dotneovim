@@ -891,8 +891,9 @@ require("lazy").setup({
 
 			tscope.setup({
 				extensions = {
-					undo = {
-						-- telescope-undo.nvim config, see below
+					undo = {},
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown({}),
 					},
 				},
 				defaults = {
@@ -904,6 +905,9 @@ require("lazy").setup({
 					},
 				},
 			})
+
+			-- Telescope UI-Select (handles vim.ui.)
+			tscope.load_extension("ui-select")
 
 			-- Use Telescope Undo
 			tscope.load_extension("undo")
@@ -939,6 +943,7 @@ require("lazy").setup({
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim",
+			"nvim-telescope/telescope-ui-select.nvim",
 			-- Fuzzy Finder Algorithm which requires local dependencies to be built.
 			-- Only load if `make` is available. Make sure you have the system
 			-- requirements installed.
@@ -1283,12 +1288,6 @@ require("lazy").setup({
 				lualine_z = { "location" },
 			},
 		},
-	},
-	-- }}}
-	-- {{{ Dressing-Nvim                   UI - Beautiful UI stuff
-	{
-		"stevearc/dressing.nvim",
-		opts = {}, -- I like the defaults, this is mostly for code-actions menu
 	},
 	-- }}}
 	-- {{{ Nvim-DAP-UI                     UI - Beautiful DAP UI!
@@ -1644,7 +1643,7 @@ require("lazy").setup({
 				"n",
 				"<leader>gg",
 				":Neogit<CR>",
-				{ noremap = true, silent = true, desc = "neoGit" }
+				{ noremap = true, silent = true, desc = "neo[G]it" }
 			)
 		end,
 		dependencies = {
@@ -1669,7 +1668,7 @@ require("lazy").setup({
 				else
 					vim.cmd("DiffviewClose")
 				end
-			end)
+			end, { desc = "[G]it [D]iff with diffview" })
 
 			local diffview = require("diffview")
 			diffview.setup({
