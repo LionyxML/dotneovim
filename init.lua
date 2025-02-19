@@ -350,27 +350,11 @@ require("lazy").setup({
 				desc = "Lazygit",
 			},
 			{
-				"<leader>un",
+				"<leader>nh",
 				function()
 					Snacks.notifier.hide()
 				end,
 				desc = "Dismiss All Notifications",
-			},
-			{
-				"]]",
-				function()
-					Snacks.words.jump(vim.v.count1)
-				end,
-				desc = "Next Reference",
-				mode = { "n", "t" },
-			},
-			{
-				"[[",
-				function()
-					Snacks.words.jump(-vim.v.count1)
-				end,
-				desc = "Prev Reference",
-				mode = { "n", "t" },
 			},
 		},
 	},
@@ -1390,13 +1374,6 @@ require("lazy").setup({
 				desc = "Noice All",
 			},
 			{
-				"<leader>nh",
-				function()
-					require("noice").cmd("dismiss")
-				end,
-				desc = "Dismiss All",
-			},
-			{
 				"<c-n>",
 				function()
 					if not require("noice.lsp").scroll(4) then
@@ -1429,6 +1406,7 @@ require("lazy").setup({
 			-- "rcarriga/nvim-notify",
 		},
 	},
+	-- }}}
 	-- {{{ Which-Key                       UI - The (another Emacs stolen) plugin that shows pending keybindings
 	{
 		"folke/which-key.nvim",
