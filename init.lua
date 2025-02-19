@@ -67,6 +67,314 @@ end
 vim.opt.rtp:prepend(lazypath)
 --- }}}
 require("lazy").setup({
+	-- {{{ SNACKS
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		---@type snacks.Config
+		opts = {
+			bigfile = { enabled = true },
+			dashboard = {
+				enabled = true,
+				preset = {
+					header = [[
+                                                                    
+       ████ ██████           █████      ██                    
+      ███████████             █████                            
+      █████████ ███████████████████ ███   ███████████  
+     █████████  ███    █████████████ █████ ██████████████  
+    █████████ ██████████ █████████ █████ █████ ████ █████  
+  ███████████ ███    ███ █████████ █████ █████ ████ █████ 
+ ██████  █████████████████████ ████ █████ █████ ████ ██████]],
+				},
+				sections = {
+					{ section = "header" },
+					{ section = "startup" },
+				},
+			},
+			explorer = { enabled = true },
+			input = { enabled = true },
+			picker = { enabled = true },
+			notifier = { enabled = true },
+			scope = { enabled = true },
+		},
+		keys = {
+			-- Top Pickers & Explorer
+			{
+				"<leader>sf",
+				function()
+					Snacks.picker.smart()
+				end,
+				desc = "Smart Find Files",
+			},
+			{
+				"<leader><space>",
+				function()
+					Snacks.picker.buffers()
+				end,
+				desc = "Buffers",
+			},
+			{
+				"<leader>sg",
+				function()
+					Snacks.picker.grep()
+				end,
+				desc = "Grep",
+			},
+			{
+				"<leader>:",
+				function()
+					Snacks.picker.command_history()
+				end,
+				desc = "Command History",
+			},
+			{
+				"<leader>nn",
+				function()
+					Snacks.picker.notifications()
+				end,
+				desc = "Notification History",
+			},
+			{
+				"<leader>ee",
+				function()
+					Snacks.explorer()
+				end,
+				desc = "File Explorer",
+			},
+			{
+				"<leader>gb",
+				function()
+					Snacks.picker.git_branches()
+				end,
+				desc = "Git Branches",
+			},
+			{
+				"<leader>gl",
+				function()
+					Snacks.picker.git_log()
+				end,
+				desc = "Git Log",
+			},
+			{
+				"<leader>gL",
+				function()
+					Snacks.picker.git_log_line()
+				end,
+				desc = "Git Log Line",
+			},
+			{
+				"<leader>gs",
+				function()
+					Snacks.picker.git_status()
+				end,
+				desc = "Git Status",
+			},
+			{
+				"<leader>gS",
+				function()
+					Snacks.picker.git_stash()
+				end,
+				desc = "Git Stash",
+			},
+			{
+				"<leader>gf",
+				function()
+					Snacks.picker.git_log_file()
+				end,
+				desc = "Git Log File",
+			},
+			{
+				"<leader>sw",
+				function()
+					Snacks.picker.grep_word()
+				end,
+				desc = "Visual selection or word",
+				mode = { "n", "x" },
+			},
+			{
+				"<leader>sd",
+				function()
+					Snacks.picker.diagnostics()
+				end,
+				desc = "Diagnostics",
+			},
+			{
+				"<leader>sD",
+				function()
+					Snacks.picker.diagnostics_buffer()
+				end,
+				desc = "Buffer Diagnostics",
+			},
+			{
+				"<leader>sh",
+				function()
+					Snacks.picker.help()
+				end,
+				desc = "Help Pages",
+			},
+			{
+				"<leader>si",
+				function()
+					Snacks.picker.icons()
+				end,
+				desc = "Icons",
+			},
+			{
+				"<leader>sq",
+				function()
+					Snacks.picker.qflist()
+				end,
+				desc = "Quickfix List",
+			},
+			{
+				"<leader>sR",
+				function()
+					Snacks.picker.resume()
+				end,
+				desc = "Resume",
+			},
+			{
+				"<leader>U",
+				function()
+					Snacks.picker.undo()
+				end,
+				desc = "Undo History",
+			},
+			{
+				"gd",
+				function()
+					Snacks.picker.lsp_definitions()
+				end,
+				desc = "Goto Definition",
+			},
+			{
+				"gD",
+				function()
+					Snacks.picker.lsp_declarations()
+				end,
+				desc = "Goto Declaration",
+			},
+			{
+				"gr",
+				function()
+					Snacks.picker.lsp_references()
+				end,
+				nowait = true,
+				desc = "References",
+			},
+			{
+				"gI",
+				function()
+					Snacks.picker.lsp_implementations()
+				end,
+				desc = "Goto Implementation",
+			},
+			{
+				"gy",
+				function()
+					Snacks.picker.lsp_type_definitions()
+				end,
+				desc = "Goto T[y]pe Definition",
+			},
+			{
+				"<leader>ss",
+				function()
+					Snacks.picker.lsp_symbols()
+				end,
+				desc = "LSP Symbols",
+			},
+			{
+				"<leader>sS",
+				function()
+					Snacks.picker.lsp_workspace_symbols()
+				end,
+				desc = "LSP Workspace Symbols",
+			},
+			{
+				"<leader>tz",
+				function()
+					Snacks.zen()
+				end,
+				desc = "Toggle Zen Mode",
+			},
+			{
+				"<leader>tZ",
+				function()
+					Snacks.zen.zoom()
+				end,
+				desc = "Toggle Zoom",
+			},
+			{
+				"<leader>.",
+				function()
+					Snacks.scratch()
+				end,
+				desc = "Toggle Scratch Buffer",
+			},
+			{
+				"<leader>S",
+				function()
+					Snacks.scratch.select()
+				end,
+				desc = "Select Scratch Buffer",
+			},
+			{
+				"<leader>n",
+				function()
+					Snacks.notifier.show_history()
+				end,
+				desc = "Notification History",
+			},
+			{
+				"<leader>cR",
+				function()
+					Snacks.rename.rename_file()
+				end,
+				desc = "Rename File",
+			},
+			{
+				"<leader>gB",
+				function()
+					Snacks.gitbrowse()
+				end,
+				desc = "Git Browse",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>gg",
+				function()
+					Snacks.lazygit()
+				end,
+				desc = "Lazygit",
+			},
+			{
+				"<leader>un",
+				function()
+					Snacks.notifier.hide()
+				end,
+				desc = "Dismiss All Notifications",
+			},
+			{
+				"]]",
+				function()
+					Snacks.words.jump(vim.v.count1)
+				end,
+				desc = "Next Reference",
+				mode = { "n", "t" },
+			},
+			{
+				"[[",
+				function()
+					Snacks.words.jump(-vim.v.count1)
+				end,
+				desc = "Prev Reference",
+				mode = { "n", "t" },
+			},
+		},
+	},
+	-- }}}
 	-- {{{ LSPConfig                       CODE - LSP Configurations ans plugins
 	{
 		"neovim/nvim-lspconfig",
@@ -91,22 +399,6 @@ require("lazy").setup({
 					local map = function(keys, func, desc)
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
-
-					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-
-					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-
-					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-
-					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-
-					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-
-					map(
-						"<leader>ws",
-						require("telescope.builtin").lsp_dynamic_workspace_symbols,
-						"[W]orkspace [S]ymbols"
-					)
 
 					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 
@@ -579,92 +871,9 @@ require("lazy").setup({
 		keys = {
 			{
 				"<leader>p",
-				function()
-					require("telescope").extensions.yank_history.yank_history({})
-				end,
+				"<cmd>YankyRingHistory<cr>",
 				desc = "Open Yank History",
 			},
-			--setSelectedTimePeriod FIXME: do we need all of this or only leader p ?
-			-- {
-			-- 	"y",
-			-- 	"<Plug>(YankyYank)",
-			-- 	mode = { "n", "x" },
-			-- 	desc = "Yank text",
-			-- },
-			-- {
-			-- 	"p",
-			-- 	"<Plug>(YankyPutAfter)",
-			-- 	mode = { "n", "x" },
-			-- 	desc = "Put yanked text after cursor",
-			-- },
-			-- {
-			-- 	"P",
-			-- 	"<Plug>(YankyPutBefore)",
-			-- 	mode = { "n", "x" },
-			-- 	desc = "Put yanked text before cursor",
-			-- },
-			-- {
-			-- 	"gp",
-			-- 	"<Plug>(YankyGPutAfter)",
-			-- 	mode = { "n", "x" },
-			-- 	desc = "Put yanked text after selection",
-			-- },
-			-- {
-			-- 	"gP",
-			-- 	"<Plug>(YankyGPutBefore)",
-			-- 	mode = { "n", "x" },
-			-- 	desc = "Put yanked text before selection",
-			-- },
-			-- {
-			-- 	"]p",
-			-- 	"<Plug>(YankyPutIndentAfterLinewise)",
-			-- 	desc = "Put indented after cursor (linewise)",
-			-- },
-			-- {
-			-- 	"[p",
-			-- 	"<Plug>(YankyPutIndentBeforeLinewise)",
-			-- 	desc = "Put indented before cursor (linewise)",
-			-- },
-			-- {
-			-- 	"]P",
-			-- 	"<Plug>(YankyPutIndentAfterLinewise)",
-			-- 	desc = "Put indented after cursor (linewise)",
-			-- },
-			-- {
-			-- 	"[P",
-			-- 	"<Plug>(YankyPutIndentBeforeLinewise)",
-			-- 	desc = "Put indented before cursor (linewise)",
-			-- },
-			-- {
-			-- 	">p",
-			-- 	"<Plug>(YankyPutIndentAfterShiftRight)",
-			-- 	desc = "Put and indent right",
-			-- },
-			-- {
-			-- 	"<p",
-			-- 	"<Plug>(YankyPutIndentAfterShiftLeft)",
-			-- 	desc = "Put and indent left",
-			-- },
-			-- {
-			-- 	">P",
-			-- 	"<Plug>(YankyPutIndentBeforeShiftRight)",
-			-- 	desc = "Put before and indent right",
-			-- },
-			-- {
-			-- 	"<P",
-			-- 	"<Plug>(YankyPutIndentBeforeShiftLeft)",
-			-- 	desc = "Put before and indent left",
-			-- },
-			-- {
-			-- 	"=p",
-			-- 	"<Plug>(YankyPutAfterFilter)",
-			-- 	desc = "Put after applying a filter",
-			-- },
-			-- {
-			-- 	"=P",
-			-- 	"<Plug>(YankyPutBeforeFilter)",
-			-- 	desc = "Put before applying a filter",
-			-- },
 		},
 	},
 	-- }}}
@@ -794,170 +1003,8 @@ require("lazy").setup({
 			},
 		},
 		-- Optional dependencies
-		-- dependencies = { "echasnovski/mini.icons" },
-		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-	},
-	-- }}}
-	-- {{{ Nvim-Tree                       FILE - The side window tree explorer
-	{
-		-- Tree explorer
-		"nvim-tree/nvim-tree.lua",
-		event = "VeryLazy",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-
-		config = function()
-			vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
-			vim.keymap.set(
-				"n",
-				"<leader>ef",
-				"<cmd>NvimTreeFindFileToggle<CR>",
-				{ desc = "Toggle file explorer on current file" }
-			)
-			vim.keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
-			vim.keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
-
-			require("nvim-tree").setup({
-				sort_by = "case_sensitive",
-				view = {
-					width = 30,
-				},
-				filters = {
-					dotfiles = false,
-				},
-				git = {
-					enable = true,
-					ignore = false,
-					timeout = 500,
-				},
-
-				renderer = {
-					indent_markers = {
-						enable = true,
-					},
-					group_empty = true,
-					highlight_git = false,
-					root_folder_label = ":t",
-					icons = {
-						git_placement = "signcolumn",
-						glyphs = {
-							default = "",
-							symlink = "",
-							folder = {
-								arrow_open = "",
-								arrow_closed = "",
-								default = "",
-								open = "",
-								empty = "",
-								empty_open = "",
-								symlink = "",
-								symlink_open = "",
-							},
-							git = {
-								unstaged = "",
-								staged = "S",
-								unmerged = "",
-								renamed = "➜",
-								untracked = "U",
-								deleted = "",
-								ignored = "◌",
-							},
-						},
-					},
-				},
-				diagnostics = {
-					enable = true,
-					show_on_dirs = true,
-					icons = {
-						hint = "󰌶",
-						info = "",
-						warning = "󰀪",
-						error = "󰅚",
-					},
-				},
-			})
-		end,
-	},
-	-- }}}
-	-- {{{ Telescope                       FIND - The cool finder/visualizer with previews
-	{
-		-- Fuzzy Finder (files, lsp, etc)
-		"nvim-telescope/telescope.nvim",
-		config = function()
-			local tscope = require("telescope")
-			local tscopebi = require("telescope.builtin")
-			local tscopeth = require("telescope.themes")
-			local tscopeso = require("telescope.sorters")
-
-			tscope.setup({
-				extensions = {
-					undo = {},
-					["ui-select"] = {
-						require("telescope.themes").get_dropdown({}),
-					},
-				},
-				defaults = {
-					mappings = {
-						i = {
-							["<C-u>"] = false,
-							["<C-d>"] = "delete_buffer",
-						},
-					},
-				},
-			})
-
-			-- Telescope UI-Select (handles vim.ui.)
-			tscope.load_extension("ui-select")
-
-			-- Use Telescope Undo
-			tscope.load_extension("undo")
-			vim.keymap.set("n", "<leader>U", "<cmd>Telescope undo<cr>")
-
-			-- Enable telescope fzf native, if installed
-			pcall(tscope.load_extension, "fzf")
-
-			vim.keymap.set("n", "<leader>?", tscopebi.oldfiles, { desc = "[?] Find recently opened files" })
-			vim.keymap.set("n", "<leader><space>", tscopebi.buffers, { desc = "[ ] Find existing buffers" })
-			vim.keymap.set("n", "<leader>bl", tscopebi.buffers, { desc = "Buffer [l]ist" })
-			vim.keymap.set("n", "<leader>bq", tscopebi.quickfix, { desc = "Buffer [q]uickfix" })
-			vim.keymap.set("n", "<leader>/", function()
-				tscopebi.current_buffer_fuzzy_find(tscopeth.get_dropdown({
-					winblend = 0,
-					previewer = true,
-					sorter = tscopeso.get_substr_matcher(),
-				}))
-			end, { desc = "[/] Fuzzily search in current buffer" })
-
-			vim.keymap.set("n", "<leader>gf", tscopebi.git_files, { desc = "Search [G]it [F]iles" })
-			vim.keymap.set("n", "<leader>gc", tscopebi.git_branches, { desc = "[c]heckout Branch" })
-			vim.keymap.set("n", "<leader>gs", tscopebi.git_status, { desc = "[S]tatus" })
-			vim.keymap.set("n", "<leader>gC", tscopebi.git_commits, { desc = "[C]ommits" })
-			vim.keymap.set("n", "<leader>sf", tscopebi.find_files, { desc = "[s]earch [f]iles" })
-			vim.keymap.set("n", "<leader>sh", tscopebi.help_tags, { desc = "[s]earch [h]elp" })
-			vim.keymap.set("n", "<leader>sw", tscopebi.grep_string, { desc = "[s]earch current [w]ord" })
-			vim.keymap.set("n", "<leader>sg", tscopebi.live_grep, { desc = "[s]earch by [g]rep" })
-			vim.keymap.set("n", "<leader>sd", tscopebi.diagnostics, { desc = "[s]earch [d]iagnostics" })
-			vim.keymap.set("n", "<leader>sr", tscopebi.resume, { desc = "[s]earch [r]esume" })
-		end,
-		branch = "0.1.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"debugloop/telescope-undo.nvim",
-			"nvim-telescope/telescope-ui-select.nvim",
-			-- Fuzzy Finder Algorithm which requires local dependencies to be built.
-			-- Only load if `make` is available. Make sure you have the system
-			-- requirements installed.
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				-- NOTE: If you are having trouble with this installation,
-				--       refer to the README for telescope-fzf-native for more instructions.
-				build = "make",
-				cond = function()
-					return vim.fn.executable("make") == 1
-				end,
-			},
-		},
+		dependencies = { "echasnovski/mini.icons" },
+		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
 	},
 	-- }}}
 	-- {{{ Remote.Nvim                     REMOTE - Allows remote development
@@ -968,7 +1015,7 @@ require("lazy").setup({
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- For standard functions
 			"MunifTanjim/nui.nvim", -- To build the plugin UI
-			"nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+			-- "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
 		},
 		config = true,
 	},
@@ -999,7 +1046,7 @@ require("lazy").setup({
 				highlight_group = "Comment",
 				cloak_length = 20, -- Provide a number if you want to hide the true length of the value.
 				try_all_patterns = true,
-				cloak_telescope = true,
+				cloak_telescope = false,
 				cloak_on_leave = true,
 				patterns = {
 					{
@@ -1143,7 +1190,7 @@ require("lazy").setup({
 		build = ":TSUpdate",
 	},
 	-- }}}
-	-- {{{ HL-Chunk                        TXT - Provides chunk/indent line + cdolores linum
+	-- {{{ HL-Chunk                        TXT - Provides chunk/indent line + colors linum
 	{
 		"shellRaining/hlchunk.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -1203,43 +1250,6 @@ require("lazy").setup({
 		config = function()
 			require("colorizer").setup()
 		end,
-	},
-	-- }}}
-	-- {{{ Dashboard-Nvim                  UI - Initial dashboard screen
-	{
-		"glepnir/dashboard-nvim",
-		event = "VimEnter",
-		config = function()
-			local logo = [[
-
-"                                                                   "
-"      ████ ██████           █████      ██                    "
-"     ███████████             █████                            "
-"     █████████ ███████████████████ ███   ███████████  "
-"    █████████  ███    █████████████ █████ ██████████████  "
-"   █████████ ██████████ █████████ █████ █████ ████ █████  "
-" ███████████ ███    ███ █████████ █████ █████ ████ █████ "
-"██████  █████████████████████ ████ █████ █████ ████ ██████"
-
-  ]]
-			logo = string.rep("\n", 8) .. string.gsub(logo, '"', "") .. "\n\n"
-
-			require("dashboard").setup({
-				theme = "doom",
-				config = {
-					header = vim.split(logo, "\n"),
-					center = { { action = "", desc = "", icon = " " } },
-					footer = function()
-						local stats = require("lazy").stats()
-						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-						return {
-							"Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
-						}
-					end,
-				},
-			})
-		end,
-		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 	-- }}}
 	-- {{{ Lualine                         UI - The cool statusline
@@ -1380,7 +1390,7 @@ require("lazy").setup({
 				desc = "Noice All",
 			},
 			{
-				"<leader>n",
+				"<leader>nh",
 				function()
 					require("noice").cmd("dismiss")
 				end,
@@ -1416,24 +1426,9 @@ require("lazy").setup({
 			-- OPTIONAL:
 			--   `nvim-notify` is only needed, if you want to use the notification view.
 			--   If not available, we use `mini` as the fallback
-			"rcarriga/nvim-notify",
+			-- "rcarriga/nvim-notify",
 		},
 	},
-	--- }}}
-	-- {{{ Nvim-notify                     UI - Notifications framework (used by noice.nvim)
-	{
-		"rcarriga/nvim-notify",
-		event = "VeryLazy",
-		config = function()
-			local notify = require("notify")
-			notify.setup({
-				render = "minimal",
-				stages = "static", -- can be: static, slide, fade, fade_in_slide_out
-				timeout = 800,
-			})
-		end,
-	},
-	--- }}}
 	-- {{{ Which-Key                       UI - The (another Emacs stolen) plugin that shows pending keybindings
 	{
 		"folke/which-key.nvim",
@@ -1528,12 +1523,13 @@ require("lazy").setup({
 				noice = true,
 				notify = true,
 				nvimtree = true,
-				telescope = true,
+				telescope = false,
 				treesitter = true,
 				treesitter_context = true,
 				which_key = true,
 				rainbow_delimiters = true,
 				fidget = true,
+				snacks = true,
 			},
 		},
 	},
@@ -1630,34 +1626,6 @@ require("lazy").setup({
 		},
 	},
 	-- }}}
-	-- {{{ Neogit                          VC - A git interface based on Emacs Magit
-	{
-		"NeogitOrg/neogit",
-		event = "VeryLazy",
-		config = function()
-			local neogit = require("neogit")
-			neogit.setup({
-				graph_style = "unicode", -- was ascii
-			})
-
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>gg",
-				":Neogit<CR>",
-				{ noremap = true, silent = true, desc = "neo[G]it" }
-			)
-		end,
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"sindrets/diffview.nvim", -- optional - Diff integration
-
-			-- Only one of these is needed.
-			"nvim-telescope/telescope.nvim", -- optional
-			-- "ibhagwan/fzf-lua", -- optional
-			-- "echasnovski/mini.pick", -- optional
-		},
-	},
-	-- }}},
 	-- {{{ Diffview                        VC - Diff visualizer
 	{
 		"sindrets/diffview.nvim",
