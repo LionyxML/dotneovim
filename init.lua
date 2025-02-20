@@ -67,7 +67,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 --- }}}
 require("lazy").setup({
-	-- {{{ SNACKS
+	-- {{{ SNACKS                          UI & EDIT & TXT - A jack of all trades
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
@@ -104,9 +104,9 @@ require("lazy").setup({
 			{
 				"<leader>sf",
 				function()
-					Snacks.picker.smart()
+					Snacks.picker.files()
 				end,
-				desc = "Smart Find Files",
+				desc = "Search Files",
 			},
 			{
 				"<leader><space>",
@@ -394,8 +394,6 @@ require("lazy").setup({
 
 					map("K", vim.lsp.buf.hover, "Hover Documentation")
 
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client.server_capabilities.documentHighlightProvider then
 						local highlight_augroup =
@@ -539,90 +537,6 @@ require("lazy").setup({
 				desc = "Quickfix List (Trouble)",
 			},
 		},
-	},
-	-- }}}
-	-- {{{ Nvim-DAP                        DAP - The Debugger Adapter Protocol and Controls
-	{
-		"mfussenegger/nvim-dap",
-		event = "VeryLazy",
-		opts = {},
-		config = function()
-			vim.keymap.set("n", "<leader>dc", require("dap").continue, { desc = "DAP - [C]ontinue" })
-			vim.keymap.set("n", "<leader>dO", require("dap").step_over, { desc = "DAP - Step [O]ver" })
-			vim.keymap.set("n", "<leader>di", require("dap").step_into, { desc = "DAP - Setp [I]nto" })
-			vim.keymap.set("n", "<leader>do", require("dap").step_out, { desc = "DAP - Step [o]ut" })
-			vim.keymap.set("n", "<leader>db", require("dap").toggle_breakpoint, { desc = "DAP - Toggle [b]reakpoint" })
-			vim.keymap.set("n", "<leader>dB", function()
-				require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-			end, { desc = "DAP - [B]reakpoint condition" })
-
-			local js_based_languages = { "typescript", "javascript", "typescriptreact" }
-
-			for _, language in ipairs(js_based_languages) do
-				require("dap").configurations[language] = {
-					{
-						type = "pwa-node",
-						request = "launch",
-						name = "Launch file",
-						program = "${file}",
-						cwd = "${workspaceFolder}",
-					},
-					{
-						type = "pwa-node",
-						request = "attach",
-						name = "Attach",
-						processId = require("dap.utils").pick_process,
-						cwd = "${workspaceFolder}",
-					},
-					{
-						type = "pwa-chrome",
-						request = "launch",
-						name = 'Start Chrome with "localhost"',
-						url = "http://localhost:3000",
-						webRoot = "${workspaceFolder}",
-						userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir",
-					},
-				}
-			end
-		end,
-	},
-	-- }}}
-	-- {{{ VSCODE-JS-Debug                 DAP - The debug from vscode!
-	-- Just uncomment when debug is needed. This is noisy with Lazy Update
-	-- {
-	--  "microsoft/vscode-js-debug",
-	--  -- NOTE: This is a huge build, it needs Chromium :(
-	--  -- If this build fails or timeout, might need to go in
-	--  -- ~/.local/share/nvim/lazy/vscode-js-debug and run:
-	--  build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-	-- },
-	-- }}}
-	-- {{{ Nvim-DAP-VSCode-JS              DAP - What makes the VSCODE-JS-Debug work with neovim DAP!
-	{
-		"mxsdev/nvim-dap-vscode-js",
-		event = "VeryLazy",
-		config = function()
-			---@diagnostic disable-next-line: missing-fields
-			require("dap-vscode-js").setup({
-				-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-				-- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
-				debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
-				-- debugger_cmd = { "extension" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-				adapters = {
-					"chrome",
-					"pwa-node",
-					"pwa-chrome",
-					"pwa-msedge",
-					"node-terminal",
-					"pwa-extensionHost",
-					"node",
-					"chrome",
-				}, -- which adapters to register in nvim-dap
-				-- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
-				-- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
-				-- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-			})
-		end,
 	},
 	-- }}}
 	-- {{{ Nvim-Cmp                        EDIT - Autocompletion
@@ -873,21 +787,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ IconPicker                      EDIT - Icons picker (utf, nerdfonts, alt font, symbols...)
-	{
-		"ziontee113/icon-picker.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("icon-picker").setup({ disable_legacy_commands = true })
-
-			local opts = { noremap = true, silent = true }
-
-			vim.keymap.set("n", "<Leader>ii", "<cmd>IconPickerNormal<cr>", opts)
-			vim.keymap.set("n", "<Leader>iy", "<cmd>IconPickerYank<cr>", opts) --> Yank the selected icon into register
-			vim.keymap.set("i", "<C-i>", "<cmd>IconPickerInsert<cr>", opts)
-		end,
-	},
-	-- }}}
 	-- {{{ Codeium                         EDIT - Copilot like alternative
 	{
 		"Exafunction/codeium.nvim",
@@ -949,24 +848,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Vim-Dadbod                      DB - multi db client
-	{
-		"tpope/vim-dadbod",
-		event = "VeryLazy",
-	},
-	-- }}}
-	-- {{{ Vim-Dadbod-completion           DB - dadbod completion
-	{
-		"kristijanhusak/vim-dadbod-completion",
-		event = "VeryLazy",
-	},
-	-- }}}
-	-- {{{ Vim-Dadbod-ui                   DB - dadbod better ui
-	{
-		"kristijanhusak/vim-dadbod-ui",
-		event = "VeryLazy",
-	},
-	-- }}}
 	-- {{{ Oil-Nvim                        FILE - Dired for neovim
 	{
 		"stevearc/oil.nvim",
@@ -989,19 +870,6 @@ require("lazy").setup({
 		-- Optional dependencies
 		dependencies = { "echasnovski/mini.icons" },
 		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-	},
-	-- }}}
-	-- {{{ Remote.Nvim                     REMOTE - Allows remote development
-	{
-		"amitds1997/remote-nvim.nvim",
-		event = "VeryLazy",
-		version = "*", -- Pin to GitHub releases
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- For standard functions
-			"MunifTanjim/nui.nvim", -- To build the plugin UI
-			-- "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
-		},
-		config = true,
 	},
 	-- }}}
 	-- {{{ Org-mode                        TXT - Org-mode for Neovim
@@ -1283,30 +1151,6 @@ require("lazy").setup({
 				lualine_z = { "location" },
 			},
 		},
-	},
-	-- }}}
-	-- {{{ Nvim-DAP-UI                     UI - Beautiful DAP UI!
-	{
-		"rcarriga/nvim-dap-ui",
-		event = "VeryLazy",
-		config = function()
-			require("dapui").setup()
-
-			local dap, dapui = require("dap"), require("dapui")
-
-			dap.listeners.after.event_initialized["dapui_config"] = function()
-				dapui.open({})
-			end
-			dap.listeners.before.event_terminated["dapui_config"] = function()
-				dapui.close({})
-			end
-			dap.listeners.before.event_exited["dapui_config"] = function()
-				dapui.close({})
-			end
-
-			vim.keymap.set("n", "<leader>tD", require("dapui").toggle)
-		end,
-		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 	},
 	-- }}}
 	-- {{{ Noice                           UI - THE Beautiful UI for Neovim
