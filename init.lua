@@ -1189,14 +1189,6 @@ require("lazy").setup({
 		},
 		keys = {
 			{
-				"<S-Enter>",
-				function()
-					require("noice").redirect(vim.fn.getcmdline())
-				end,
-				mode = "c",
-				desc = "Redirect Cmdline",
-			},
-			{
 				"<leader>snl",
 				function()
 					require("noice").cmd("last")
