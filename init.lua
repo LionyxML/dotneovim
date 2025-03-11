@@ -343,7 +343,7 @@ require("lazy").setup({
 				mode = { "n", "v" },
 			},
 			{
-				"<leader>gg",
+				"<leader>gG",
 				function()
 					Snacks.lazygit()
 				end,
