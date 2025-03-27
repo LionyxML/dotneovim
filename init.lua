@@ -95,7 +95,23 @@ require("lazy").setup({
 			},
 			explorer = { enabled = true },
 			input = { enabled = true },
-			picker = { enabled = true },
+			picker = {
+				enabled = true,
+				sources = {
+					explorer = {
+						enabled = true,
+						hidden = true,
+						auto_close = false,
+						win = {
+							list = {
+								keys = {
+									["O"] = { { "pick_win", "jump" }, mode = { "n", "i" } },
+								},
+							},
+						},
+					},
+				},
+			},
 			notifier = { enabled = true },
 			scope = { enabled = true },
 		},
