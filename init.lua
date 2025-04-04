@@ -102,9 +102,13 @@ require("lazy").setup({
 						enabled = true,
 						hidden = true,
 						auto_close = false,
+						layout = {
+							auto_hide = { "input" },
+						},
 						win = {
 							list = {
 								keys = {
+									---@diagnostic disable-next-line: assign-type-mismatch
 									["O"] = { { "pick_win", "jump" }, mode = { "n", "i" } },
 								},
 							},
