@@ -1266,6 +1266,7 @@ require("lazy").setup({
 	-- {{{ Which-Key                       UI - The (another Emacs stolen) plugin that shows pending keybindings
 	{
 		"folke/which-key.nvim",
+		event = "VeryLazy",
 		config = function()
 			local wk = require("which-key")
 
