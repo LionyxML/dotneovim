@@ -809,7 +809,7 @@ require("lazy").setup({
 	-- }}}
 	-- {{{ Codeium                         EDIT - Copilot like alternative
 	{
-		"Exafunction/codeium.nvim",
+		"Exafunction/windsurf.nvim",
 		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -817,52 +817,8 @@ require("lazy").setup({
 		},
 		config = function()
 			require("codeium").setup({})
-
-			local Source = require("codeium.source")
-
-			local function is_codeium_enabled()
-				local enabled = vim.b["codeium_enabled"]
-				if enabled == nil then
-					enabled = vim.g["codeium_enabled"]
-					if enabled == nil then
-						enabled = true -- enable by default
-					end
-				end
-				return enabled
-			end
-
-			---@diagnostic disable-next-line: duplicate-set-field
-			function Source:is_available()
-				local enabled = is_codeium_enabled()
-				---@diagnostic disable-next-line: undefined-field
-				return enabled and self.server.is_healthy()
-			end
-
-			vim.api.nvim_set_keymap("n", "<leader>tC", "", {
+			vim.api.nvim_set_keymap("n", "<leader>tC", ":Codeium Toggle<cr>", {
 				desc = "[C]odium Toggle",
-				callback = function()
-					local new_enabled = not is_codeium_enabled()
-					vim.b["codeium_enabled"] = new_enabled
-					if new_enabled then
-						vim.notify("Codeium enabled in buffer")
-					else
-						vim.notify("Codeium disabled in buffer")
-					end
-				end,
-				noremap = true,
-			})
-
-			vim.api.nvim_set_keymap("n", "<leader>tC", "", {
-				desc = "[C]odium Toggle",
-				callback = function()
-					local new_enabled = not is_codeium_enabled()
-					vim.b["codeium_enabled"] = new_enabled
-					if new_enabled then
-						vim.notify("Codeium enabled in buffer")
-					else
-						vim.notify("Codeium disabled in buffer")
-					end
-				end,
 				noremap = true,
 			})
 		end,
@@ -888,8 +844,8 @@ require("lazy").setup({
 			},
 		},
 		-- Optional dependencies
-		dependencies = { "echasnovski/mini.icons" },
-		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+		-- dependencies = { "echasnovski/mini.icons" },
+		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
 	},
 	-- }}}
 	-- {{{ Org-mode                        TXT - Org-mode for Neovim
@@ -1479,6 +1435,7 @@ require("lazy").setup({
 				hg_cmd = { "" },
 			})
 		end,
+		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
 	},
 	-- }}},
 	-- {{{ Gitsigns                        VC - Adds git gutter / hunk blame&diff
