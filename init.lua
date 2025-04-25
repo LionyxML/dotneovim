@@ -1569,6 +1569,7 @@ vim.o.splitbelow = true
 vim.o.laststatus = 3
 vim.opt.spelllang = { "en", "pt_br" }
 vim.o.spell = false
+vim.opt.fillchars:append({ fold = " " })
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>")
 vim.keymap.set("i", "jj", "<Esc>")
