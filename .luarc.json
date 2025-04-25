@@ -1,6 +1,7 @@
 {
     "diagnostics.disable": [
         "missing-fields",
-        "redundant-return-value"
+        "redundant-return-value",
+        "param-type-mismatch"
     ]
 }

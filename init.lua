@@ -843,9 +843,10 @@ require("lazy").setup({
 				desc = "Open Oil File Manager",
 			},
 		},
-		-- Optional dependencies
-		-- dependencies = { "echasnovski/mini.icons" },
-		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+		dependencies = { { "echasnovski/mini.icons", opts = {} } },
+		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+		lazy = false,
 	},
 	-- }}}
 	-- {{{ Org-mode                        TXT - Org-mode for Neovim
@@ -1433,9 +1434,11 @@ require("lazy").setup({
 			local diffview = require("diffview")
 			diffview.setup({
 				hg_cmd = { "" },
+				use_icons = false,
 			})
 		end,
-		dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+		-- NOTE: waiting for https://github.com/sindrets/diffview.nvim/pull/571 so everything can be mini icons
+		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
 	},
 	-- }}},
 	-- {{{ Gitsigns                        VC - Adds git gutter / hunk blame&diff
