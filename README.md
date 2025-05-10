@@ -1,4 +1,4 @@
-# LioVim
+# Lionyx Neovim Config
 
 A nice `kickstart.nvim` based config with many batteries included.
 
