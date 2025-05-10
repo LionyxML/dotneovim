@@ -1,6 +1,6 @@
 # LioVim
 
-A nice kickstart.nvim based config with many batteries included.
+A nice `kickstart.nvim` based config with many batteries included.
 
 ![Demo01](doc/demo01.png)
 
