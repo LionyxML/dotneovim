@@ -849,6 +849,19 @@ require("lazy").setup({
 		lazy = false,
 	},
 	-- }}}
+	-- {{{ Nvim-Spectre                    EDIT - For complex find and replace
+	{
+		"nvim-pack/nvim-spectre",
+		keys = {
+			{
+				"<leader>sr",
+				'<cmd>lua require("spectre").toggle()<CR>',
+				desc = "Search&Replace (Spectre)",
+			},
+		},
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	-- }}}
 	-- {{{ Org-mode                        TXT - Org-mode for Neovim
 	{
 		"nvim-orgmode/orgmode",
