@@ -1444,6 +1444,10 @@ require("lazy").setup({
 				end
 			end, { desc = "[G]it [D]iff with diffview" })
 
+			vim.keymap.set({ "n", "v" }, "<leader>gH", function()
+				vim.cmd("DiffviewFileHistory")
+			end, { desc = "Format file or range (in visual mode)" })
+
 			local diffview = require("diffview")
 			diffview.setup({
 				hg_cmd = { "" },
