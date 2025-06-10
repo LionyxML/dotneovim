@@ -72,6 +72,7 @@ require("lazy").setup({
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
+		---@diagnostic disable-next-line: undefined-doc-name
 		---@type snacks.Config
 		opts = {
 			bigfile = { enabled = true },
@@ -489,6 +490,19 @@ require("lazy").setup({
 						workspace = { checkThirdParty = false },
 						telemetry = { enable = false },
 						hint = { enable = true },
+						diagnostics = {
+							enable = true,
+							globals = {
+								"vim",
+								"describe",
+								"it",
+								"before_each",
+								"after_each",
+								"packer_plugins",
+								"MiniTest",
+							},
+							disable = { "missing-fields", "lowercase-global" },
+						},
 					},
 				},
 			}

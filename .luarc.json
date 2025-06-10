@@ -1,7 +1,10 @@
 {
-    "diagnostics.disable": [
-        "missing-fields",
-        "redundant-return-value",
-        "param-type-mismatch"
-    ]
+  "diagnostics.disable": [
+    "missing-fields",
+    "redundant-return-value",
+    "param-type-mismatch"
+  ],
+  "diagnostics.globals": ["vim",
+        "Snacks"]
 }
+
