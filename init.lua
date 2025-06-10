@@ -1561,6 +1561,7 @@ require("lazy").setup({
 })
 
 -- {{{ Classic VIM Configs             VIM - Options / Keymaps
+vim.o.tabstop = 2
 vim.o.hlsearch = true
 vim.wo.number = true
 vim.o.mouse = "a"
