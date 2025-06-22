@@ -1100,12 +1100,15 @@ require("lazy").setup({
 		opts = {},
 	},
 	-- }}}
-	-- {{{ Colorizer                       TXT - Colorize color codes
+	-- {{{ CCC                             TXT - Colorize color codes / Color picker
 	{
-		"norcalli/nvim-colorizer.lua",
-		config = function()
-			require("colorizer").setup()
-		end,
+		"uga-rosa/ccc.nvim",
+		cmd = { "CccPick", "CccConvert", "CccHighlighterToggle" },
+		keys = {
+			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "Pick color" },
+			{ "<leader>cc", "<cmd>CccConvert<cr>", desc = "Convert color (cycle)" },
+			{ "<leader>ch", "<cmd>CccHighlighterToggle<cr>", desc = "Toggle highlighter" },
+		},
 	},
 	-- }}}
 	-- {{{ Lualine                         UI - The cool statusline
