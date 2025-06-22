@@ -788,6 +788,11 @@ require("lazy").setup({
 			-- - sd'   - [S]urround [D]elete [']quotes
 			-- - sr)'  - [S]urround [R]eplace [)] [']
 			require("mini.surround").setup()
+
+			-- Move line or blocks up/down/left/right
+			--
+			-- Use: M- h,j,k,l
+			require("mini.move").setup()
 		end,
 	},
 	-- }}}
