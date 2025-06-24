@@ -1109,6 +1109,20 @@ require("lazy").setup({
 	{
 		"uga-rosa/ccc.nvim",
 		cmd = { "CccPick", "CccConvert", "CccHighlighterToggle" },
+		config = function()
+			local ccc = require("ccc")
+			ccc.setup({
+				inputs = {
+					ccc.input.rgb,
+					ccc.input.cmyk,
+					ccc.input.hsl,
+				},
+				highlighter = {
+					auto_enable = true,
+					lsp = true,
+				},
+			})
+		end,
 		keys = {
 			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "Pick color" },
 			{ "<leader>cc", "<cmd>CccConvert<cr>", desc = "Convert color (cycle)" },
