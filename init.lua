@@ -1319,6 +1319,48 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
+	-- {{{ Bufferline                      UI - The cool tabs stylyst
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		config = function()
+			vim.o.mousemoveevent = true
+
+			require("bufferline").setup({
+				options = {
+					mode = "tabs", --                       :tabs! not buffers
+					buffer_close_icon = "",
+					show_close_icon = false, --             X on the most right
+					show_buffer_close_icons = false, --     X on tab
+					show_duplicate_prefix = false, --       on :tabs it is expected to have duplicates
+					custom_filter = function(buf, buf_nums)
+						return vim.bo[buf].filetype ~= "qf"
+					end,
+					diagnostics = false,
+					right_mouse_command = nil,
+					indicator_icon = "",
+					separator_style = "thin", -- "slant" | "slope" | "thick" | "thin" | { " ", " "}
+					max_name_length = 10,
+					tab_size = 5,
+					numbers = function(opts)
+						return string.format("  %s", opts.ordinal)
+					end,
+					name_formatter = function()
+						return ""
+					end,
+
+					modified_icon = " ●",
+					offsets = {
+						{
+							filetype = "snacks_layout_box",
+						},
+					},
+				},
+				highlights = require("catppuccin.groups.integrations.bufferline").get({}),
+			})
+		end,
+	},
+	-- }}}
 	-- {{{ Catppuccin                      UI - The Only and One Theme :)
 	{
 		-- Catppuccin Theme
