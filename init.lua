@@ -1149,12 +1149,13 @@ require("lazy").setup({
 				-- section_separators = { right = "" },
 			},
 			sections = {
-				lualine_a = { "mode" },
+				lualine_a = { { "mode", separator = { left = "" } } },
 				lualine_b = {
 					{
 						"branch",
+						icon = "󰘬",
 						fmt = function(branch)
-							local limit = 20
+							local limit = 22
 							return branch:sub(1, limit) .. (branch:len() > limit and "…" or "")
 						end,
 					},
@@ -1174,7 +1175,7 @@ require("lazy").setup({
 				},
 				lualine_x = { "encoding", "fileformat", "filetype" },
 				lualine_y = { "progress" },
-				lualine_z = { "location" },
+				lualine_z = { { "location", separator = { right = "" } } },
 			},
 		},
 	},
