@@ -51,6 +51,10 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.o.termguicolors = true
+
+-- FIXME: still not working with trouble.nvim and snacks.nvim
+vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
+
 -- }}}
 -- {{{ Lazy Package Manager --- Bootloader & Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -509,7 +513,7 @@ require("lazy").setup({
 
 			require("mason").setup({
 				ui = {
-					border = "rounded",
+					border = vim.o.winborder,
 				},
 			})
 
@@ -1185,6 +1189,33 @@ require("lazy").setup({
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		opts = {
+			views = {
+				cmdline_popup = {
+					border = {
+						style = vim.o.winborder,
+					},
+				},
+				cmdline_popupmenu = {
+					border = {
+						style = vim.o.winborder,
+					},
+				},
+				hover = {
+					border = {
+						style = vim.o.winborder,
+					},
+				},
+				confirm = {
+					border = {
+						style = vim.o.winborder,
+					},
+				},
+				popup = {
+					border = {
+						style = vim.o.winborder,
+					},
+				},
+			},
 			routes = { -- Hides written messages
 				{
 					filter = {
@@ -1304,8 +1335,8 @@ require("lazy").setup({
 			wk.setup({
 				preset = "helix",
 				win = {
-					border = "rounded", -- none, single, double, shadow
-					padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+					border = vim.o.winborder,
+					padding = { 2, 2 },
 					wo = {
 						winblend = 0,
 					},
@@ -1631,7 +1662,7 @@ require("lazy").setup({
 }, {
 	-- {{{ Lazy Package Manager UI
 	ui = {
-		border = "rounded",
+		border = vim.o.winborder,
 	},
 	rocks = {
 		enabled = false,
@@ -1723,7 +1754,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.diagnostic.config({
-	float = { border = "rounded" },
+	float = { border = vim.o.winborder },
 	signs = {
 		text = {
 			[vim.diagnostic.severity.ERROR] = "󰅚 ",
