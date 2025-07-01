@@ -1134,6 +1134,12 @@ require("lazy").setup({
 		},
 	},
 	-- }}}
+	-- {{{ Image                           TXT - Shows images on markdown, org, etc.
+	{
+		"3rd/image.nvim",
+		opts = {},
+	},
+	-- }}}
 	-- {{{ Lualine                         UI - The cool statusline
 	{
 		"nvim-lualine/lualine.nvim",
@@ -1144,9 +1150,6 @@ require("lazy").setup({
 					"NvimTree",
 				},
 				icons_enabled = true,
-				theme = "catppuccin",
-				-- theme = "palenight",
-				-- theme = "nightfly",
 				component_separators = "",
 				-- component_separators = { left = '', right = '' },
 				section_separators = { left = "", right = "" },
