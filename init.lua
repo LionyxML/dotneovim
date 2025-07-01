@@ -55,6 +55,13 @@ vim.o.termguicolors = true
 -- FIXME: still not working with trouble.nvim and snacks.nvim
 vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
 
+_G.my_diagnostic_symbols = {
+	error = "󰅚 ",
+	warn = "󰀪 ",
+	hint = " ",
+	info = " ",
+}
+
 -- }}}
 -- {{{ Lazy Package Manager --- Bootloader & Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -166,7 +173,7 @@ require("lazy").setup({
 				function()
 					Snacks.explorer()
 				end,
-				desc = "File Explorer",
+				desc = "File [e]xplorer",
 			},
 			{
 				"<leader>gb",
@@ -258,14 +265,14 @@ require("lazy").setup({
 				function()
 					Snacks.picker.resume()
 				end,
-				desc = "Resume",
+				desc = "search [R]esume",
 			},
 			{
 				"<leader>U",
 				function()
 					Snacks.picker.undo()
 				end,
-				desc = "Undo History",
+				desc = "[U]ndo History",
 			},
 			{
 				"gd",
@@ -322,42 +329,35 @@ require("lazy").setup({
 				function()
 					Snacks.zen()
 				end,
-				desc = "Toggle Zen Mode",
+				desc = "Toggle [z]en Mode",
 			},
 			{
 				"<leader>tZ",
 				function()
 					Snacks.zen.zoom()
 				end,
-				desc = "Toggle Zoom",
+				desc = "Toggle [Z]oom",
 			},
 			{
-				"<leader>.",
+				"<leader>ts",
 				function()
 					Snacks.scratch()
 				end,
-				desc = "Toggle Scratch Buffer",
+				desc = "Toggle [s]cratch buffer",
 			},
 			{
 				"<leader>S",
 				function()
 					Snacks.scratch.select()
 				end,
-				desc = "Select Scratch Buffer",
+				desc = "Select [S]cratch Buffer",
 			},
 			{
-				"<leader>n",
-				function()
-					Snacks.notifier.show_history()
-				end,
-				desc = "Notification History",
-			},
-			{
-				"<leader>cR",
+				"<leader>rf",
 				function()
 					Snacks.rename.rename_file()
 				end,
-				desc = "Rename File",
+				desc = "Rename [f]ile",
 			},
 			{
 				"<leader>gB",
@@ -409,13 +409,13 @@ require("lazy").setup({
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+					map("<leader>rn", vim.lsp.buf.rename, "re[n]ame symbol")
 
-					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+					map("<leader>ca", vim.lsp.buf.code_action, "code [a]ction")
 
 					map("<leader>co", function()
 						vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-					end, "[C]ode [O]rganize imports")
+					end, "code [o]rganize imports")
 
 					map("K", vim.lsp.buf.hover, "Hover Documentation")
 
@@ -447,7 +447,7 @@ require("lazy").setup({
 					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-						end, "[T]oggle Inlay [H]ints")
+						end, "Toggle inlay [h]ints")
 					end
 				end,
 			})
@@ -743,7 +743,7 @@ require("lazy").setup({
 					async = false,
 					timeout_ms = 5000,
 				})
-			end, { desc = "Format file or range (in visual mode)" })
+			end, { desc = "[p]rettier" })
 
 			vim.api.nvim_create_user_command("FormatDisable", function(args)
 				if args.bang then
@@ -788,6 +788,7 @@ require("lazy").setup({
 
 			-- Add/delete/replace surroundings (brackets, quotes, etc.)
 			--
+			-- - sa{   - [S]urround [A]dd { around visual selection
 			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
 			-- - sd'   - [S]urround [D]elete [']quotes
 			-- - sr)'  - [S]urround [R]eplace [)] [']
@@ -826,7 +827,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>u", function()
 				vim.cmd.UndotreeToggle()
 				vim.cmd.UndotreeFocus()
-			end)
+			end, { desc = "[u]ndo tree" })
 		end,
 	},
 	-- }}}
@@ -841,7 +842,7 @@ require("lazy").setup({
 		config = function()
 			require("codeium").setup({})
 			vim.api.nvim_set_keymap("n", "<leader>tC", ":Codeium Toggle<cr>", {
-				desc = "[C]odium Toggle",
+				desc = "Toggle [C]odium",
 				noremap = true,
 			})
 		end,
@@ -863,7 +864,7 @@ require("lazy").setup({
 			{
 				"<leader>ed",
 				"<cmd>Oil<CR>",
-				desc = "Open Oil File Manager",
+				desc = "Oil File Manager",
 			},
 		},
 		dependencies = { { "echasnovski/mini.icons", opts = {} } },
@@ -1035,15 +1036,6 @@ require("lazy").setup({
 								["[]"] = "@class.outer",
 							},
 						},
-						swap = {
-							enable = true,
-							swap_next = {
-								["<leader>a"] = "@parameter.inner",
-							},
-							swap_previous = {
-								["<leader>A"] = "@parameter.inner",
-							},
-						},
 					},
 				})
 			end, 0)
@@ -1128,9 +1120,9 @@ require("lazy").setup({
 			})
 		end,
 		keys = {
-			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "[C]olor Picker" },
-			{ "<leader>cc", "<cmd>CccConvert<cr>", desc = "[C]olor [C]ycle convert" },
-			{ "<leader>ch", "<cmd>CccHighlighterToggle<cr>", desc = "[C]olor [H]ighlighter" },
+			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "Color [p]icker" },
+			{ "<leader>cc", "<cmd>CccConvert<cr>", desc = "Color [c]ycle convert" },
+			{ "<leader>ch", "<cmd>CccHighlighterToggle<cr>", desc = "Color [h]ighlighter" },
 		},
 	},
 	-- }}}
@@ -1167,7 +1159,15 @@ require("lazy").setup({
 						end,
 					},
 					"diff",
-					"diagnostics",
+					{
+						"diagnostics",
+						symbols = {
+							hint = _G.my_diagnostic_symbols.hint,
+							info = _G.my_diagnostic_symbols.info,
+							warn = _G.my_diagnostic_symbols.warn,
+							error = _G.my_diagnostic_symbols.error,
+						},
+					},
 				},
 				lualine_c = {
 					{
@@ -1241,11 +1241,11 @@ require("lazy").setup({
 				},
 			},
 			presets = {
-				bottom_search = false, -- use a classic bottom cmdline for search
-				command_palette = true, -- position the cmdline and popupmenu together
+				bottom_search = false, --        use a classic bottom cmdline for search
+				command_palette = true, --       position the cmdline and popupmenu together
 				long_message_to_split = true, -- long messages will be sent to a split
-				inc_rename = true, -- enables an input dialog for inc-rename.nvim
-				lsp_doc_border = true, -- add a border to hover docs and signature help
+				inc_rename = true, --            enables an input dialog for inc-rename.nvim
+				lsp_doc_border = true, --        add a border to hover docs and signature help
 			},
 		},
 		keys = {
@@ -1312,27 +1312,39 @@ require("lazy").setup({
 			local wk = require("which-key")
 
 			wk.add({
-				{ "<leader>c", group = "[C]ode" },
+				{ "<leader>0", group = "[0]x0 uploader" },
+				{ "<leader>0_", hidden = true },
+				{ "<leader>c", group = "[c]ode / [c]olor" },
 				{ "<leader>c_", hidden = true },
-				{ "<leader>d", group = "[D]ocument / [D]AP" },
+				{ "<leader>d", group = "[d]ocument / [d]AP" },
 				{ "<leader>d_", hidden = true },
-				{ "<leader>g", group = "[G]it" },
+				{ "<leader>e", group = "[e]xplorer" },
+				{ "<leader>e_", hidden = true },
+				{ "<leader>g", group = "[g]it" },
 				{ "<leader>g_", hidden = true },
-				{ "<leader>b", group = "[B]uffer" },
+				{ "<leader>b", group = "[b]uffer" },
 				{ "<leader>b_", hidden = true },
-				{ "<leader>r", group = "[R]ename" },
+				{ "<leader>h", group = "[h]unks operations" },
+				{ "<leader>h_", hidden = true },
+				{ "<leader>m", group = "[m]ake it..." },
+				{ "<leader>m_", hidden = true },
+				{ "<leader>n", group = "[n]otifications" },
+				{ "<leader>n_", hidden = true },
+				{ "<leader>o", group = "[o]org mode" },
+				{ "<leader>o_", hidden = true },
+				{ "<leader>r", group = "[r]ename" },
 				{ "<leader>r_", hidden = true },
-				{ "<leader>s", group = "[S]earch" },
+				{ "<leader>s", group = "[s]earch" },
 				{ "<leader>s_", hidden = true },
-				{ "<leader>sn", group = "[N]oice" },
-				{ "<leader>t", group = "[T]oggle" },
+				{ "<leader>sn", group = "[n]oice" },
+				{ "<leader>t", group = "[t]oggle" },
 				{ "<leader>t_", hidden = true },
-				{ "<leader>tl", ":set number! norelativenumber<cr>", desc = "Toggle line number" },
-				{ "<leader>tr", ":set relativenumber!<cr>", desc = "Toggle relative line number" },
-				{ "<leader>w", group = "[W]orkspace" },
-				{ "<leader>w_", hidden = true },
-				{ "<{leader>h", group = "More git" },
-				{ "<{leader>h_", hidden = true },
+				{ "<leader>tl", ":set number! norelativenumber<cr>", desc = "Toggle [l]ine number" },
+				{ "<leader>tr", ":set relativenumber!<cr>", desc = "Toggle [r]elative line number" },
+				{ "<leader>W", group = "[W]orkspace" },
+				{ "<leader>W_", hidden = true },
+				{ "<leader>x", group = "[x] is Trouble" },
+				{ "<leader>x_", hidden = true },
 			})
 
 			wk.setup({
@@ -1367,7 +1379,7 @@ require("lazy").setup({
 					show_close_icon = false, --             X on the most right
 					show_buffer_close_icons = false, --     X on tab
 					show_duplicate_prefix = false, --       on :tabs it is expected to have duplicates
-					custom_filter = function(buf, buf_nums)
+					custom_filter = function(buf)
 						return vim.bo[buf].filetype ~= "qf"
 					end,
 					diagnostics = false,
@@ -1525,12 +1537,12 @@ require("lazy").setup({
 
 			local keymap = vim.keymap
 
-			keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "[W]orkspace [R]estore session for cwd" }) -- restore last workspace session for current directory
+			keymap.set("n", "<leader>Wr", "<cmd>SessionRestore<CR>", { desc = "Workspace [r]estore session for cwd" }) -- restore last workspace session for current directory
 			keymap.set(
 				"n",
-				"<leader>ws",
+				"<leader>Ws",
 				"<cmd>SessionSave<CR>",
-				{ desc = "[W]orkspace [S]ave session for auto session root dir" }
+				{ desc = "Workspace [s]ave session for auto session root dir" }
 			) -- save workspace session for current working directory
 		end,
 	},
@@ -1555,11 +1567,11 @@ require("lazy").setup({
 				else
 					vim.cmd("DiffviewClose")
 				end
-			end, { desc = "[G]it [D]iff with diffview" })
+			end, { desc = "Git [d]iff with diffview" })
 
 			vim.keymap.set({ "n", "v" }, "<leader>gH", function()
 				vim.cmd("DiffviewFileHistory")
-			end, { desc = "Format file or range (in visual mode)" })
+			end, { desc = "Git file [H]istory" })
 
 			local diffview = require("diffview")
 			diffview.setup({
@@ -1653,7 +1665,7 @@ require("lazy").setup({
 				map("n", "<leader>hb", function()
 					gs.blame_line({ full = true })
 				end, { desc = "[b]lame Line" })
-				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "toggle [B]lame line" })
+				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "Toggle [B]lame line" })
 				map("n", "<leader>hd", gs.diffthis, { desc = "Hunk [d]iff this" })
 				map("n", "<leader>hD", function()
 					gs.diffthis("~")
@@ -1722,19 +1734,19 @@ end, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", function()
 	vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
-vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle aerial" })
-vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>", { desc = "Toggle treesitter context" })
-vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle indent line" })
+vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic [m]essage" })
+vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle [a]erial" })
+vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>", { desc = "Toggle treesitter [c]ontext" })
+vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle [I]ndent line" })
 
 vim.keymap.set("n", "<leader>ti", function()
 	local virtual_text = vim.diagnostic.config().virtual_text
 	vim.diagnostic.config({ virtual_text = not virtual_text })
-end, { desc = "Toggle inline diagnostics" })
+end, { desc = "Toggle [i]nline diagnostics" })
 
 vim.keymap.set("n", "<leader>td", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end, { desc = "Toggle diagnostics" })
+end, { desc = "Toggle [d]iagnostics" })
 
 vim.keymap.set("n", "<leader>tt", function()
 	if vim.o.showtabline == 2 then
@@ -1742,10 +1754,18 @@ vim.keymap.set("n", "<leader>tt", function()
 	else
 		vim.o.showtabline = 2
 	end
-end, { desc = "Toggle tabs" })
+end, { desc = "Toggle [t]abs" })
 
 vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer", silent = true })
 vim.keymap.set("n", "<leader>bX", ":bufdo bd<CR>", { desc = "Close all buffers", silent = true })
+
+vim.keymap.set({ "n", "v" }, "<leader>L", ":Lazy<CR>", { desc = "[L]azy", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>M", ":Mason<CR>", { desc = "[M]ason", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>C", ":CurlOpen<CR>", { desc = "[C]url", silent = true })
+
+vim.keymap.set({ "n", "v" }, "<leader>w", ":w<CR>", { desc = "[w]rite", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>q", ":q<CR>", { desc = "[q]quit", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>Q", ":qa<CR>", { desc = "[q]quit all", silent = true })
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -1760,10 +1780,10 @@ vim.diagnostic.config({
 	float = { border = vim.o.winborder },
 	signs = {
 		text = {
-			[vim.diagnostic.severity.ERROR] = "󰅚 ",
-			[vim.diagnostic.severity.WARN] = "󰀪 ",
-			[vim.diagnostic.severity.HINT] = " ",
-			[vim.diagnostic.severity.INFO] = " ",
+			[vim.diagnostic.severity.ERROR] = _G.my_diagnostic_symbols.error,
+			[vim.diagnostic.severity.WARN] = _G.my_diagnostic_symbols.warn,
+			[vim.diagnostic.severity.HINT] = _G.my_diagnostic_symbols.hint,
+			[vim.diagnostic.severity.INFO] = _G.my_diagnostic_symbols.info,
 		},
 	},
 })
