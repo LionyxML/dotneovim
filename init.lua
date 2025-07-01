@@ -875,7 +875,7 @@ require("lazy").setup({
 			{
 				"<leader>sr",
 				'<cmd>lua require("spectre").toggle()<CR>',
-				desc = "Search&Replace (Spectre)",
+				desc = "Search and [r]eplace (Spectre)",
 			},
 		},
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -1124,9 +1124,9 @@ require("lazy").setup({
 			})
 		end,
 		keys = {
-			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "Pick color" },
-			{ "<leader>cc", "<cmd>CccConvert<cr>", desc = "Convert color (cycle)" },
-			{ "<leader>ch", "<cmd>CccHighlighterToggle<cr>", desc = "Toggle highlighter" },
+			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "[C]olor Picker" },
+			{ "<leader>cc", "<cmd>CccConvert<cr>", desc = "[C]olor [C]ycle convert" },
+			{ "<leader>ch", "<cmd>CccHighlighterToggle<cr>", desc = "[C]olor [H]ighlighter" },
 		},
 	},
 	-- }}}
@@ -1302,6 +1302,7 @@ require("lazy").setup({
 			})
 
 			wk.setup({
+				preset = "helix",
 				win = {
 					border = "rounded", -- none, single, double, shadow
 					padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
@@ -1313,7 +1314,6 @@ require("lazy").setup({
 					height = { min = 4, max = 25 }, -- min and max height of the columns
 					width = { min = 20, max = 50 }, -- min and max width of the columns
 					spacing = 3, -- spacing between columns
-					align = "center", -- align columns left, center or right
 				},
 			})
 		end,
@@ -1609,21 +1609,21 @@ require("lazy").setup({
 				end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
 
 				-- Actions
-				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
-				map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Hunk [s]tage" })
+				map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "Hunk [r]eset" })
 				map("n", "<leader>hS", gs.stage_buffer, { desc = "[S]tage buffer" })
-				map("n", "<leader>ha", gs.stage_hunk, { desc = "Stage [A] hunk" })
-				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "[U]ndo stage hunk" })
+				map("n", "<leader>ha", gs.stage_hunk, { desc = "Stage [a] hunk" })
+				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "[u]ndo stage hunk" })
 				map("n", "<leader>hR", gs.reset_buffer, { desc = "[R]eset Buffer" })
-				map("n", "<leader>hp", gs.preview_hunk, { desc = "[P]review [H]unk" })
+				map("n", "<leader>hp", gs.preview_hunk, { desc = "[p]review hunk" })
 				map("n", "<leader>hb", function()
 					gs.blame_line({ full = true })
-				end, { desc = "[B]lame Line" })
-				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "[T]oggle [B]lame line" })
-				map("n", "<leader>hd", gs.diffthis, { desc = "[H]unk [D]iff this" })
+				end, { desc = "[b]lame Line" })
+				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "toggle [B]lame line" })
+				map("n", "<leader>hd", gs.diffthis, { desc = "Hunk [d]iff this" })
 				map("n", "<leader>hD", function()
 					gs.diffthis("~")
-				end, { desc = "[h]unk Diff this" })
+				end, { desc = "Hunk [D]iff this" })
 			end,
 		},
 	},
