@@ -130,9 +130,18 @@ require("lazy").setup({
 			},
 			notifier = { enabled = true },
 			scope = { enabled = true },
+			gitbrowse = {
+				url_patterns = {
+					["devrepo%.%w+"] = {
+						branch = "/-/tree/{branch}",
+						file = "/-/blob/{branch}/{file}#L{line_start}-L{line_end}",
+						permalink = "/-/blob/{commit}/{file}#L{line_start}-L{line_end}",
+						commit = "/-/commit/{commit}",
+					},
+				},
+			},
 		},
 		keys = {
-			-- Top Pickers & Explorer
 			{
 				"<leader>sf",
 				function()
