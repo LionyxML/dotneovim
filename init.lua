@@ -802,11 +802,6 @@ require("lazy").setup({
 			-- - sd'   - [S]urround [D]elete [']quotes
 			-- - sr)'  - [S]urround [R]eplace [)] [']
 			require("mini.surround").setup()
-
-			-- Move line or blocks up/down/left/right
-			--
-			-- Use: M- h,j,k,l
-			require("mini.move").setup()
 		end,
 	},
 	-- }}}
@@ -1695,55 +1690,112 @@ require("lazy").setup({
 })
 
 -- {{{ Classic VIM Configs             VIM - Options / Keymaps
-vim.o.tabstop = 2
-vim.o.hlsearch = true
+
+-- Theme and transparency
+vim.cmd.colorscheme("catppuccin")
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+
+-- Basics
 vim.wo.number = true
-vim.o.mouse = "a"
-vim.o.clipboard = "unnamedplus"
+vim.o.relativenumber = true -- Toggle with <leader>tr
+vim.o.showtabline = 0 --       Toggle Tabs with <leader>tt
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
+vim.o.cursorline = true
+
+-- Identation
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.autoindent = true
 vim.o.breakindent = true
-vim.o.undofile = true
+
+-- Search settings
+vim.o.hlsearch = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.wo.signcolumn = "yes"
+vim.o.incsearch = true
+
+-- File handling
+vim.o.undofile = true
+vim.o.backup = false
+vim.o.writebackup = false
+vim.o.autoread = true
+vim.o.autowrite = false
 vim.o.updatetime = 250
 vim.o.timeoutlen = 1000
-vim.o.completeopt = "menuone,noselect"
-vim.o.wrap = false
-vim.cmd.colorscheme("catppuccin")
-vim.o.scrolloff = 8
-vim.o.relativenumber = true -- Toggle with <leader>tr
-vim.o.showtabline = 0 -- Toggle Tabs with <leader>tt
 vim.o.swapfile = false
-vim.o.backspace = "indent,eol,start" -- Allow backspace on ident
-vim.o.cursorline = true
-vim.o.splitright = true
-vim.o.splitbelow = true
+
+-- Visual settings
+vim.wo.signcolumn = "yes"
+vim.o.completeopt = "menuone,noinsert,noselect"
+vim.o.showmatch = true
+vim.o.wrap = false
 vim.o.laststatus = 3
 vim.opt.spelllang = { "en", "pt_br" }
 vim.o.spell = false
 vim.opt.fillchars:append({ fold = " " })
+vim.o.pumheight = 0
+vim.o.pumblend = 0
+vim.o.winblend = 0
 
+-- Split behaviour
+vim.o.splitright = true
+vim.o.splitbelow = true
+
+-- Behaviour settings
+vim.o.mouse = "a"
+vim.o.clipboard = "unnamedplus"
+vim.o.backspace = "indent,eol,start" -- Allow backspace on ident
+vim.o.encoding = "UTF-8"
+vim.o.errorbells = false
+vim.o.autochdir = true
+
+-- Keybindings
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>")
 vim.keymap.set("i", "jj", "<Esc>")
+
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
+
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { silent = true })
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
+
+vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
+vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
+vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
+
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer", silent = true })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
 vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer", silent = true })
 vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer", silent = true })
+
 vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix item", silent = true })
 vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix item", silent = true })
+
 vim.keymap.set("n", "]t", ":tabnext<CR>", { desc = "Next tab", silent = true })
 vim.keymap.set("n", "[t", ":tabprevious<CR>", { desc = "Previous tab", silent = true })
+
 vim.keymap.set("n", "[d", function()
 	vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", function()
 	vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
+
 vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic [m]essage" })
+
 vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle [a]erial" })
 vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>", { desc = "Toggle treesitter [c]ontext" })
 vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle [I]ndent line" })
