@@ -1695,7 +1695,7 @@ require("lazy").setup({
 vim.cmd.colorscheme("catppuccin")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+-- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" }) -- this makes ~ visible, I don't like it
 
 -- Basics
 vim.wo.number = true
@@ -1753,7 +1753,7 @@ vim.o.clipboard = "unnamedplus"
 vim.o.backspace = "indent,eol,start" -- Allow backspace on ident
 vim.o.encoding = "UTF-8"
 vim.o.errorbells = false
-vim.o.autochdir = true
+vim.o.autochdir = false -- While nice for :e ... commands, explorer also changes chdir, bummer...
 
 -- Keybindings
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>")
