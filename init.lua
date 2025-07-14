@@ -1608,7 +1608,7 @@ require("lazy").setup({
 				untracked = { text = "┆" },
 			},
 
-			signs_staged_enabled = true,
+			signs_staged_enable = true,
 
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
