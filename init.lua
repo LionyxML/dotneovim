@@ -1589,25 +1589,26 @@ require("lazy").setup({
 	-- }}},
 	-- {{{ Gitsigns                        VC - Adds git gutter / hunk blame&diff
 	{
-		-- Adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
 		opts = {
-			-- See `:help gitsigns.txt`
-			-- signs = {
-			-- add = { text = '+' },
-			-- change = { text = '~' },
-			-- delete = { text = '_' },
-			-- topdelete = { text = '‾' },
-			-- changedelete = { text = '~' },
-			-- },
 			signs = {
-				add = { text = "│" },
-				change = { text = "│" },
-				delete = { text = "│" },
-				topdelete = { text = "│" },
-				changedelete = { text = "│" },
+				add = { text = "┃" },
+				change = { text = "┃" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
 				untracked = { text = "┆" },
 			},
+			signs_staged = {
+				add = { text = "┃" },
+				change = { text = "┃" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+				untracked = { text = "┆" },
+			},
+
+			signs_staged_enabled = true,
 
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
@@ -1621,42 +1622,19 @@ require("lazy").setup({
 				-- Navigation
 				map("n", "]c", function()
 					if vim.wo.diff then
-						return "]c"
+						vim.cmd.normal({ "]c", bang = true })
+					else
+						gs.nav_hunk("next")
 					end
-					vim.schedule(function()
-						gs.next_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true })
+				end)
 
 				map("n", "[c", function()
 					if vim.wo.diff then
-						return "[c"
+						vim.cmd.normal({ "[c", bang = true })
+					else
+						gs.nav_hunk("prev")
 					end
-					vim.schedule(function()
-						gs.prev_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true })
-
-				vim.keymap.set({ "n", "v" }, "]c", function()
-					if vim.wo.diff then
-						return "]c"
-					end
-					vim.schedule(function()
-						gs.next_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
-				vim.keymap.set({ "n", "v" }, "[c", function()
-					if vim.wo.diff then
-						return "[c"
-					end
-					vim.schedule(function()
-						gs.prev_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
+				end)
 
 				-- Actions
 				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Hunk [s]tage" })
