@@ -1369,48 +1369,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Bufferline                      UI - The cool tabs stylyst
-	{
-		"akinsho/bufferline.nvim",
-		version = "*",
-		config = function()
-			vim.o.mousemoveevent = true
-
-			require("bufferline").setup({
-				options = {
-					mode = "tabs", --                       :tabs! not buffers
-					buffer_close_icon = "",
-					show_close_icon = false, --             X on the most right
-					show_buffer_close_icons = false, --     X on tab
-					show_duplicate_prefix = false, --       on :tabs it is expected to have duplicates
-					custom_filter = function(buf)
-						return vim.bo[buf].filetype ~= "qf"
-					end,
-					diagnostics = false,
-					right_mouse_command = nil,
-					indicator_icon = "",
-					separator_style = "thin", -- "slant" | "slope" | "thick" | "thin" | { " ", " "}
-					max_name_length = 10,
-					tab_size = 5,
-					numbers = function(opts)
-						return string.format("  %s", opts.ordinal)
-					end,
-					name_formatter = function()
-						return ""
-					end,
-
-					modified_icon = " ●",
-					offsets = {
-						{
-							filetype = "snacks_layout_box",
-						},
-					},
-				},
-				highlights = require("catppuccin.groups.integrations.bufferline").get({}),
-			})
-		end,
-	},
-	-- }}}
 	-- {{{ Catppuccin                      UI - The Only and One Theme :)
 	{
 		-- Catppuccin Theme
@@ -1762,9 +1720,6 @@ vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer", silent = tru
 vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix item", silent = true })
 vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix item", silent = true })
 
-vim.keymap.set("n", "]t", ":tabnext<CR>", { desc = "Next tab", silent = true })
-vim.keymap.set("n", "[t", ":tabprevious<CR>", { desc = "Previous tab", silent = true })
-
 vim.keymap.set("n", "[d", function()
 	vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Go to previous diagnostic message" })
@@ -1786,14 +1741,6 @@ end, { desc = "Toggle [i]nline diagnostics" })
 vim.keymap.set("n", "<leader>td", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle [d]iagnostics" })
-
-vim.keymap.set("n", "<leader>tt", function()
-	if vim.o.showtabline == 2 then
-		vim.o.showtabline = 0
-	else
-		vim.o.showtabline = 2
-	end
-end, { desc = "Toggle [t]abs" })
 
 vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer", silent = true })
 vim.keymap.set("n", "<leader>bX", ":bufdo bd<CR>", { desc = "Close all buffers", silent = true })
@@ -1826,6 +1773,54 @@ vim.diagnostic.config({
 		},
 	},
 })
+
+-- CUSTOM TABLINE --
+vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "Toggle [t]abs" })
+
+vim.keymap.set("n", "<leader>tt", function()
+	if vim.o.showtabline == 2 then
+		vim.o.showtabline = 0
+	else
+		vim.o.showtabline = 2
+	end
+end, { desc = "Toggle [t]abs" })
+
+vim.keymap.set("n", "]t", ":tabnext<CR>", { desc = "Next tab", silent = true })
+vim.keymap.set("n", "[t", ":tabprevious<CR>", { desc = "Previous tab", silent = true })
+
+vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE", fg = "#666666" }) -- fallback for non-pill content
+vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" }) --             background of unused space
+
+vim.api.nvim_set_hl(0, "TabLinePillActiveLeft", { fg = "#8aadf4", bg = "#1e1e2e" })
+vim.api.nvim_set_hl(0, "TabLinePillActiveText", { fg = "#1e1e2e", bg = "#8aadf4", bold = true })
+vim.api.nvim_set_hl(0, "TabLinePillActiveRight", { fg = "#8aadf4", bg = "#1e1e2e" })
+
+vim.api.nvim_set_hl(0, "TabLinePillInactiveLeft", { fg = "#737994", bg = "#1e1e2e" })
+vim.api.nvim_set_hl(0, "TabLinePillInactiveText", { fg = "#1e1e2e", bg = "#737994" })
+vim.api.nvim_set_hl(0, "TabLinePillInactiveRight", { fg = "#737994", bg = "#1e1e2e" })
+
+vim.o.tabline = "%!v:lua.PillTabline()"
+
+function _G.PillTabline()
+	local s = ""
+	local tabs = vim.api.nvim_list_tabpages()
+	local current = vim.api.nvim_get_current_tabpage()
+
+	for i, tab in ipairs(tabs) do
+		local is_active = (tab == current)
+
+		local hl_left = is_active and "%#TabLinePillActiveLeft#" or "%#TabLinePillInactiveLeft#"
+		local hl_text = is_active and "%#TabLinePillActiveText#" or "%#TabLinePillInactiveText#"
+		local hl_right = is_active and "%#TabLinePillActiveRight#" or "%#TabLinePillInactiveRight#"
+
+		s = s .. hl_left .. ""
+		s = s .. hl_text .. " " .. i .. " "
+		s = s .. hl_right .. ""
+		s = s .. "%#TabLine# " -- reset highlight after each tab
+	end
+
+	return s
+end
 
 --- }}}
 -- vim: ts=2 sts=2 sw=2 et fileencoding=utf-8:foldmethod=marker
