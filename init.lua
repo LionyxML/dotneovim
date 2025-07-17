@@ -852,6 +852,21 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
+	-- {{{ Avante.nvim                     EDIT - Cursor like alternative
+	{
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		version = false,
+		opts = {
+			provider = "gemini", -- key on environment variable via  GEMINI_API_KEY
+		},
+		build = "make BUILD_FROM_SOURCE=true", -- to reinstall delete the ~/.local/share/nvim...
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+		},
+	},
+	-- }}}
 	-- {{{ Oil-Nvim                        FILE - Dired for neovim
 	{
 		"stevearc/oil.nvim",
