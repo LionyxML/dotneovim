@@ -1,8 +1,8 @@
 {
   "LuaSnip": { "branch": "master", "commit": "831a130291eb6dae0dabd2748d0a99401a2eebc4" },
   "aerial.nvim": { "branch": "master", "commit": "5c0df1679bf7c814c924dc6646cc5291daca8363" },
-  "auto-session": { "branch": "main", "commit": "3bfe590819b8316304a825145554584120a5c04a" },
-  "avante.nvim": { "branch": "main", "commit": "9ccf721435215e240c80b9b52d3723014600587f" },
+  "auto-session": { "branch": "main", "commit": "ee320d7a59c1dfe83df7c9d58150d9f194690d53" },
+  "avante.nvim": { "branch": "main", "commit": "3fcfa6ec05f137fdc66c8588f1d36b4077baae7b" },
   "catppuccin": { "branch": "main", "commit": "fa42eb5e26819ef58884257d5ae95dd0552b9a66" },
   "ccc.nvim": { "branch": "main", "commit": "9d1a256e006decc574789dfc7d628ca11644d4c2" },
   "cloak.nvim": { "branch": "main", "commit": "648aca6d33ec011dc3166e7af3b38820d01a71e4" },
