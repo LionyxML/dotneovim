@@ -1837,5 +1837,143 @@ function _G.PillTabline()
 	return s
 end
 
+local function get_recipient_from_file(filepath)
+	local handle = io.popen("gpg --list-packets " .. vim.fn.shellescape(filepath) .. " 2>&1")
+	if not handle then
+		return nil
+	end
+	local result = handle:read("*a")
+	handle:close()
+	local key_id = result:match("keyid (%S+)")
+	return key_id
+end
+
+local gpgGroup = vim.api.nvim_create_augroup("customGpg", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufReadPre", "FileReadPre" }, {
+	pattern = "*.gpg",
+	group = gpgGroup,
+	callback = function()
+		-- Make sure nothing is written to shada file while editing an encrypted file.
+		vim.opt_local.shada = nil
+		-- We don't want a swap file, as it writes unencrypted data to disk
+		vim.opt_local.swapfile = false
+		-- Switch to binary mode to read the encrypted file
+		vim.opt_local.bin = true
+
+		-- Save the current 'ch' value to a buffer-local variable
+		vim.b.ch_save = vim.o.ch
+		vim.o.ch = 2
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "FileReadPost" }, {
+	pattern = "*.gpg",
+	group = gpgGroup,
+	callback = function()
+		-- Only decrypt if the file exists on disk. New files won't be decrypted.
+		if vim.fn.filereadable(vim.fn.expand("%")) == 1 then
+			vim.b.gpg_recipient = get_recipient_from_file(vim.fn.expand("%"))
+			vim.cmd("silent! '%!gpg --decrypt --quiet --yes --no-use-agent'")
+		end
+
+		-- Switch to normal mode for editing
+		vim.opt_local.bin = false
+
+		-- Restore the 'ch' value from the buffer-local variable
+		if vim.b.ch_save then
+			vim.o.ch = vim.b.ch_save
+			vim.b.ch_save = nil
+		end
+		vim.api.nvim_exec_autocmds("BufReadPost", { pattern = vim.fn.expand("%:r") })
+	end,
+})
+
+local function get_gpg_keys()
+	local handle = io.popen("gpg --list-secret-keys --with-colons")
+	if not handle then
+		return {}
+	end
+	local result = handle:read("*a")
+	handle:close()
+
+	local keys = {}
+	local current_key_id = nil
+
+	for line in result:gmatch("([^\n]+)") do
+		local fields = {}
+		for field in line:gmatch("([^:]+)") do
+			table.insert(fields, field)
+		end
+
+		if fields[1] == "sec" then
+			current_key_id = fields[5]
+		elseif fields[1] == "uid" and current_key_id and fields[10] then
+			table.insert(keys, { key_id = current_key_id, user_id = fields[10] })
+		end
+	end
+	return keys
+end
+
+local function select_recipient_sync()
+	local keys = get_gpg_keys()
+	if #keys == 0 then
+		vim.notify("No GPG keys found.", vim.log.levels.WARN)
+		return vim.fn.input("Enter GPG recipient: ")
+	end
+
+	local display_options = {}
+	for i, key in ipairs(keys) do
+		table.insert(display_options, string.format("%d. %s (%s)", i, key.user_id, key.key_id))
+	end
+	table.insert(display_options, string.format("%d. Enter recipient manually", #keys + 1))
+
+	vim.api.nvim_echo({ { "Select GPG recipient:" } }, true, {})
+	for _, option in ipairs(display_options) do
+		vim.api.nvim_echo({ { option } }, true, {})
+	end
+
+	local choice_str = vim.fn.input("Enter choice: ")
+	local choice_idx = tonumber(choice_str)
+
+	if choice_idx then
+		if keys[choice_idx] then
+			return keys[choice_idx].key_id
+		elseif choice_idx == #keys + 1 then
+			return vim.fn.input("Enter GPG recipient (e.g., email or key ID): ")
+		end
+	end
+
+	return nil
+end
+
+-- Convert all text to encrypted text before writing
+vim.api.nvim_create_autocmd({ "BufWritePre", "FileWritePre" }, {
+	pattern = "*.gpg",
+	group = gpgGroup,
+	callback = function()
+		if not vim.b.gpg_recipient then
+			vim.b.gpg_recipient = select_recipient_sync()
+		end
+
+		if vim.b.gpg_recipient and vim.b.gpg_recipient ~= "" then
+			local cmd = "'[,']!gpg --quiet --yes --no-use-agent -ae -r " .. vim.b.gpg_recipient
+			vim.cmd(cmd)
+		else
+			vim.notify("GPG encryption cancelled: No recipient selected.", vim.log.levels.WARN)
+			-- Prevent writing the file if no recipient is selected
+			error("GPG encryption cancelled.")
+		end
+	end,
+})
+
+-- Undo the encryption so we are back in the normal text, directly
+-- after the file has been written.
+vim.api.nvim_create_autocmd({ "BufWritePost", "FileWritePost" }, {
+	pattern = "*.gpg",
+	group = gpgGroup,
+	command = "u",
+})
+
 --- }}}
 -- vim: ts=2 sts=2 sw=2 et fileencoding=utf-8:foldmethod=marker
