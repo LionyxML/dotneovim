@@ -1398,6 +1398,10 @@ require("lazy").setup({
 			-- },
 			flavour = "mocha",
 			transparent_background = true,
+			float = {
+				transparent = true,
+				solid = false,
+			},
 			integrations = {
 				aerial = true,
 				alpha = true,
@@ -1436,7 +1440,10 @@ require("lazy").setup({
 				which_key = true,
 				rainbow_delimiters = true,
 				fidget = true,
-				snacks = true,
+				snacks = {
+					enabled = false,
+					indent_scope_color = "",
+				},
 			},
 		},
 	},
