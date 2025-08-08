@@ -1007,6 +1007,7 @@ require("lazy").setup({
 						"html",
 						"prisma",
 						"vue",
+						"xml",
 					},
 
 					auto_install = false,
@@ -1446,6 +1447,44 @@ require("lazy").setup({
 				},
 			},
 		},
+	},
+	-- }}}
+	-- {{{ feed.nvim                       UTIL - A newsreader based on elfeed
+	{
+		"neo451/feed.nvim",
+		cmd = "Feed",
+		---@module 'feed'
+		---@type feed.config
+		opts = function()
+			local config_path = vim.fn.stdpath("config")
+
+			-- NOTE: Create a file in the same folder where your `init.lua`
+			--       named `feed_urls.txt`, add your feed urls there, separated
+			--       one per line, like:
+			--          https://neovim.io/news.xml
+			--          neovim/neovim/releases
+			--       and so on...
+
+			local feed_file = config_path .. "/feed_urls.txt"
+			local feeds = {}
+
+			local file = io.open(feed_file, "r")
+			if file then
+				for line in file:lines() do
+					local url = vim.trim(line)
+					if url ~= "" then
+						table.insert(feeds, url)
+					end
+				end
+				file:close()
+			else
+				vim.notify("feed.nvim: Could not open feed_urls.txt at " .. feed_file, vim.log.levels.WARN)
+			end
+
+			return {
+				feeds = feeds,
+			}
+		end,
 	},
 	-- }}}
 	-- {{{ CURL.nvim                       UTIL - A curl interface
