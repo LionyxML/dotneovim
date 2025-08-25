@@ -1461,8 +1461,8 @@ require("lazy").setup({
 			-- NOTE: Create a file in the same folder where your `init.lua`
 			--       named `feed_urls.txt`, add your feed urls there, separated
 			--       one per line, like:
-			--          https://neovim.io/news.xml
-			--          neovim/neovim/releases
+			--       https://neovim.io/news.xml
+			--       neovim/neovim/releases
 			--       and so on...
 
 			local feed_file = config_path .. "/feed_urls.txt"
