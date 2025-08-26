@@ -1485,6 +1485,18 @@ require("lazy").setup({
 				feeds = feeds,
 			}
 		end,
+		config = function(_, opts)
+			-- patch the backdrop function so it does nothing
+			local ok, FeedWin = pcall(require, "feed.window.ui")
+			if ok and FeedWin then
+				function FeedWin:back()
+					return nil
+				end
+			end
+
+			-- setup feed.nvim normally
+			require("feed").setup(opts)
+		end,
 	},
 	-- }}}
 	-- {{{ CURL.nvim                       UTIL - A curl interface
