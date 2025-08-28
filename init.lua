@@ -784,7 +784,7 @@ require("lazy").setup({
 	-- }}}
 	-- {{{ Mini                            EDIT - The Lua Modules library for Neovim
 	{
-		"echasnovski/mini.nvim",
+		"nvim-mini/mini.nvim",
 		version = false,
 		config = function()
 			-- Better Around/Inside textobjects
@@ -886,7 +886,7 @@ require("lazy").setup({
 				desc = "Oil File Manager",
 			},
 		},
-		dependencies = { { "echasnovski/mini.icons", opts = {} } },
+		dependencies = { { "nvim-mini/mini.icons", opts = {} } },
 		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
 		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
 		lazy = false,
