@@ -1334,6 +1334,8 @@ require("lazy").setup({
 			wk.add({
 				{ "<leader>0", group = "[0]x0 uploader" },
 				{ "<leader>0_", hidden = true },
+				{ "<leader>a", group = "[a]i" },
+				{ "<leader>a_", hidden = true },
 				{ "<leader>c", group = "[c]ode / [c]olor" },
 				{ "<leader>c_", hidden = true },
 				{ "<leader>d", group = "[d]ocument / [d]AP" },
