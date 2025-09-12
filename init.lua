@@ -1851,6 +1851,7 @@ vim.diagnostic.config({
 
 -- CUSTOM TABLINE --
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "Toggle [t]abs" })
+vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "[T]ab E[x]terminate" })
 
 vim.keymap.set("n", "<leader>tt", function()
 	if vim.o.showtabline == 2 then
