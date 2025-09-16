@@ -1,7 +1,7 @@
 {
   "LuaSnip": { "branch": "master", "commit": "b3104910bb5ebf40492aadffae18f2528fa757d9" },
   "aerial.nvim": { "branch": "master", "commit": "c7cbbad40c2065fccfd1f1863bb2c08180c0533d" },
-  "auto-session": { "branch": "main", "commit": "5a269bb5bec50b8b60564aa00f6454d9e82fbe8d" },
+  "auto-session": { "branch": "main", "commit": "f9b6562febb44b61cc04dc857f843941033f30a4" },
   "avante.nvim": { "branch": "main", "commit": "ab6fb1c5b85cb79d8a25d80859a45e8a2ad3b711" },
   "catppuccin": { "branch": "main", "commit": "30fa4d122d9b22ad8b2e0ab1b533c8c26c4dde86" },
   "ccc.nvim": { "branch": "main", "commit": "9d1a256e006decc574789dfc7d628ca11644d4c2" },
@@ -44,7 +44,7 @@
   "orgmode": { "branch": "master", "commit": "ad5d652d2bb82ee2d609d4a6ee8fc2114cdcb8fd" },
   "plenary.nvim": { "branch": "master", "commit": "b9fd5226c2f76c951fc8ed5923d85e4de065e509" },
   "rainbow-delimiters.nvim": { "branch": "master", "commit": "687ef75fdbd497eabc9eea92b52e7b4d403b3319" },
-  "snacks.nvim": { "branch": "main", "commit": "da230e3ca8146da4b73752daaf0a1d07d343c12d" },
+  "snacks.nvim": { "branch": "main", "commit": "a0d6eba1a22719ffaed9b1ac2cf79e33b1c64e4c" },
   "sqlite.lua": { "branch": "master", "commit": "50092d60feb242602d7578398c6eb53b4a8ffe7b" },
   "todo-comments.nvim": { "branch": "main", "commit": "304a8d204ee787d2544d8bc23cd38d2f929e7cc5" },
   "trouble.nvim": { "branch": "main", "commit": "3fb3bd737be8866e5f3a170abc70b4da8b5dd45a" },
