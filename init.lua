@@ -816,7 +816,7 @@ require("lazy").setup({
 		},
 		keys = {
 			{
-				"<leader>p",
+				"<leader>P",
 				"<cmd>YankyRingHistory<cr>",
 				desc = "Open Yank History",
 			},
@@ -1775,6 +1775,14 @@ vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" }
 
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { silent = true })
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { silent = true })
+
+vim.keymap.set(
+	"x",
+	"<leader>p",
+	'"_dP',
+	{ noremap = true, silent = true },
+	{ desc = "Paste without loosing yanked data" }
+)
 
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
