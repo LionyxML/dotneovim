@@ -474,6 +474,7 @@ require("lazy").setup({
 				rust_analyzer = {},
 				rubocop = {},
 				ruby_lsp = {},
+				jsonls = {},
 				cssls = {},
 				biome = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				ts_ls = {
