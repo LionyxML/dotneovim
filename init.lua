@@ -49,18 +49,27 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-
 vim.o.termguicolors = true
-
--- FIXME: still not working with trouble.nvim and snacks.nvim
 vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
 
-_G.my_diagnostic_symbols = {
-	error = "󰅚 ",
-	warn = "󰀪 ",
-	hint = " ",
-	info = " ",
-}
+_G.use_icons = true
+
+_G.my_diagnostic_symbols = _G.use_icons
+		and {
+			error = "󰅚 ",
+			warn = "󰀪 ",
+			hint = " ",
+			info = " ",
+		}
+	or {
+		error = "E",
+		warn = "W",
+		hint = "H",
+		info = "I",
+	}
+
+-- Global helper functions
+local unpack = table.unpack or unpack
 
 -- }}}
 -- {{{ Lazy Package Manager --- Bootloader & Plugins
@@ -109,6 +118,22 @@ require("lazy").setup({
 			input = { enabled = true },
 			picker = {
 				enabled = true,
+				icons = {
+					files = {
+						enabled = _G.use_icons,
+					},
+					tree = {
+						vertical = "  ",
+						middle = "  ",
+						last = "  ",
+					},
+					diagnostics = {
+						Error = _G.my_diagnostic_symbols.error,
+						Warn = _G.my_diagnostic_symbols.warn,
+						Hint = _G.my_diagnostic_symbols.hint,
+						Info = _G.my_diagnostic_symbols.info,
+					},
+				},
 				sources = {
 					explorer = {
 						enabled = true,
@@ -873,11 +898,12 @@ require("lazy").setup({
 	{
 		"stevearc/oil.nvim",
 		opts = {
+			default_file_explorer = true,
 			columns = {
 				"permissions",
 				"size",
 				"mtime",
-				"icon",
+				unpack(_G.use_icons and { "icon" } or {}),
 			},
 			delete_to_trash = true,
 		},
@@ -1120,7 +1146,9 @@ require("lazy").setup({
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {},
+		opts = {
+			signs = _G.use_icons,
+		},
 	},
 	-- }}}
 	-- {{{ CCC                             TXT - Colorize color codes / Color picker
@@ -1709,6 +1737,14 @@ vim.cmd.colorscheme("catppuccin")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 -- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" }) -- this makes ~ visible, I don't like it
+
+-- New Extui for :messages :reg :marks
+local ok, extui = pcall(require, "vim._extui")
+if ok then
+	extui.enable({
+		enable = true,
+	})
+end
 
 -- Basics
 vim.wo.number = true
