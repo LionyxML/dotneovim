@@ -50,7 +50,7 @@ vim.g.maplocalleader = " "
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.o.termguicolors = true
-vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
+vim.o.winborder = "single" -- can be: single, double, rounded, solid, shadow
 
 _G.use_icons = true
 
