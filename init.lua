@@ -1572,33 +1572,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Auto-Session                    UTIL - Automatically restores saved sessions
-	{
-		"rmagatti/auto-session",
-		config = function()
-			vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
-			local auto_session = require("auto-session")
-
-			auto_session.setup({
-				auto_session_enabled = true,
-				auto_restore_enabled = true,
-				auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
-				silent_restore = false,
-			})
-
-			local keymap = vim.keymap
-
-			keymap.set("n", "<leader>Wr", "<cmd>SessionRestore<CR>", { desc = "Workspace [r]estore session for cwd" }) -- restore last workspace session for current directory
-			keymap.set(
-				"n",
-				"<leader>Ws",
-				"<cmd>SessionSave<CR>",
-				{ desc = "Workspace [s]ave session for auto session root dir" }
-			) -- save workspace session for current working directory
-		end,
-	},
-	-- }}}
 	-- {{{ Nvim-0x0                        UTIL - Paste text / files to 0x0.st
 	{
 		"LionyxML/nvim-0x0",
