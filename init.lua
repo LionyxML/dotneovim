@@ -779,7 +779,7 @@ require("lazy").setup({
 					async = false,
 					timeout_ms = 5000,
 				})
-			end, { desc = "[p]rettier" })
+			end, { desc = "[p]rettify" })
 
 			vim.api.nvim_create_user_command("FormatDisable", function(args)
 				if args.bang then
