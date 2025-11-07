@@ -179,11 +179,6 @@ require("lazy").setup({
 				end
 				return original_icon(name, cat, opts_local)
 			end
-
-			vim.api.nvim_create_user_command("SnacksToggleIcons", function()
-				show_icons = not show_icons
-				print("Snacks icons " .. (show_icons and "enabled" or "disabled"))
-			end, {})
 		end,
 		keys = {
 			{
@@ -1364,6 +1359,16 @@ require("lazy").setup({
 		event = "VeryLazy",
 		config = function()
 			local wk = require("which-key")
+
+			local icons_mod = require("which-key.icons")
+			local original_get = icons_mod.get
+
+			icons_mod.get = function(opts)
+				if not _G.use_icons then
+					return " ", nil
+				end
+				return original_get(opts)
+			end
 
 			wk.add({
 				{ "<leader>0", group = "[0]x0 uploader" },
