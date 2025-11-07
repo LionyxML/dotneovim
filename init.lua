@@ -166,6 +166,25 @@ require("lazy").setup({
 				},
 			},
 		},
+		config = function(_, opts)
+			require("snacks").setup(opts)
+
+			local show_icons = _G.use_icons
+			local util = require("snacks.util")
+			local original_icon = util.icon
+
+			util.icon = function(name, cat, opts_local)
+				if not show_icons then
+					return " "
+				end
+				return original_icon(name, cat, opts_local)
+			end
+
+			vim.api.nvim_create_user_command("SnacksToggleIcons", function()
+				show_icons = not show_icons
+				print("Snacks icons " .. (show_icons and "enabled" or "disabled"))
+			end, {})
+		end,
 		keys = {
 			{
 				"<leader>sf",
