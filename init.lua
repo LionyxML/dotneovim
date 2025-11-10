@@ -1490,14 +1490,20 @@ require("lazy").setup({
 		},
 	},
 	-- }}}
-	-- {{{ CURL.nvim                       UTIL - A curl interface
+	-- {{{ Kulala                          UTIL - A curl interface
 	{
-		"oysandvik94/curl.nvim",
-		cmd = { "CurlOpen" },
-		dependencies = {
-			"nvim-lua/plenary.nvim",
+		"mistweaverco/kulala.nvim",
+		keys = {
+			{ "<leader>Ss", desc = "Send request" },
+			{ "<leader>Sa", desc = "Send all requests" },
+			{ "<leader>Sb", desc = "Open scratchpad" },
 		},
-		config = true,
+		ft = { "http", "rest" },
+		opts = {
+			global_keymaps = true,
+			global_keymaps_prefix = "<leader>S",
+			kulala_keymaps_prefix = "",
+		},
 	},
 	-- }}}
 	-- {{{ Nvim-Tmux-Navigator             UTIL - Integration with tmux
@@ -1800,7 +1806,7 @@ vim.keymap.set("n", "<leader>bX", ":bufdo bd<CR>", { desc = "Close all buffers",
 
 vim.keymap.set({ "n", "v" }, "<leader>L", ":Lazy<CR>", { desc = "[L]azy", silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>M", ":Mason<CR>", { desc = "[M]ason", silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>C", ":CurlOpen<CR>", { desc = "[C]url", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>S", ":Mason<CR>", { desc = "[S]end Requests", silent = true })
 
 vim.keymap.set({ "n", "v" }, "<leader>w", ":w<CR>", { desc = "[w]rite", silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>q", ":q<CR>", { desc = "[q]quit", silent = true })
