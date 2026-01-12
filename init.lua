@@ -843,6 +843,23 @@ require("lazy").setup({
 			-- - sd'   - [S]urround [D]elete [']quotes
 			-- - sr)'  - [S]urround [R]eplace [)] [']
 			require("mini.surround").setup()
+
+			-- Diff (c)hunk naviation and git gutter
+			require("mini.diff").setup({
+				view = {
+					signs = { add = "┃", change = "┃", delete = "-" },
+				},
+
+				mappings = {
+					apply = "hs",
+					reset = "hr",
+					textobject = "gh",
+					goto_first = "[C",
+					goto_prev = "[c",
+					goto_next = "]c",
+					goto_last = "]C",
+				},
+			})
 		end,
 	},
 	-- }}}
@@ -1588,75 +1605,6 @@ require("lazy").setup({
 		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
 	},
 	-- }}},
-	-- {{{ Gitsigns                        VC - Adds git gutter / hunk blame&diff
-	{
-		"lewis6991/gitsigns.nvim",
-		opts = {
-			signs = {
-				add = { text = "┃" },
-				change = { text = "┃" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				changedelete = { text = "~" },
-				untracked = { text = "┆" },
-			},
-			signs_staged = {
-				add = { text = "┃" },
-				change = { text = "┃" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				changedelete = { text = "~" },
-				untracked = { text = "┆" },
-			},
-
-			signs_staged_enable = true,
-
-			on_attach = function(bufnr)
-				local gs = package.loaded.gitsigns
-
-				local function map(mode, l, r, opts)
-					opts = opts or {}
-					opts.buffer = bufnr
-					vim.keymap.set(mode, l, r, opts)
-				end
-
-				-- Navigation
-				map("n", "]c", function()
-					if vim.wo.diff then
-						vim.cmd.normal({ "]c", bang = true })
-					else
-						gs.nav_hunk("next")
-					end
-				end)
-
-				map("n", "[c", function()
-					if vim.wo.diff then
-						vim.cmd.normal({ "[c", bang = true })
-					else
-						gs.nav_hunk("prev")
-					end
-				end)
-
-				-- Actions
-				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Hunk [s]tage" })
-				map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "Hunk [r]eset" })
-				map("n", "<leader>hS", gs.stage_buffer, { desc = "[S]tage buffer" })
-				map("n", "<leader>ha", gs.stage_hunk, { desc = "Stage [a] hunk" })
-				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "[u]ndo stage hunk" })
-				map("n", "<leader>hR", gs.reset_buffer, { desc = "[R]eset Buffer" })
-				map("n", "<leader>hp", gs.preview_hunk, { desc = "[p]review hunk" })
-				map("n", "<leader>hb", function()
-					gs.blame_line({ full = true })
-				end, { desc = "[b]lame Line" })
-				map("n", "<leader>tB", gs.toggle_current_line_blame, { desc = "Toggle [B]lame line" })
-				map("n", "<leader>hd", gs.diffthis, { desc = "Hunk [d]iff this" })
-				map("n", "<leader>hD", function()
-					gs.diffthis("~")
-				end, { desc = "Hunk [D]iff this" })
-			end,
-		},
-	},
-	-- }}}
 }, {
 	-- {{{ Lazy Package Manager UI
 	ui = {
@@ -1722,7 +1670,7 @@ vim.wo.signcolumn = "yes"
 vim.o.completeopt = "menuone,noinsert,noselect"
 vim.o.showmatch = true
 vim.o.wrap = false
--- vim.o.laststatus = 3
+vim.o.laststatus = 3
 vim.opt.spelllang = { "en", "pt_br" }
 vim.o.spell = false
 vim.opt.fillchars:append({ fold = " " })
