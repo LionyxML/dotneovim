@@ -515,6 +515,7 @@ require("lazy").setup({
 				ruby_lsp = {},
 				jsonls = {},
 				cssls = {},
+				somesass_ls = { "scss", "sass" },
 				biome = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				ts_ls = {
 					filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
