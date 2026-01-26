@@ -49,13 +49,11 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.o.termguicolors = true
 vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
-
+vim.o.termguicolors = true
 local use_nerd_icons = true
 local use_special_chars = true
-
-_G.my_diagnostic_symbols = use_nerd_icons
+local custom_diagnostic_symbols = use_nerd_icons
 		and {
 			error = "󰅚 ",
 			warn = "󰀪 ",
@@ -131,10 +129,10 @@ require("lazy").setup({
 						last = "  ",
 					},
 					diagnostics = {
-						Error = _G.my_diagnostic_symbols.error,
-						Warn = _G.my_diagnostic_symbols.warn,
-						Hint = _G.my_diagnostic_symbols.hint,
-						Info = _G.my_diagnostic_symbols.info,
+						Error = custom_diagnostic_symbols.error,
+						Warn = custom_diagnostic_symbols.warn,
+						Hint = custom_diagnostic_symbols.hint,
+						Info = custom_diagnostic_symbols.info,
 					},
 				},
 				sources = {
@@ -1242,10 +1240,10 @@ require("lazy").setup({
 					{
 						"diagnostics",
 						symbols = {
-							hint = _G.my_diagnostic_symbols.hint,
-							info = _G.my_diagnostic_symbols.info,
-							warn = _G.my_diagnostic_symbols.warn,
-							error = _G.my_diagnostic_symbols.error,
+							hint = custom_diagnostic_symbols.hint,
+							info = custom_diagnostic_symbols.info,
+							warn = custom_diagnostic_symbols.warn,
+							error = custom_diagnostic_symbols.error,
 						},
 					},
 				},
@@ -1797,10 +1795,10 @@ vim.diagnostic.config({
 	float = { border = vim.o.winborder },
 	signs = {
 		text = {
-			[vim.diagnostic.severity.ERROR] = _G.my_diagnostic_symbols.error,
-			[vim.diagnostic.severity.WARN] = _G.my_diagnostic_symbols.warn,
-			[vim.diagnostic.severity.HINT] = _G.my_diagnostic_symbols.hint,
-			[vim.diagnostic.severity.INFO] = _G.my_diagnostic_symbols.info,
+			[vim.diagnostic.severity.ERROR] = custom_diagnostic_symbols.error,
+			[vim.diagnostic.severity.WARN] = custom_diagnostic_symbols.warn,
+			[vim.diagnostic.severity.HINT] = custom_diagnostic_symbols.hint,
+			[vim.diagnostic.severity.INFO] = custom_diagnostic_symbols.info,
 		},
 	},
 })
