@@ -52,9 +52,10 @@ vim.g.loaded_netrwPlugin = 1
 vim.o.termguicolors = true
 vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
 
-_G.use_icons = true
+local use_nerd_icons = true
+local use_special_chars = true
 
-_G.my_diagnostic_symbols = _G.use_icons
+_G.my_diagnostic_symbols = use_nerd_icons
 		and {
 			error = "󰅚 ",
 			warn = "󰀪 ",
@@ -99,7 +100,8 @@ require("lazy").setup({
 			dashboard = {
 				enabled = true,
 				preset = {
-					header = [[
+					header = use_special_chars
+							and [[
                                                                     
        ████ ██████           █████      ██                    
       ███████████             █████                            
@@ -107,7 +109,8 @@ require("lazy").setup({
      █████████  ███    █████████████ █████ ██████████████  
     █████████ ██████████ █████████ █████ █████ ████ █████  
   ███████████ ███    ███ █████████ █████ █████ ████ █████ 
- ██████  █████████████████████ ████ █████ █████ ████ ██████]],
+ ██████  █████████████████████ ████ █████ █████ ████ ██████]]
+						or [[ NEOVIM ]],
 				},
 				sections = {
 					{ section = "header" },
@@ -120,7 +123,7 @@ require("lazy").setup({
 				enabled = true,
 				icons = {
 					files = {
-						enabled = _G.use_icons,
+						enabled = use_nerd_icons,
 					},
 					tree = {
 						vertical = "  ",
@@ -169,7 +172,7 @@ require("lazy").setup({
 		config = function(_, opts)
 			require("snacks").setup(opts)
 
-			local show_icons = _G.use_icons
+			local show_icons = use_nerd_icons
 			local util = require("snacks.util")
 			local original_icon = util.icon
 
@@ -846,9 +849,14 @@ require("lazy").setup({
 			require("mini.surround").setup()
 
 			-- Diff (c)hunk naviation and git gutter
+
 			require("mini.diff").setup({
 				view = {
-					signs = { add = "┃", change = "┃", delete = "-" },
+					signs = {
+						add = use_special_chars and "┃" or "+",
+						change = use_special_chars and "┃" or "~",
+						delete = "-",
+					},
 				},
 
 				mappings = {
@@ -920,7 +928,7 @@ require("lazy").setup({
 				"permissions",
 				"size",
 				"mtime",
-				unpack(_G.use_icons and { "icon" } or {}),
+				unpack(use_nerd_icons and { "icon" } or {}),
 			},
 			delete_to_trash = true,
 		},
@@ -1164,7 +1172,7 @@ require("lazy").setup({
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {
-			signs = _G.use_icons,
+			signs = use_nerd_icons,
 		},
 	},
 	-- }}}
@@ -1202,24 +1210,29 @@ require("lazy").setup({
 	-- {{{ Lualine                         UI - The cool statusline
 	{
 		"nvim-lualine/lualine.nvim",
-		-- See `:help lualine.txt`
 		opts = {
 			options = {
-				disabled_filetypes = {
-					"NvimTree",
-				},
-				icons_enabled = true,
+				disabled_filetypes = { "NvimTree" },
+				icons_enabled = use_special_chars ~= false,
 				component_separators = "",
-				-- component_separators = { left = '', right = '' },
-				section_separators = { left = "", right = "" },
-				-- section_separators = { right = "" },
+				section_separators = (use_special_chars ~= false) and { left = "", right = "" }
+					or { left = "", right = "" },
 			},
+
 			sections = {
-				lualine_a = { { "mode", separator = { left = "" } } },
+				lualine_a = {
+					{
+						"mode",
+						separator = {
+							left = (use_special_chars ~= false) and "" or "",
+						},
+					},
+				},
+
 				lualine_b = {
 					{
 						"branch",
-						icon = "󰘬",
+						icon = (use_special_chars ~= false) and "󰘬" or "git",
 						fmt = function(branch)
 							local limit = 22
 							return branch:sub(1, limit) .. (branch:len() > limit and "…" or "")
@@ -1236,20 +1249,30 @@ require("lazy").setup({
 						},
 					},
 				},
+
 				lualine_c = {
 					{
 						"filename",
 						path = 4,
 						symbols = {
-							modified = " ●",
+							modified = (use_special_chars ~= false) and " ●" or " *",
 							alternate_file = "#",
-							directory = "",
+							directory = (use_special_chars ~= false) and "" or "+",
 						},
 					},
 				},
+
 				lualine_x = { "encoding", "fileformat", "filetype" },
 				lualine_y = { "progress" },
-				lualine_z = { { "location", separator = { right = "" } } },
+
+				lualine_z = {
+					{
+						"location",
+						separator = {
+							right = (use_special_chars ~= false) and "" or "",
+						},
+					},
+				},
 			},
 		},
 	},
@@ -1382,7 +1405,7 @@ require("lazy").setup({
 			local original_get = icons_mod.get
 
 			icons_mod.get = function(opts)
-				if not _G.use_icons then
+				if not use_nerd_icons then
 					return " ", nil
 				end
 				return original_get(opts)
