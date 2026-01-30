@@ -1803,7 +1803,6 @@ vim.diagnostic.config({
 	},
 })
 
--- CUSTOM TABLINE --
 -- }}}
 
 -- {{{ GIT ANNOTATE
@@ -1885,6 +1884,7 @@ vim.keymap.set("v", "<leader>gh", function()
 	vim.api.nvim_win_set_buf(0, buf)
 end, { desc = "Git history for selected region" })
 -- }}}
+-- {{{ CUSTOM TABLINE
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "Toggle [t]abs" })
 vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "[T]ab E[x]terminate" })
 
@@ -1932,7 +1932,8 @@ function _G.PillTabline()
 
 	return s
 end
-
+--- }}}
+--  {{{ GPG
 local function get_recipient_from_file(filepath)
 	local handle = io.popen("gpg --list-packets " .. vim.fn.shellescape(filepath) .. " 2>&1")
 	if not handle then
@@ -2070,6 +2071,6 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "FileWritePost" }, {
 	group = gpgGroup,
 	command = "u",
 })
+---}}}
 
---- }}}
 -- vim: ts=2 sts=2 sw=2 et fileencoding=utf-8:foldmethod=marker
