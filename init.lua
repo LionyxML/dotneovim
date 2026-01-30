@@ -1804,6 +1804,56 @@ vim.diagnostic.config({
 })
 
 -- CUSTOM TABLINE --
+-- }}}
+
+-- {{{ GIT ANNOTATE
+vim.keymap.set("n", "<leader>ga", function()
+	local file = vim.fn.expand("%")
+	if file == "" then
+		vim.notify("No file name for current buffer", vim.log.levels.WARN)
+		return
+	end
+
+	local cursor_line = vim.fn.line(".")
+	local original_win = vim.api.nvim_get_current_win()
+
+	local buf = vim.api.nvim_create_buf(false, true)
+
+	local annotate = vim.fn.systemlist({ "git", "annotate", file })
+	if vim.v.shell_error ~= 0 then
+		vim.notify("git annotate failed or repo not found", vim.log.levels.WARN)
+		return
+	end
+
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, annotate)
+	vim.api.nvim_buf_call(buf, function()
+		vim.cmd([[
+              syntax match GitAnnotateHash /^\x\+/
+              syntax match GitAnnotateAuthor /(\zs[^)]*\d\{4\}-\d\{2\}-\d\{2\}/
+              syntax match GitAnnotateLineNr /\d\+)$/
+
+              highlight default link GitAnnotateHash Identifier
+              highlight default link GitAnnotateAuthor String
+              highlight default link GitAnnotateLineNr LineNr
+          ]])
+	end)
+
+	vim.bo[buf].modifiable = false
+	vim.bo[buf].buflisted = false
+
+	vim.cmd("topleft vsplit")
+	vim.api.nvim_win_set_buf(0, buf)
+
+	-- jump to same line in the annotate buffer
+	local line_count = vim.api.nvim_buf_line_count(buf)
+	local target = math.min(cursor_line, line_count)
+	vim.api.nvim_win_set_cursor(0, { target, 0 })
+
+	-- enable scrollbind on both windows so they stay in sync
+	vim.wo.scrollbind = true
+	vim.api.nvim_win_set_option(original_win, "scrollbind", true)
+	vim.cmd("syncbind")
+end, { desc = "Git annotate current file" })
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "Toggle [t]abs" })
 vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "[T]ab E[x]terminate" })
 
