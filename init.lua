@@ -847,7 +847,6 @@ require("lazy").setup({
 			require("mini.surround").setup()
 
 			-- Diff (c)hunk naviation and git gutter
-
 			require("mini.diff").setup({
 				view = {
 					signs = {
@@ -1627,6 +1626,21 @@ require("lazy").setup({
 		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
 	},
 	-- }}},
+	-- {{{ GitLineage                      VC - History of selected lines
+	--
+	{
+		"git@github.com:lionyxml/gitlineage.nvim",
+		dependencies = {
+			"sindrets/diffview.nvim",
+		},
+		config = function()
+			require("gitlineage").setup({
+				keymap = "<leader>gh",
+				keys = { yank_commit = "y" },
+			})
+		end,
+	},
+	-- }}}
 }, {
 	-- {{{ Lazy Package Manager UI
 	ui = {
@@ -1853,36 +1867,6 @@ vim.keymap.set("n", "<leader>ga", function()
 	vim.api.nvim_win_set_option(original_win, "scrollbind", true)
 	vim.cmd("syncbind")
 end, { desc = "Git annotate current file" })
--- }}}
--- {{{ GIT REGION HISTORY
-vim.keymap.set("v", "<leader>gh", function()
-	local file = vim.fn.expand("%")
-	if file == "" then
-		vim.notify("No file name for current buffer", vim.log.levels.WARN)
-		return
-	end
-
-	local l1 = vim.fn.getpos("v")[2]
-	local l2 = vim.fn.getpos(".")[2]
-	if l1 > l2 then
-		l1, l2 = l2, l1
-	end
-
-	local output = vim.fn.systemlist({ "git", "log", "-L", l1 .. "," .. l2 .. ":" .. file })
-	if vim.v.shell_error ~= 0 then
-		vim.notify("git log -L failed", vim.log.levels.WARN)
-		return
-	end
-
-	local buf = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
-	vim.bo[buf].modifiable = false
-	vim.bo[buf].buflisted = false
-	vim.bo[buf].filetype = "diff"
-
-	vim.cmd("botright split")
-	vim.api.nvim_win_set_buf(0, buf)
-end, { desc = "Git history for selected region" })
 -- }}}
 -- {{{ CUSTOM TABLINE
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "Toggle [t]abs" })
