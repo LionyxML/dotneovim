@@ -1663,8 +1663,29 @@ vim.keymap.set("n", "<leader>td", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle [d]iagnostics" })
 
-vim.keymap.set("n", "<leader>bx", ":bd<CR>", { desc = "Close buffer", silent = true })
-vim.keymap.set("n", "<leader>bX", ":bufdo bd<CR>", { desc = "Close all buffers", silent = true })
+vim.keymap.set("n", "<leader>ls", ":ls<CR>", { desc = "List buffers", silent = true })
+
+vim.keymap.set("n", "<leader>bb", function()
+	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+	local items = {}
+	for _, buf in ipairs(bufs) do
+		local name = buf.name ~= "" and vim.fn.fnamemodify(buf.name, ":~:.") or "[No Name]"
+		table.insert(items, { bufnr = buf.bufnr, name = name })
+	end
+	vim.ui.select(items, {
+		prompt = "Buffer: ",
+		format_item = function(item)
+			return item.name
+		end,
+	}, function(choice)
+		if choice then
+			vim.api.nvim_set_current_buf(choice.bufnr)
+		end
+	end)
+end, { desc = "Buffer picker" })
+
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Close buffer", silent = true })
+vim.keymap.set("n", "<leader>bD", ":bufdo bd<CR>", { desc = "Close all buffers", silent = true })
 
 vim.keymap.set({ "n", "v" }, "<leader>L", ":Lazy<CR>", { desc = "[L]azy", silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>M", ":Mason<CR>", { desc = "[M]ason", silent = true })
