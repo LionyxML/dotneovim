@@ -1507,7 +1507,7 @@ require("lazy").setup({
 	-- {{{ GitLineage                      VC - History of selected lines
 	--
 	{
-		"git@github.com:lionyxml/gitlineage.nvim",
+		"lionyxml/gitlineage.nvim",
 		dependencies = {
 			"sindrets/diffview.nvim",
 		},
