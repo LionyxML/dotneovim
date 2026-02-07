@@ -211,13 +211,6 @@ require("lazy").setup({
 				desc = "Command History",
 			},
 			{
-				"<leader>nn",
-				function()
-					Snacks.picker.notifications()
-				end,
-				desc = "Notification History",
-			},
-			{
 				"<leader>ee",
 				function()
 					Snacks.explorer()
@@ -422,13 +415,6 @@ require("lazy").setup({
 					Snacks.lazygit()
 				end,
 				desc = "Lazygit",
-			},
-			{
-				"<leader>nh",
-				function()
-					Snacks.notifier.hide()
-				end,
-				desc = "Dismiss All Notifications",
 			},
 		},
 	},
@@ -845,6 +831,15 @@ require("lazy").setup({
 			-- - sd'   - [S]urround [D]elete [']quotes
 			-- - sr)'  - [S]urround [R]eplace [)] [']
 			require("mini.surround").setup()
+
+			-- Nice notifications on top right
+			require("mini.notify").setup()
+
+			vim.keymap.set("n", "<leader>nh", function()
+				require("mini.notify").show_history()
+			end, {
+				desc = "Notification history",
+			})
 
 			-- Diff (c)hunk naviation and git gutter
 			require("mini.diff").setup({
@@ -1271,123 +1266,6 @@ require("lazy").setup({
 					},
 				},
 			},
-		},
-	},
-	-- }}}
-	-- {{{ Noice                           UI - THE Beautiful UI for Neovim
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			views = {
-				cmdline_popup = {
-					border = {
-						style = vim.o.winborder,
-					},
-				},
-				cmdline_popupmenu = {
-					border = {
-						style = vim.o.winborder,
-					},
-				},
-				hover = {
-					border = {
-						style = vim.o.winborder,
-					},
-				},
-				confirm = {
-					border = {
-						style = vim.o.winborder,
-					},
-				},
-				popup = {
-					border = {
-						style = vim.o.winborder,
-					},
-				},
-			},
-			routes = { -- Hides written messages
-				{
-					filter = {
-						event = "msg_show",
-						kind = "",
-						find = "written",
-					},
-					opts = { skip = true },
-				},
-			},
-			lsp = {
-				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-				},
-				hover = {
-					silent = true,
-				},
-			},
-			presets = {
-				bottom_search = false, --        use a classic bottom cmdline for search
-				command_palette = true, --       position the cmdline and popupmenu together
-				long_message_to_split = true, -- long messages will be sent to a split
-				inc_rename = true, --            enables an input dialog for inc-rename.nvim
-				lsp_doc_border = true, --        add a border to hover docs and signature help
-			},
-		},
-		keys = {
-			{
-				"<leader>snl",
-				function()
-					require("noice").cmd("last")
-				end,
-				desc = "Noice Last Message",
-			},
-			{
-				"<leader>snh",
-				function()
-					require("noice").cmd("history")
-				end,
-				desc = "Noice History",
-			},
-			{
-				"<leader>sna",
-				function()
-					require("noice").cmd("all")
-				end,
-				desc = "Noice All",
-			},
-			{
-				"<c-n>",
-				function()
-					if not require("noice.lsp").scroll(4) then
-						return "<c-f>"
-					end
-				end,
-				silent = true,
-				expr = true,
-				desc = "Scroll forward",
-				mode = { "i", "n", "s" },
-			},
-			{
-				"<c-p>",
-				function()
-					if not require("noice.lsp").scroll(-4) then
-						return "<c-b>"
-					end
-				end,
-				silent = true,
-				expr = true,
-				desc = "Scroll backward",
-				mode = { "i", "n", "s" },
-			},
-		},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-			-- "rcarriga/nvim-notify",
 		},
 	},
 	-- }}}
