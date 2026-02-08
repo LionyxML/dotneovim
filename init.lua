@@ -498,7 +498,7 @@ require("lazy").setup({
 				-- htmx = {},
 				bashls = {},
 				rust_analyzer = {},
-				rubocop = {},
+				-- rubocop = {},
 				ruby_lsp = {},
 				jsonls = {},
 				cssls = {},
