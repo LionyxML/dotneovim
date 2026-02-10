@@ -523,6 +523,36 @@ require("lazy").setup({
 				},
 			})
 
+			-- Clues after stop typing
+			require("mini.clue").setup({
+				triggers = {
+					{ mode = "n", keys = "<Leader>" },
+					{ mode = "x", keys = "<Leader>" },
+				},
+
+				clues = {
+					{ mode = "n", keys = "<Leader>0", desc = "[0]x0 uploader" },
+					{ mode = "n", keys = "<Leader>c", desc = "[c]ode / [c]olor" },
+					{ mode = "n", keys = "<Leader>d", desc = "[d]iagnostics" },
+					{ mode = "n", keys = "<Leader>e", desc = "[e]xplorer" },
+					{ mode = "n", keys = "<Leader>g", desc = "[g]it" },
+					{ mode = "n", keys = "<Leader>b", desc = "[b]uffer" },
+					{ mode = "n", keys = "<Leader>h", desc = "[h]unks operations" },
+					{ mode = "n", keys = "<Leader>m", desc = "[m]ake it..." },
+					{ mode = "n", keys = "<Leader>n", desc = "[n]otifications" },
+					{ mode = "n", keys = "<Leader>o", desc = "[o]org mode" },
+					{ mode = "n", keys = "<Leader>r", desc = "[r]ename" },
+					{ mode = "n", keys = "<Leader>s", desc = "[s]earch" },
+					{ mode = "n", keys = "<Leader>t", desc = "[t]oggle" },
+					{ mode = "n", keys = "<Leader>W", desc = "[W]orkspace" },
+					{ mode = "n", keys = "<Leader>x", desc = "[x] is Trouble" },
+
+					-- comandos concretos (equivalente aos desc do which-key)
+					{ mode = "n", keys = "<Leader>tl", desc = "Toggle [l]ine number" },
+					{ mode = "n", keys = "<Leader>tr", desc = "Toggle [r]elative line number" },
+				},
+			})
+
 			-- Diff (c)hunk naviation and git gutter
 			require("mini.diff").setup({
 				view = {
@@ -610,7 +640,7 @@ require("lazy").setup({
 			{
 				"<leader>ed",
 				"<cmd>Oil<CR>",
-				desc = "Oil File Manager",
+				desc = "Oil on [d]ir",
 			},
 		},
 		dependencies = { { "nvim-mini/mini.icons", opts = {} } },
@@ -940,77 +970,6 @@ require("lazy").setup({
 				},
 			},
 		},
-	},
-	-- }}}
-	-- {{{ Which-Key                       UI - The (another Emacs stolen) plugin that shows pending keybindings
-	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		config = function()
-			local wk = require("which-key")
-
-			local icons_mod = require("which-key.icons")
-			local original_get = icons_mod.get
-
-			icons_mod.get = function(opts)
-				if not use_nerd_icons then
-					return " ", nil
-				end
-				return original_get(opts)
-			end
-
-			wk.add({
-				{ "<leader>0", group = "[0]x0 uploader" },
-				{ "<leader>0_", hidden = true },
-				{ "<leader>c", group = "[c]ode / [c]olor" },
-				{ "<leader>c_", hidden = true },
-				{ "<leader>d", group = "[d]iagnostics" },
-				{ "<leader>d_", hidden = true },
-				{ "<leader>e", group = "[e]xplorer" },
-				{ "<leader>e_", hidden = true },
-				{ "<leader>g", group = "[g]it" },
-				{ "<leader>g_", hidden = true },
-				{ "<leader>b", group = "[b]uffer" },
-				{ "<leader>b_", hidden = true },
-				{ "<leader>h", group = "[h]unks operations" },
-				{ "<leader>h_", hidden = true },
-				{ "<leader>m", group = "[m]ake it..." },
-				{ "<leader>m_", hidden = true },
-				{ "<leader>n", group = "[n]otifications" },
-				{ "<leader>n_", hidden = true },
-				{ "<leader>o", group = "[o]org mode" },
-				{ "<leader>o_", hidden = true },
-				{ "<leader>r", group = "[r]ename" },
-				{ "<leader>r_", hidden = true },
-				{ "<leader>s", group = "[s]earch" },
-				{ "<leader>s_", hidden = true },
-				{ "<leader>sn", group = "[n]oice" },
-				{ "<leader>t", group = "[t]oggle" },
-				{ "<leader>t_", hidden = true },
-				{ "<leader>tl", ":set number! norelativenumber<cr>", desc = "Toggle [l]ine number" },
-				{ "<leader>tr", ":set relativenumber!<cr>", desc = "Toggle [r]elative line number" },
-				{ "<leader>W", group = "[W]orkspace" },
-				{ "<leader>W_", hidden = true },
-				{ "<leader>x", group = "[x] is Trouble" },
-				{ "<leader>x_", hidden = true },
-			})
-
-			wk.setup({
-				preset = "helix",
-				win = {
-					border = vim.o.winborder,
-					padding = { 2, 2 },
-					wo = {
-						winblend = 0,
-					},
-				},
-				layout = {
-					height = { min = 4, max = 25 }, -- min and max height of the columns
-					width = { min = 20, max = 50 }, -- min and max width of the columns
-					spacing = 3, -- spacing between columns
-				},
-			})
-		end,
 	},
 	-- }}}
 	-- {{{ Catppuccin                      UI - The Only and One Theme :)
