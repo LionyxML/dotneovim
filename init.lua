@@ -111,13 +111,13 @@ require("lazy").setup({
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("<leader>rn", vim.lsp.buf.rename, "re[n]ame symbol")
+					map("<leader>ln", vim.lsp.buf.rename, "re[n]ame")
 
-					map("<leader>ca", vim.lsp.buf.code_action, "code [a]ction")
+					map("<leader>la", vim.lsp.buf.code_action, "code [a]ction")
 
-					map("<leader>co", function()
+					map("<leader>lo", function()
 						vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-					end, "code [o]rganize imports")
+					end, "[o]rganize imports")
 
 					map("K", vim.lsp.buf.hover, "Hover Documentation")
 
@@ -482,8 +482,8 @@ require("lazy").setup({
 				'<Cmd>Pick grep pattern="<cword>"<CR>',
 				{ desc = "[G]rep current word", silent = true }
 			)
-			vim.keymap.set("n", "<leader>fh", "<Cmd>Pick [h]elp<CR>", { desc = "Help tags", silent = true })
-			vim.keymap.set("n", "<leader>fr", "<Cmd>Pick [r]esume<CR>", { desc = "Resume", silent = true })
+			vim.keymap.set("n", "<leader>fh", "<Cmd>Pick help<CR>", { desc = "Help tags", silent = true })
+			vim.keymap.set("n", "<leader>fr", "<Cmd>Pick resume<CR>", { desc = "Resume", silent = true })
 
 			-- Extra pickers
 			local MiniExtra = require("mini.extra")
@@ -491,9 +491,9 @@ require("lazy").setup({
 
 			vim.keymap.set(
 				"n",
-				"<leader>fR",
+				"<leader>lr",
 				"<Cmd>Pick lsp scope='references'<CR>",
-				{ desc = "References (LSP)", silent = true }
+				{ desc = "LSP: [r]eferences", silent = true }
 			) -- grr still works with quickfix list
 
 			vim.keymap.set(
@@ -502,6 +502,8 @@ require("lazy").setup({
 				"<Cmd>lua MiniExtra.pickers.git_files({ scope = 'modified' })<CR>",
 				{ desc = "[s]tatus picker" }
 			)
+
+			vim.keymap.set("n", "<leader>fr", "<Cmd>Pick registers<CR>", { desc = "Pick [r]egisters" })
 
 			-- Icons
 			require("mini.icons").setup()
@@ -535,19 +537,16 @@ require("lazy").setup({
 					{ mode = "n", keys = "<Leader>c", desc = "[c]ode / [c]olor" },
 					{ mode = "n", keys = "<Leader>d", desc = "[d]iagnostics" },
 					{ mode = "n", keys = "<Leader>e", desc = "[e]xplorer" },
+					{ mode = "n", keys = "<Leader>f", desc = "[f]ind" },
 					{ mode = "n", keys = "<Leader>g", desc = "[g]it" },
 					{ mode = "n", keys = "<Leader>b", desc = "[b]uffer" },
 					{ mode = "n", keys = "<Leader>h", desc = "[h]unks operations" },
+					{ mode = "n", keys = "<Leader>l", desc = "[l]sp" },
 					{ mode = "n", keys = "<Leader>m", desc = "[m]ake it..." },
 					{ mode = "n", keys = "<Leader>n", desc = "[n]otifications" },
 					{ mode = "n", keys = "<Leader>o", desc = "[o]org mode" },
-					{ mode = "n", keys = "<Leader>r", desc = "[r]ename" },
 					{ mode = "n", keys = "<Leader>s", desc = "[s]earch" },
 					{ mode = "n", keys = "<Leader>t", desc = "[t]oggle" },
-					{ mode = "n", keys = "<Leader>W", desc = "[W]orkspace" },
-					{ mode = "n", keys = "<Leader>x", desc = "[x] is Trouble" },
-
-					-- comandos concretos (equivalente aos desc do which-key)
 					{ mode = "n", keys = "<Leader>tl", desc = "Toggle [l]ine number" },
 					{ mode = "n", keys = "<Leader>tr", desc = "Toggle [r]elative line number" },
 				},
@@ -1489,7 +1488,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- }}}
 
--- {{{ GIT ANNOTATE
+-- {{{ MY - GIT ANNOTATE
 vim.keymap.set("n", "<leader>ga", function()
 	local file = vim.fn.expand("%")
 	if file == "" then
@@ -1538,7 +1537,7 @@ vim.keymap.set("n", "<leader>ga", function()
 	vim.cmd("syncbind")
 end, { desc = "Git annotate current file" })
 -- }}}
--- {{{ CUSTOM TABLINE
+-- {{{ MY - TABLINE
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "Toggle [t]abs" })
 vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "[T]ab E[x]terminate" })
 
@@ -1587,7 +1586,7 @@ function _G.PillTabline()
 	return s
 end
 --- }}}
---  {{{ GPG
+-- {{{ MY - GPG
 local function get_recipient_from_file(filepath)
 	local handle = io.popen("gpg --list-packets " .. vim.fn.shellescape(filepath) .. " 2>&1")
 	if not handle then
@@ -1725,6 +1724,6 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "FileWritePost" }, {
 	group = gpgGroup,
 	command = "u",
 })
----}}}
+--}}}
 
 -- vim: ts=2 sts=2 sw=2 et fileencoding=utf-8:foldmethod=marker
