@@ -86,339 +86,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 --- }}}
 require("lazy").setup({
-	-- {{{ SNACKS                          UI & EDIT & TXT - A jack of all trades
-	{
-		"folke/snacks.nvim",
-		priority = 1000,
-		lazy = false,
-		---@diagnostic disable-next-line: undefined-doc-name
-		---@type snacks.Config
-		opts = {
-			bigfile = { enabled = true },
-			dashboard = {
-				enabled = true,
-				preset = {
-					header = use_special_chars
-							and [[
-                                                                    
-       ████ ██████           █████      ██                    
-      ███████████             █████                            
-      █████████ ███████████████████ ███   ███████████  
-     █████████  ███    █████████████ █████ ██████████████  
-    █████████ ██████████ █████████ █████ █████ ████ █████  
-  ███████████ ███    ███ █████████ █████ █████ ████ █████ 
- ██████  █████████████████████ ████ █████ █████ ████ ██████]]
-						or [[ NEOVIM ]],
-				},
-				sections = {
-					{ section = "header" },
-					{ section = "startup" },
-				},
-			},
-			explorer = { enabled = true },
-			input = { enabled = true },
-			picker = {
-				enabled = true,
-				icons = {
-					files = {
-						enabled = use_nerd_icons,
-					},
-					tree = {
-						vertical = "  ",
-						middle = "  ",
-						last = "  ",
-					},
-					diagnostics = {
-						Error = custom_diagnostic_symbols.error,
-						Warn = custom_diagnostic_symbols.warn,
-						Hint = custom_diagnostic_symbols.hint,
-						Info = custom_diagnostic_symbols.info,
-					},
-				},
-				sources = {
-					explorer = {
-						enabled = true,
-						hidden = true,
-						auto_close = false,
-						layout = {
-							auto_hide = { "input" },
-						},
-						win = {
-							list = {
-								keys = {
-									---@diagnostic disable-next-line: assign-type-mismatch
-									["O"] = { { "pick_win", "jump" }, mode = { "n", "i" } },
-								},
-							},
-						},
-					},
-				},
-			},
-			notifier = { enabled = true },
-			scope = { enabled = true },
-			gitbrowse = {
-				url_patterns = {
-					["devrepo%.%w+"] = {
-						branch = "/-/tree/{branch}",
-						file = "/-/blob/{branch}/{file}#L{line_start}-L{line_end}",
-						permalink = "/-/blob/{commit}/{file}#L{line_start}-L{line_end}",
-						commit = "/-/commit/{commit}",
-					},
-				},
-			},
-		},
-		config = function(_, opts)
-			require("snacks").setup(opts)
-
-			local show_icons = use_nerd_icons
-			local util = require("snacks.util")
-			local original_icon = util.icon
-
-			util.icon = function(name, cat, opts_local)
-				if not show_icons then
-					return " "
-				end
-				return original_icon(name, cat, opts_local)
-			end
-		end,
-		keys = {
-			{
-				"<leader>sf",
-				function()
-					Snacks.picker.files()
-				end,
-				desc = "Search Files",
-			},
-			{
-				"<leader><space>",
-				function()
-					Snacks.picker.buffers()
-				end,
-				desc = "Buffers",
-			},
-			{
-				"<leader>sg",
-				function()
-					Snacks.picker.grep()
-				end,
-				desc = "Grep",
-			},
-			{
-				"<leader>:",
-				function()
-					Snacks.picker.command_history()
-				end,
-				desc = "Command History",
-			},
-			{
-				"<leader>ee",
-				function()
-					Snacks.explorer()
-				end,
-				desc = "File [e]xplorer",
-			},
-			{
-				"<leader>gb",
-				function()
-					Snacks.picker.git_branches()
-				end,
-				desc = "Git Branches",
-			},
-			{
-				"<leader>gl",
-				function()
-					Snacks.picker.git_log()
-				end,
-				desc = "Git Log",
-			},
-			{
-				"<leader>gL",
-				function()
-					Snacks.picker.git_log_line()
-				end,
-				desc = "Git Log Line",
-			},
-			{
-				"<leader>gs",
-				function()
-					Snacks.picker.git_status()
-				end,
-				desc = "Git Status",
-			},
-			{
-				"<leader>gS",
-				function()
-					Snacks.picker.git_stash()
-				end,
-				desc = "Git Stash",
-			},
-			{
-				"<leader>gf",
-				function()
-					Snacks.picker.git_log_file()
-				end,
-				desc = "Git Log File",
-			},
-			{
-				"<leader>sw",
-				function()
-					Snacks.picker.grep_word()
-				end,
-				desc = "Visual selection or word",
-				mode = { "n", "x" },
-			},
-			{
-				"<leader>sd",
-				function()
-					Snacks.picker.diagnostics()
-				end,
-				desc = "Diagnostics",
-			},
-			{
-				"<leader>sD",
-				function()
-					Snacks.picker.diagnostics_buffer()
-				end,
-				desc = "Buffer Diagnostics",
-			},
-			{
-				"<leader>sh",
-				function()
-					Snacks.picker.help()
-				end,
-				desc = "Help Pages",
-			},
-			{
-				"<leader>si",
-				function()
-					Snacks.picker.icons()
-				end,
-				desc = "Icons",
-			},
-			{
-				"<leader>sq",
-				function()
-					Snacks.picker.qflist()
-				end,
-				desc = "Quickfix List",
-			},
-			{
-				"<leader>sR",
-				function()
-					Snacks.picker.resume()
-				end,
-				desc = "search [R]esume",
-			},
-			{
-				"<leader>U",
-				function()
-					Snacks.picker.undo()
-				end,
-				desc = "[U]ndo History",
-			},
-			{
-				"gd",
-				function()
-					Snacks.picker.lsp_definitions()
-				end,
-				desc = "Goto Definition",
-			},
-			{
-				"gD",
-				function()
-					Snacks.picker.lsp_declarations()
-				end,
-				desc = "Goto Declaration",
-			},
-			{
-				"gr",
-				function()
-					Snacks.picker.lsp_references()
-				end,
-				nowait = true,
-				desc = "References",
-			},
-			{
-				"gI",
-				function()
-					Snacks.picker.lsp_implementations()
-				end,
-				desc = "Goto Implementation",
-			},
-			{
-				"gy",
-				function()
-					Snacks.picker.lsp_type_definitions()
-				end,
-				desc = "Goto T[y]pe Definition",
-			},
-			{
-				"<leader>ss",
-				function()
-					Snacks.picker.lsp_symbols()
-				end,
-				desc = "LSP Symbols",
-			},
-			{
-				"<leader>sS",
-				function()
-					Snacks.picker.lsp_workspace_symbols()
-				end,
-				desc = "LSP Workspace Symbols",
-			},
-			{
-				"<leader>tz",
-				function()
-					Snacks.zen()
-				end,
-				desc = "Toggle [z]en Mode",
-			},
-			{
-				"<leader>tZ",
-				function()
-					Snacks.zen.zoom()
-				end,
-				desc = "Toggle [Z]oom",
-			},
-			{
-				"<leader>ts",
-				function()
-					Snacks.scratch()
-				end,
-				desc = "Toggle [s]cratch buffer",
-			},
-			{
-				"<leader>S",
-				function()
-					Snacks.scratch.select()
-				end,
-				desc = "Select [S]cratch Buffer",
-			},
-			{
-				"<leader>rf",
-				function()
-					Snacks.rename.rename_file()
-				end,
-				desc = "Rename [f]ile",
-			},
-			{
-				"<leader>gB",
-				function()
-					Snacks.gitbrowse()
-				end,
-				desc = "Git Browse",
-				mode = { "n", "v" },
-			},
-			{
-				"<leader>gG",
-				function()
-					Snacks.lazygit()
-				end,
-				desc = "Lazygit",
-			},
-		},
-	},
-	-- }}}
 	-- {{{ LSPConfig                       CODE - LSP Configurations ans plugins
 	{
 		"neovim/nvim-lspconfig",
@@ -796,10 +463,64 @@ require("lazy").setup({
 			-- Nice notifications on top right
 			require("mini.notify").setup()
 
-			vim.keymap.set("n", "<leader>nh", function()
-				require("mini.notify").show_history()
-			end, {
+			vim.keymap.set("n", "<leader>nh", "<Cmd>lua MiniNotify.show_history()<CR>", {
 				desc = "Notification history",
+			})
+
+			-- Nice notifications on top right
+			require("mini.files").setup()
+			vim.keymap.set("n", "<leader>ee", "<Cmd>lua MiniFiles.open()<CR>", { desc = "[e]xplore", silent = true })
+
+			-- Pickers
+			require("mini.pick").setup()
+			vim.keymap.set("n", "<leader>fb", "<Cmd>Pick buffers<CR>", { desc = "[b]uffers", silent = true })
+			vim.keymap.set("n", "<leader>ff", "<Cmd>Pick files<CR>", { desc = "[f]iles", silent = true })
+			vim.keymap.set("n", "<leader>fg", "<Cmd>Pick grep_live<CR>", { desc = "[g]rep live", silent = true })
+			vim.keymap.set(
+				"n",
+				"<leader>fG",
+				'<Cmd>Pick grep pattern="<cword>"<CR>',
+				{ desc = "[G]rep current word", silent = true }
+			)
+			vim.keymap.set("n", "<leader>fh", "<Cmd>Pick [h]elp<CR>", { desc = "Help tags", silent = true })
+			vim.keymap.set("n", "<leader>fr", "<Cmd>Pick [r]esume<CR>", { desc = "Resume", silent = true })
+
+			-- Extra pickers
+			local MiniExtra = require("mini.extra")
+			MiniExtra.setup()
+
+			vim.keymap.set(
+				"n",
+				"<leader>fR",
+				"<Cmd>Pick lsp scope='references'<CR>",
+				{ desc = "References (LSP)", silent = true }
+			) -- grr still works with quickfix list
+
+			vim.keymap.set(
+				"n",
+				"<leader>fs",
+				"<Cmd>lua MiniExtra.pickers.git_files({ scope = 'modified' })<CR>",
+				{ desc = "[s]tatus picker" }
+			)
+
+			-- Icons
+			require("mini.icons").setup()
+
+			-- Highlight patterns
+			local hipatterns = require("mini.hipatterns")
+			local hi_words = MiniExtra.gen_highlighter.words
+			hipatterns.setup({
+				highlighters = {
+					-- Highlight a fixed set of common words. Will be highlighted in any place,
+					-- not like "only in comments".
+					fixme = hi_words({ "FIXME", "Fixme", "fixme" }, "MiniHipatternsFixme"),
+					hack = hi_words({ "HACK", "Hack", "hack" }, "MiniHipatternsHack"),
+					todo = hi_words({ "TODO", "Todo", "todo" }, "MiniHipatternsTodo"),
+					note = hi_words({ "NOTE", "Note", "note" }, "MiniHipatternsNote"),
+
+					-- Highlight hex color string (#aabbcc) with that color as a background
+					hex_color = hipatterns.gen_highlighter.hex_color(),
+				},
 			})
 
 			-- Diff (c)hunk naviation and git gutter
@@ -1118,15 +839,6 @@ require("lazy").setup({
 				},
 			})
 		end,
-	},
-	-- }}}
-	-- {{{ TODO-Comments                   TXT - Highlights TODO HACK FIXME BUG ISSUE...
-	{
-		"folke/todo-comments.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {
-			signs = use_nerd_icons,
-		},
 	},
 	-- }}}
 	-- {{{ CCC                             TXT - Colorize color codes / Color picker
@@ -1492,10 +1204,110 @@ require("lazy").setup({
 -- {{{ Classic VIM Configs             VIM - Options / Keymaps
 
 -- Theme and transparency
+vim.opt.shortmess:append("I")
 vim.cmd.colorscheme("catppuccin")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 -- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" }) -- this makes ~ visible, I don't like it
+
+-- For the times I came across no selectors or UI's let me drop this here...
+--
+-- vim.ui.select = function(items, opts, on_choice)
+-- 	local fmt = opts.format_item or tostring
+-- 	local lines = {}
+-- 	for i, item in ipairs(items) do
+-- 		lines[i] = fmt(item)
+-- 	end
+--
+-- 	local buf = vim.api.nvim_create_buf(false, true)
+-- 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+-- 	vim.bo[buf].modifiable = false
+--
+-- 	local content_width = math.max(unpack(vim.tbl_map(function(l)
+-- 		return #l
+-- 	end, lines)))
+-- 	if opts.prompt then
+-- 		content_width = math.max(content_width, #opts.prompt)
+-- 	end
+-- 	local width = math.max(50, content_width + 2)
+--
+-- 	local editor_w = vim.o.columns
+-- 	local editor_h = vim.o.lines
+-- 	local height = #lines
+--
+-- 	local win = vim.api.nvim_open_win(buf, true, {
+-- 		relative = "editor",
+-- 		row = math.floor((editor_h - height) / 2),
+-- 		col = math.floor((editor_w - width) / 2),
+-- 		width = width,
+-- 		height = height,
+-- 		style = "minimal",
+-- 		border = "rounded",
+-- 		title = opts.prompt or "Select",
+-- 	})
+--
+-- 	local function close(idx)
+-- 		vim.api.nvim_win_close(win, true)
+-- 		vim.api.nvim_buf_delete(buf, { force = true })
+-- 		if idx then
+-- 			on_choice(items[idx], idx)
+-- 		else
+-- 			on_choice(nil)
+-- 		end
+-- 	end
+--
+-- 	vim.keymap.set("n", "<CR>", function()
+-- 		local cursor = vim.api.nvim_win_get_cursor(win)
+-- 		close(cursor[1])
+-- 	end, { buffer = buf })
+--
+-- 	vim.keymap.set("n", "<Esc>", function()
+-- 		close(nil)
+-- 	end, { buffer = buf })
+-- 	vim.keymap.set("n", "q", function()
+-- 		close(nil)
+-- 	end, { buffer = buf })
+-- end
+--
+-- vim.ui.input = function(opts, on_confirm)
+-- 	local default = opts.default or ""
+--
+-- 	local buf = vim.api.nvim_create_buf(false, true)
+-- 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { default })
+--
+-- 	local width = math.max(100, #default + 2)
+-- 	local editor_w = vim.o.columns
+-- 	local editor_h = vim.o.lines
+--
+-- 	local win = vim.api.nvim_open_win(buf, true, {
+-- 		relative = "editor",
+-- 		row = math.floor(editor_h / 2),
+-- 		col = math.floor((editor_w - width) / 2),
+-- 		width = width,
+-- 		height = 1,
+-- 		style = "minimal",
+-- 		border = "rounded",
+-- 		title = opts.prompt or "Input",
+-- 	})
+--
+-- 	vim.cmd("startinsert!")
+--
+-- 	local function close(value)
+-- 		vim.cmd("stopinsert")
+-- 		vim.api.nvim_win_close(win, true)
+-- 		vim.api.nvim_buf_delete(buf, { force = true })
+-- 		on_confirm(value)
+-- 	end
+--
+-- 	vim.keymap.set("i", "<CR>", function()
+-- 		local text = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]
+-- 		close(text)
+-- 	end, { buffer = buf })
+--
+-- 	vim.keymap.set({ "i", "n" }, "<Esc>", function()
+-- 		close(nil)
+-- 	end, { buffer = buf })
+-- end
 
 -- New Extui for :messages :reg :marks
 local ok, extui = pcall(require, "vim._extui")
@@ -1648,6 +1460,34 @@ vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>", { desc = "Toggle t
 vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle [I]ndent line" })
 
 -- Buffers --
+
+vim.keymap.set("n", "<leader>gS", function()
+	local output = vim.fn.systemlist("git status --porcelain")
+	if vim.v.shell_error ~= 0 then
+		vim.notify("Not a git repository", vim.log.levels.ERROR)
+		return
+	end
+	if #output == 0 then
+		vim.notify("No changed files", vim.log.levels.INFO)
+		return
+	end
+	local items = {}
+	for _, line in ipairs(output) do
+		local status = line:sub(1, 2)
+		local file = line:sub(4)
+		table.insert(items, { status = status, file = file })
+	end
+	vim.ui.select(items, {
+		prompt = "Git Status: ",
+		format_item = function(item)
+			return item.status .. " " .. item.file
+		end,
+	}, function(choice)
+		if choice then
+			vim.cmd.edit(choice.file)
+		end
+	end)
+end, { desc = "[g]it [s]tatus picker" })
 
 vim.keymap.set("n", "<leader>bb", function()
 	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
