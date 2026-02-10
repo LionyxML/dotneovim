@@ -436,6 +436,73 @@ require("lazy").setup({
 		"nvim-mini/mini.nvim",
 		version = false,
 		config = function()
+			local MiniStatusline = require("mini.statusline")
+			MiniStatusline.setup({
+				use_icons = use_nerd_icons,
+				content = {
+					active = function()
+						local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+						local git = MiniStatusline.section_git({ trunc_width = 40 })
+						local diff = MiniStatusline.section_diff({ trunc_width = 75 })
+						local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+						local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
+						local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+						local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+						local section_fileinfo = function(args)
+							local sep = args.sep or "│"
+
+							-- Use virtual column number to allow update when past last column
+							if MiniStatusline.is_truncated(args.trunc_width) then
+								return string.format("%%l%s%%2v", sep)
+							end
+
+							-- Use `virtcol()` to correctly handle multi-byte characters
+							return string.format('%%l|%%L%s%%2v|%%-2{virtcol("$") - 1}', sep)
+						end
+						local location = section_fileinfo({ trunc_width = 75, sep = "" })
+
+						local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+						local mode_colors = vim.api.nvim_get_hl(0, { name = mode_hl, link = false })
+						local inv_mode_hl = mode_hl .. "Sep"
+						vim.api.nvim_set_hl(0, inv_mode_hl, { fg = mode_colors.bg })
+
+						local info_hl = "MiniStatuslineFileinfo"
+						local info_colors = vim.api.nvim_get_hl(0, { name = info_hl, link = false })
+						local inv_info_hl = info_hl .. "Sep"
+						vim.api.nvim_set_hl(0, inv_info_hl, { fg = info_colors.bg })
+
+						-- FIXME: see next FIXME
+
+						local devinfo_content = table.concat({ git, diff, diagnostics, lsp })
+						local has_devinfo = devinfo_content ~= ""
+
+						local fileinfo_content = fileinfo or ""
+						local has_fileinfo = fileinfo_content ~= ""
+
+						-- FIXME: we could totally check the content and return "" if none instead of has_* above
+						local function add_pill(content, hl, inv_hl)
+							inv_hl = inv_hl or hl -- default to same highlight if not provided
+							return string.format("%%#%s#%%#%s#%s%%#%s#", inv_hl, hl, content, inv_hl)
+						end
+
+						return MiniStatusline.combine_groups({
+							add_pill(mode, mode_hl, inv_mode_hl),
+							has_devinfo and add_pill(
+								git .. " " .. diff .. " " .. diagnostics .. " " .. lsp,
+								"MiniStatuslineDevinfo",
+								inv_info_hl
+							) or "",
+							"%<", -- general truncate point
+							{ hl = "", strings = { filename } },
+							"%=", -- end left alignment
+							has_fileinfo and add_pill(fileinfo, "MiniStatuslineFileinfo", inv_info_hl) or "",
+							add_pill(search .. location, mode_hl, inv_mode_hl),
+						})
+					end,
+				},
+			})
+
 			-- Better Around/Inside textobjects
 			--
 			-- Examples:
@@ -891,76 +958,6 @@ require("lazy").setup({
 	{
 		"3rd/image.nvim",
 		opts = {},
-	},
-	-- }}}
-	-- {{{ Lualine                         UI - The cool statusline
-	{
-		"nvim-lualine/lualine.nvim",
-		opts = {
-			options = {
-				disabled_filetypes = { "NvimTree" },
-				icons_enabled = use_special_chars ~= false,
-				component_separators = "",
-				section_separators = (use_special_chars ~= false) and { left = "", right = "" }
-					or { left = "", right = "" },
-			},
-
-			sections = {
-				lualine_a = {
-					{
-						"mode",
-						separator = {
-							left = (use_special_chars ~= false) and "" or "",
-						},
-					},
-				},
-
-				lualine_b = {
-					{
-						"branch",
-						icon = (use_special_chars ~= false) and "󰘬" or "git",
-						fmt = function(branch)
-							local limit = 22
-							return branch:sub(1, limit) .. (branch:len() > limit and "…" or "")
-						end,
-					},
-					"diff",
-					{
-						"diagnostics",
-						symbols = {
-							hint = custom_diagnostic_symbols.hint,
-							info = custom_diagnostic_symbols.info,
-							warn = custom_diagnostic_symbols.warn,
-							error = custom_diagnostic_symbols.error,
-						},
-					},
-				},
-
-				lualine_c = {
-					{
-						"filename",
-						path = 4,
-						symbols = {
-							modified = (use_special_chars ~= false) and " ●" or " *",
-							alternate_file = "#",
-							directory = (use_special_chars ~= false) and "" or "+",
-						},
-					},
-				},
-
-				lualine_x = { "encoding", "fileformat", "filetype" },
-				lualine_y = { "progress" },
-
-				lualine_z = {
-					{
-						"location",
-						separator = {
-							right = (use_special_chars ~= false) and "" or "",
-						},
-					},
-				},
-			},
-		},
 	},
 	-- }}}
 	-- {{{ Catppuccin                      UI - The Only and One Theme :)
