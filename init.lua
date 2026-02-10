@@ -431,14 +431,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ TS-Comments                     EDIT - Adds tree sitter context to nvim built-in commenter
-	{
-		"folke/ts-comments.nvim",
-		opts = {},
-		event = "VeryLazy",
-		enabled = vim.fn.has("nvim-0.10.0") == 1,
-	},
-	-- }}}
 	-- {{{ Mini                            EDIT - The Lua Modules library for Neovim
 	{
 		"nvim-mini/mini.nvim",
