@@ -576,45 +576,6 @@ require("lazy").setup({
 		end,
 	},
 	-- }}}
-	-- {{{ Trouble                         CODE - Lists project errors
-	{
-		"folke/trouble.nvim",
-		opts = {},
-		cmd = "Trouble",
-		keys = {
-			{
-				"<leader>xx",
-				"<cmd>Trouble diagnostics toggle<cr>",
-				desc = "Diagnostics (Trouble)",
-			},
-			{
-				"<leader>xX",
-				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-				desc = "Buffer Diagnostics (Trouble)",
-			},
-			{
-				"<leader>cs",
-				"<cmd>Trouble symbols toggle focus=false<cr>",
-				desc = "Symbols (Trouble)",
-			},
-			{
-				"<leader>cl",
-				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-				desc = "LSP Definitions / references / ... (Trouble)",
-			},
-			{
-				"<leader>xL",
-				"<cmd>Trouble loclist toggle<cr>",
-				desc = "Location List (Trouble)",
-			},
-			{
-				"<leader>xQ",
-				"<cmd>Trouble qflist toggle<cr>",
-				desc = "Quickfix List (Trouble)",
-			},
-		},
-	},
-	-- }}}
 	-- {{{ Nvim-Cmp                        EDIT - Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
@@ -1289,11 +1250,9 @@ require("lazy").setup({
 			wk.add({
 				{ "<leader>0", group = "[0]x0 uploader" },
 				{ "<leader>0_", hidden = true },
-				{ "<leader>a", group = "[a]i" },
-				{ "<leader>a_", hidden = true },
 				{ "<leader>c", group = "[c]ode / [c]olor" },
 				{ "<leader>c_", hidden = true },
-				{ "<leader>d", group = "[d]ocument / [d]AP" },
+				{ "<leader>d", group = "[d]iagnostics" },
 				{ "<leader>d_", hidden = true },
 				{ "<leader>e", group = "[e]xplorer" },
 				{ "<leader>e_", hidden = true },
@@ -1641,18 +1600,26 @@ vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer", silent = tru
 vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix item", silent = true })
 vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix item", silent = true })
 
+-- Diagnostics --
 vim.keymap.set("n", "[d", function()
 	vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Go to previous diagnostic message" })
+
 vim.keymap.set("n", "]d", function()
 	vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
 
-vim.keymap.set("n", "<leader>dm", vim.diagnostic.open_float, { desc = "Open floating diagnostic [m]essage" })
+vim.keymap.set("n", "<leader>do", vim.diagnostic.open_float, { desc = "[o]pen float diagnostic" })
 
-vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle [a]erial" })
-vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>", { desc = "Toggle treesitter [c]ontext" })
-vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle [I]ndent line" })
+vim.keymap.set("n", "<leader>dl", function()
+	vim.diagnostic.setloclist()
+	vim.cmd.wincmd("p")
+end, { desc = "Feed [d]iagnostics to [l]oclist" })
+
+vim.keymap.set("n", "<leader>dq", function()
+	vim.diagnostic.setqflist()
+	vim.cmd.wincmd("p")
+end, { desc = "Feed [d]iagnostics to [q]uickfix" })
 
 vim.keymap.set("n", "<leader>ti", function()
 	local virtual_text = vim.diagnostic.config().virtual_text
@@ -1663,7 +1630,24 @@ vim.keymap.set("n", "<leader>td", function()
 	vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle [d]iagnostics" })
 
-vim.keymap.set("n", "<leader>ls", ":ls<CR>", { desc = "List buffers", silent = true })
+vim.diagnostic.config({
+	float = { border = vim.o.winborder },
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = custom_diagnostic_symbols.error,
+			[vim.diagnostic.severity.WARN] = custom_diagnostic_symbols.warn,
+			[vim.diagnostic.severity.HINT] = custom_diagnostic_symbols.hint,
+			[vim.diagnostic.severity.INFO] = custom_diagnostic_symbols.info,
+		},
+	},
+})
+
+-- Some other toggles --
+vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle [a]erial" })
+vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle<CR>", { desc = "Toggle treesitter [c]ontext" })
+vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle [I]ndent line" })
+
+-- Buffers --
 
 vim.keymap.set("n", "<leader>bb", function()
 	local bufs = vim.fn.getbufinfo({ buflisted = 1 })
@@ -1682,10 +1666,10 @@ vim.keymap.set("n", "<leader>bb", function()
 			vim.api.nvim_set_current_buf(choice.bufnr)
 		end
 	end)
-end, { desc = "Buffer picker" })
+end, { desc = "[b]uffer picker" })
 
-vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Close buffer", silent = true })
-vim.keymap.set("n", "<leader>bD", ":bufdo bd<CR>", { desc = "Close all buffers", silent = true })
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "buffer [d]elete", silent = true })
+vim.keymap.set("n", "<leader>bD", ":bufdo bd<CR>", { desc = "buffer [D]elete all", silent = true })
 
 vim.keymap.set({ "n", "v" }, "<leader>L", ":Lazy<CR>", { desc = "[L]azy", silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>M", ":Mason<CR>", { desc = "[M]ason", silent = true })
@@ -1702,18 +1686,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 	group = highlight_group,
 	pattern = "*",
-})
-
-vim.diagnostic.config({
-	float = { border = vim.o.winborder },
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = custom_diagnostic_symbols.error,
-			[vim.diagnostic.severity.WARN] = custom_diagnostic_symbols.warn,
-			[vim.diagnostic.severity.HINT] = custom_diagnostic_symbols.hint,
-			[vim.diagnostic.severity.INFO] = custom_diagnostic_symbols.info,
-		},
-	},
 })
 
 -- }}}
