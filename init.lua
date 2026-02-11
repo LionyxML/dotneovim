@@ -497,7 +497,7 @@ require("lazy").setup({
 				{ desc = "[s]tatus picker" }
 			)
 
-			vim.keymap.set("n", "<leader>fr", "<Cmd>Pick registers<CR>", { desc = "Pick [r]egisters" })
+			vim.keymap.set("n", "<leader>fR", "<Cmd>Pick registers<CR>", { desc = "Pick [R]egisters" })
 
 			-- Icons
 			require("mini.icons").setup()
