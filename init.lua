@@ -557,13 +557,8 @@ require("lazy").setup({
 				},
 
 				mappings = {
-					apply = "hs",
-					reset = "hr",
-					textobject = "gh",
-					goto_first = "[C",
 					goto_prev = "[c",
 					goto_next = "]c",
-					goto_last = "]C",
 				},
 			})
 		end,
