@@ -137,7 +137,7 @@ vim.pack.add({
 	"https://github.com/sindrets/diffview.nvim",
 	"https://github.com/lionyxml/gitlineage.nvim",
 })
---- }}}
+-- }}}
 -- {{{ Build steps via PackChanged
 vim.api.nvim_create_autocmd("User", {
 	pattern = "PackChanged",
@@ -330,7 +330,6 @@ later(function()
 		vim.lsp.enable(server_name)
 	end
 end)
-
 -- }}}
 -- {{{ Nvim-Cmp                        EDIT - Autocompletion
 later(function()
@@ -408,7 +407,6 @@ later(function()
 		},
 	})
 end)
-
 -- }}}
 -- {{{ Nvim-Autopairs                  EDIT - Automatically closes parens, breakets, etc.
 later(function()
@@ -479,10 +477,8 @@ later(function()
 		desc = "Re-enable autoformat-on-save",
 	})
 end)
-
 -- }}}
 -- {{{ Mini                            EDIT - The Lua Modules library for Neovim
-
 -- Statusline
 require("mini.statusline").setup({ use_icons = use_nerd_icons })
 
@@ -617,6 +613,10 @@ later(function()
 	})
 end)
 
+require("mini.git").setup()
+vim.keymap.set("n", "<leader>gd", "<Cmd>:vert Git diff %<CR>", { desc = "Git [d]iff this file" })
+vim.keymap.set("n", "<leader>g=", "<Cmd>:vert Git diff<CR>", { desc = "Git diff project" })
+
 -- Diff (c)hunk naviation and git gutter
 require("mini.diff").setup({
 	view = {
@@ -632,7 +632,6 @@ require("mini.diff").setup({
 		goto_next = "]c",
 	},
 })
-
 -- }}}
 -- {{{ UndoTree                        EDIT - Perfect pitch Undoing
 later(function()
@@ -732,7 +731,6 @@ require("rainbow-delimiters.setup").setup({
 })
 -- }}}
 -- {{{ TreeSitter                      TXT - Highlight, edit and navigate code
---
 local tree_sitter_langs = {
 	"regex",
 	"c",
@@ -844,13 +842,13 @@ end)
 -- }}}
 -- {{{ Diffview                        VC - Diff visualizer
 later(function()
-	vim.keymap.set("n", "<leader>gd", function()
+	vim.keymap.set("n", "<leader>gD", function()
 		if next(require("diffview.lib").views) == nil then
 			vim.cmd("DiffviewOpen")
 		else
 			vim.cmd("DiffviewClose")
 		end
-	end, { desc = "Git [d]iff with diffview" })
+	end, { desc = "Git [D]iff with diffview" })
 
 	vim.keymap.set({ "n", "v" }, "<leader>gH", function()
 		vim.cmd("DiffviewFileHistory")
@@ -865,7 +863,6 @@ end)
 -- NOTE: waiting for https://github.com/sindrets/diffview.nvim/pull/571 so everything can be mini icons
 -- }}},
 -- {{{ GitLineage                      VC - History of selected lines
---
 later(function()
 	require("gitlineage").setup({
 		keymap = "<leader>gh",
@@ -875,7 +872,6 @@ end)
 -- }}}
 
 -- {{{ Classic VIM Configs             VIM - Options / Keymaps
-
 -- Theme and transparency
 vim.opt.shortmess:append("I")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
@@ -1016,7 +1012,12 @@ vim.o.incsearch = true
 vim.o.undofile = true
 vim.o.backup = false
 vim.o.writebackup = false
+
 vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+	command = "checktime",
+})
+
 vim.o.autowrite = false
 vim.o.updatetime = 250
 vim.o.timeoutlen = 1000
@@ -1188,6 +1189,8 @@ vim.keymap.set({ "n", "v" }, "<leader>w", ":w<CR>", { desc = "[w]rite", silent =
 vim.keymap.set({ "n", "v" }, "<leader>q", ":q<CR>", { desc = "[q]quit", silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>Q", ":qa<CR>", { desc = "[q]quit all", silent = true })
 
+vim.keymap.set({ "n", "v" }, "<leader>P", ":lua vim.pack.update()<CR>", { desc = "[P]lugins update", silent = true })
+
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
@@ -1196,7 +1199,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = highlight_group,
 	pattern = "*",
 })
-
 -- }}}
 
 -- {{{ MY - GIT ANNOTATE
@@ -1300,7 +1302,7 @@ later(function()
 		return s
 	end
 end)
---- }}}
+-- }}}
 -- {{{ MY - GPG
 later(function()
 	local function get_recipient_from_file(filepath)
