@@ -45,10 +45,8 @@
 -- =============================================================================
 -- }}}
 -- {{{ Load timer
--- At the very top of your init.lua
 local start_time = vim.loop.hrtime()
 
--- When Neovim finishes loading
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
 		local end_time = vim.loop.hrtime()
@@ -90,7 +88,6 @@ local unpack = table.unpack or unpack
 local function later(fn)
 	vim.defer_fn(fn, 0)
 end
-
 -- }}}
 -- {{{ vim.pack
 local saved_more = vim.o.more
@@ -1162,7 +1159,6 @@ vim.diagnostic.config({
 -- Some other toggles --
 vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle [a]erial" })
 vim.keymap.set("n", "<leader>tc", "<cmd>TSContext toggle<CR>", { desc = "Toggle treesitter [c]ontext" })
-vim.keymap.set("n", "<leader>tI", "<cmd>IndentationLineToggle<CR>", { desc = "Toggle [I]ndent line" })
 
 -- Buffers --
 
