@@ -137,8 +137,6 @@ vim.pack.add({
 	"https://github.com/sindrets/diffview.nvim",
 	"https://github.com/lionyxml/gitlineage.nvim",
 })
-vim.o.more = saved_more
-vim.cmd("redraw!")
 --- }}}
 -- {{{ Build steps via PackChanged
 vim.api.nvim_create_autocmd("User", {
