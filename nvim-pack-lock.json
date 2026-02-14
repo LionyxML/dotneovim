@@ -45,7 +45,7 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "gitlineage.nvim": {
-      "rev": "02896814949798551238235cc66693f1c143626d",
+      "rev": "da795833925aae2e4d0cf75d2529d258bf4fb82c",
       "src": "https://github.com/lionyxml/gitlineage.nvim"
     },
     "image.nvim": {
@@ -73,7 +73,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "4e61631464a12138bc0c82ea216b1d0d3cc2b315",
+      "rev": "8ccd03b844a990cd740638715eb3a474001e51d7",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neodev.nvim": {

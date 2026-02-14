@@ -69,7 +69,6 @@ local function later(fn)
 end
 -- }}}
 -- {{{ vim.pack
-local saved_more = vim.o.more
 vim.o.more = false
 vim.pack.add({
 	-- LSP and tooling
@@ -869,6 +868,10 @@ later(function()
 		keys = { yank_commit = "y" },
 	})
 end)
+
+-- NOTE: this is here for development porpouses
+-- vim.opt.runtimepath:prepend("/Users/rmj/Projects/github/gitlineage.nvim")
+-- require("gitlineage").setup()
 -- }}}
 
 -- {{{ Classic VIM Configs             VIM - Options / Keymaps
