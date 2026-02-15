@@ -49,7 +49,7 @@
       "src": "https://github.com/lionyxml/gitlineage.nvim"
     },
     "image.nvim": {
-      "rev": "446a8a5cc7a3eae3185ee0c697732c32a5547a0b",
+      "rev": "c75654b37cd13df17475a53d9dc3e3d1b5e09fa1",
       "src": "https://github.com/3rd/image.nvim"
     },
     "kulala.nvim": {
@@ -73,7 +73,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "8ccd03b844a990cd740638715eb3a474001e51d7",
+      "rev": "4ca988557786c9a4e41d5e5b6e31b4c9d7379f53",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neodev.nvim": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/folke/neodev.nvim"
     },
     "nvim": {
-      "rev": "beaf41a30c26fd7d6c386d383155cbd65dd554cd",
+      "rev": "0a5de4da015a175f416d6ef1eda84661623e0500",
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-0x0": {
@@ -109,7 +109,7 @@
       "src": "https://github.com/alexghergh/nvim-tmux-navigation"
     },
     "nvim-treesitter": {
-      "rev": "9f2dad22ef8bb14fd1e0a3aa8859cdc88170668b",
+      "rev": "4d9466677a5ceadef104eaa0fe08d60d91c4e9a7",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
