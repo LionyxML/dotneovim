@@ -630,7 +630,6 @@ require("mini.diff").setup({
 	},
 })
 vim.keymap.set("n", "<leader>t=", "<Cmd>:lua MiniDiff.toggle_overlay()<CR>", { desc = "Toggle Inline Diff" })
-
 -- }}}
 -- {{{ UndoTree                        EDIT - Perfect pitch Undoing
 later(function()
@@ -662,7 +661,7 @@ later(function()
 		},
 		delete_to_trash = true,
 	})
-	vim.keymap.set("n", "<leader>ed", "<cmd>Oil<CR>", { desc = "Oil on [d]ir" })
+	vim.keymap.set("n", "<leader>ed", "<cmd>Oil<CR>", { desc = "Explore on [d]ir (Oil)" })
 end)
 -- }}}
 -- {{{ Org-mode                        TXT - Org-mode for Neovim
