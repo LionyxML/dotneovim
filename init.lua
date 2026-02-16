@@ -665,13 +665,6 @@ later(function()
 	vim.keymap.set("n", "<leader>ed", "<cmd>Oil<CR>", { desc = "Oil on [d]ir" })
 end)
 -- }}}
--- {{{ Nvim-Spectre                    EDIT - For complex find and replace
-later(function()
-	vim.keymap.set("n", "<leader>sr", function()
-		require("spectre").toggle()
-	end, { desc = "Search and [r]eplace (Spectre)" })
-end)
--- }}}
 -- {{{ Org-mode                        TXT - Org-mode for Neovim
 later(function()
 	require("orgmode").setup({
