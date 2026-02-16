@@ -478,11 +478,10 @@ later(function()
 end)
 -- }}}
 -- {{{ Mini                            EDIT - The Lua Modules library for Neovim
--- Statusline
+-- Mini.Statusline
 require("mini.statusline").setup({ use_icons = use_nerd_icons })
 
--- Better Around/Inside textobjects
---
+-- Mini.AI
 --  - va)  - [V]isually select [A]round [)]paren
 --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
 --  - ci'  - [C]hange [I]nside [']quote
@@ -490,38 +489,36 @@ later(function()
 	require("mini.ai").setup({ n_lines = 500 })
 end)
 
--- Add/delete/replace surroundings (brackets, quotes, etc.)
---
+-- Mini.Surround
 -- - sa{   - [S]urround [A]dd { around visual selection
 -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
 -- - sd'   - [S]urround [D]elete [']quotes
 -- - sr)'  - [S]urround [R]eplace [)] [']
-
 later(function()
 	require("mini.surround").setup()
 end)
 
--- Nice notifications on top right
+-- Mini.Notify
 require("mini.notify").setup()
 
 vim.keymap.set("n", "<leader>nh", "<Cmd>lua MiniNotify.show_history()<CR>", {
 	desc = "Notification history",
 })
 
--- Indent Lines
+-- Mini.Indentscope
 later(function()
 	require("mini.indentscope").setup({
 		draw = { delay = 10, animation = require("mini.indentscope").gen_animation.none() },
 	})
 end)
 
--- File explorer
+-- Mini.Files
 later(function()
 	require("mini.files").setup()
 	vim.keymap.set("n", "<leader>ee", "<Cmd>lua MiniFiles.open()<CR>", { desc = "[e]xplore", silent = true })
 end)
 
--- Pickers
+-- Mini.Pick
 later(function()
 	require("mini.pick").setup()
 	vim.keymap.set("n", "<leader>fb", "<Cmd>Pick buffers<CR>", { desc = "[b]uffers", silent = true })
@@ -537,7 +534,7 @@ later(function()
 	vim.keymap.set("n", "<leader>fr", "<Cmd>Pick resume<CR>", { desc = "Resume", silent = true })
 end)
 
--- Extra pickers
+-- Mini.Extra
 later(function()
 	local MiniExtra = require("mini.extra")
 	MiniExtra.setup()
@@ -559,12 +556,12 @@ later(function()
 	vim.keymap.set("n", "<leader>fR", "<Cmd>Pick registers<CR>", { desc = "Pick [R]egisters" })
 end)
 
--- Icons
+-- Mini.Icons
 later(function()
 	require("mini.icons").setup()
 end)
 
--- Highlight patterns
+-- Mini.Hipatterns
 later(function()
 	local hipatterns = require("mini.hipatterns")
 	local hi_words = MiniExtra.gen_highlighter.words
@@ -583,7 +580,7 @@ later(function()
 	})
 end)
 
--- Clues after stop typing
+-- Mini.Clue
 later(function()
 	require("mini.clue").setup({
 		triggers = {
@@ -612,11 +609,12 @@ later(function()
 	})
 end)
 
+-- Mini.Git
 require("mini.git").setup()
 vim.keymap.set("n", "<leader>gd", "<Cmd>:vert Git diff %<CR>", { desc = "Git [d]iff this file" })
 vim.keymap.set("n", "<leader>g=", "<Cmd>:vert Git diff<CR>", { desc = "Git diff project" })
 
--- Diff (c)hunk naviation and git gutter
+-- Mini.Diff
 require("mini.diff").setup({
 	view = {
 		signs = {
@@ -631,6 +629,8 @@ require("mini.diff").setup({
 		goto_next = "]c",
 	},
 })
+vim.keymap.set("n", "<leader>t=", "<Cmd>:lua MiniDiff.toggle_overlay()<CR>", { desc = "Toggle Inline Diff" })
+
 -- }}}
 -- {{{ UndoTree                        EDIT - Perfect pitch Undoing
 later(function()
