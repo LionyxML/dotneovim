@@ -78,7 +78,6 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 
 	-- Editing helpers
-	"https://github.com/windwp/nvim-autopairs",
 	"https://github.com/windwp/nvim-ts-autotag",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/nvim-mini/mini.nvim",
@@ -294,11 +293,6 @@ later(function()
 	end
 end)
 -- }}}
--- {{{ Nvim-Autopairs                  EDIT - Automatically closes parens, breakets, etc.
-later(function()
-	require("nvim-autopairs").setup({})
-end)
--- }}}
 -- {{{ Nvim-Ts-Autotag                 EDIT - Automatically close tags on html, typescript, vue...
 later(function()
 	require("nvim-ts-autotag").setup({
@@ -376,6 +370,11 @@ require("mini.completion").setup()
 
 -- Mini.Statusline
 require("mini.statusline").setup({ use_icons = use_nerd_icons })
+
+-- Mini.Pairs
+later(function()
+	require("mini.pairs").setup()
+end)
 
 -- Mini.AI
 --  - va)  - [V]isually select [A]round [)]paren

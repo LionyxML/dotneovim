@@ -52,10 +52,6 @@
       "rev": "2c8ec9c9a4920de729aa2de7724a46d3448df30a",
       "src": "https://github.com/LionyxML/nvim-0x0"
     },
-    "nvim-autopairs": {
-      "rev": "59bce2eef357189c3305e25bc6dd2d138c1683f5",
-      "src": "https://github.com/windwp/nvim-autopairs"
-    },
     "nvim-lspconfig": {
       "rev": "44acfe887d4056f704ccc4f17513ed41c9e2b2e6",
       "src": "https://github.com/neovim/nvim-lspconfig"
