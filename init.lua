@@ -99,7 +99,6 @@ vim.pack.add({
 	"https://github.com/HiPhish/rainbow-delimiters.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
 
 	-- Colors
 	"https://github.com/uga-rosa/ccc.nvim",
