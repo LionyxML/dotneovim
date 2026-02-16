@@ -1010,6 +1010,11 @@ vim.o.hlsearch = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.incsearch = true
+vim.o.wildmenu = true
+vim.o.wildmode = "full"
+vim.o.path = vim.o.path .. "**" -- slow and blocking on large codebases, still, useful
+vim.o.wildignore = vim.o.wildignore
+	.. "*/node_modules/*,_site,*/__pycache__/,*/venv/*,*/target/*,*/.vim$,~$,*/.log,*/.aux,*/.cls,*/.aux,*/.bbl,*/.blg,*/.fls,*/.fdb*/,*/.toc,*/.out,*/.glo,*/.log,*/.ist,*/.fdb_latexmk"
 
 -- File handling
 vim.o.undofile = true
