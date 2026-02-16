@@ -41,6 +41,7 @@ vim.g.maplocalleader = " "
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
+vim.o.pumborder = vim.o.winborder
 vim.o.termguicolors = true
 vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
@@ -69,24 +70,12 @@ local function later(fn)
 end
 -- }}}
 -- {{{ vim.pack
-vim.o.more = false
 vim.pack.add({
 	-- LSP and tooling
 	"https://github.com/williamboman/mason.nvim",
 	"https://github.com/williamboman/mason-lspconfig.nvim",
 	"https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
-	"https://github.com/folke/neodev.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
-
-	-- Autocompletion
-	"https://github.com/L3MON4D3/LuaSnip",
-	"https://github.com/rafamadriz/friendly-snippets",
-	"https://github.com/saadparwaiz1/cmp_luasnip",
-	"https://github.com/hrsh7th/cmp-nvim-lsp",
-	"https://github.com/hrsh7th/cmp-path",
-	"https://github.com/hrsh7th/cmp-cmdline",
-	"https://github.com/onsails/lspkind.nvim",
-	"https://github.com/hrsh7th/nvim-cmp",
 
 	-- Editing helpers
 	"https://github.com/windwp/nvim-autopairs",
@@ -97,13 +86,8 @@ vim.pack.add({
 	"https://github.com/gbprod/yanky.nvim",
 	"https://github.com/mbbill/undotree",
 
-	-- AI completion
-	"https://github.com/nvim-lua/plenary.nvim",
-	"https://github.com/Exafunction/windsurf.nvim",
-
 	-- File management
 	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/nvim-pack/nvim-spectre",
 
 	-- Text / Org
 	"https://github.com/nvim-orgmode/orgmode",
@@ -128,27 +112,12 @@ vim.pack.add({
 	"https://github.com/catppuccin/nvim",
 
 	-- Utilities
-	"https://github.com/mistweaverco/kulala.nvim",
 	"https://github.com/alexghergh/nvim-tmux-navigation",
 	"https://github.com/LionyxML/nvim-0x0",
 
 	-- Version control
 	"https://github.com/sindrets/diffview.nvim",
 	"https://github.com/lionyxml/gitlineage.nvim",
-})
--- }}}
--- {{{ Build steps via PackChanged
-vim.api.nvim_create_autocmd("User", {
-	pattern = "PackChanged",
-	callback = function()
-		-- LuaSnip: build jsregexp support
-		if vim.fn.has("win32") == 0 and vim.fn.executable("make") == 1 then
-			local luasnip_path = vim.fn.stdpath("data") .. "/pack/plugins/start/LuaSnip"
-			if vim.fn.isdirectory(luasnip_path) == 1 then
-				vim.fn.system({ "make", "-C", luasnip_path, "install_jsregexp" })
-			end
-		end
-	end,
 })
 -- }}}
 -- {{{ Catppuccin                      UI - The Only and One Theme :)
@@ -186,10 +155,6 @@ vim.cmd.colorscheme("catppuccin")
 -- }}}
 -- {{{ LSPConfig                       CODE - LSP Configurations and plugins
 later(function()
-	-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-	-- used for completion, annotations and signatures of Neovim apis
-	require("neodev").setup({})
-
 	--  This function gets run when an LSP attaches to a particular buffer.
 	--    That is to say, every time a new file is opened that is associated with
 	--    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -244,7 +209,6 @@ later(function()
 	})
 
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 	local servers = {
 		-- ruff = {},
@@ -330,83 +294,6 @@ later(function()
 	end
 end)
 -- }}}
--- {{{ Nvim-Cmp                        EDIT - Autocompletion
-later(function()
-	-- Load friendly-snippets into LuaSnip
-	require("luasnip.loaders.from_vscode").lazy_load()
-
-	-- See `:help cmp`
-	local cmp = require("cmp")
-	local luasnip = require("luasnip")
-	luasnip.config.setup({})
-
-	local lspkind = require("lspkind")
-
-	-- `/` cmdline setup.
-	cmp.setup.cmdline("/", {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = "buffer" },
-		},
-	})
-
-	-- `:` cmdline setup.
-	cmp.setup.cmdline(":", {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = cmp.config.sources({
-			{ name = "path" },
-		}, {
-			{
-				name = "cmdline",
-				option = {
-					ignore_cmds = { "Man", "!" },
-				},
-			},
-		}),
-	})
-
-	cmp.setup({
-		snippet = {
-			expand = function(args)
-				luasnip.lsp_expand(args.body)
-			end,
-		},
-		window = {
-			completion = cmp.config.window.bordered(),
-			documentation = cmp.config.window.bordered(),
-		},
-		---@diagnostic disable-next-line: missing-fields
-		formatting = {
-			format = lspkind.cmp_format({
-				mode = "symbol",
-				maxwidth = 50,
-				ellipsis_char = "...",
-				symbol_map = { Codeium = "" },
-			}),
-		},
-		completion = { completeopt = "menu,menuone,noinsert" },
-
-		mapping = cmp.mapping.preset.insert({
-			["<C-n>"] = cmp.mapping.select_next_item(),
-			["<C-p>"] = cmp.mapping.select_prev_item(),
-
-			["<C-b>"] = cmp.mapping.scroll_docs(-4),
-			["<C-f>"] = cmp.mapping.scroll_docs(4),
-
-			["<C-y>"] = cmp.mapping.confirm({ select = true }),
-
-			["<CR>"] = cmp.mapping.confirm({ select = true }),
-			["<Tab>"] = cmp.mapping.select_next_item(),
-		}),
-		sources = {
-			{ name = "nvim_lsp" },
-			{ name = "luasnip" },
-			{ name = "path" },
-			{ name = "codeium" },
-		},
-	})
-end)
--- }}}
 -- {{{ Nvim-Autopairs                  EDIT - Automatically closes parens, breakets, etc.
 later(function()
 	require("nvim-autopairs").setup({})
@@ -478,6 +365,15 @@ later(function()
 end)
 -- }}}
 -- {{{ Mini                            EDIT - The Lua Modules library for Neovim
+
+-- Mini.Icons
+local MiniIcons = require("mini.icons")
+MiniIcons.setup()
+MiniIcons.tweak_lsp_kind()
+
+-- Mini.Completion
+require("mini.completion").setup()
+
 -- Mini.Statusline
 require("mini.statusline").setup({ use_icons = use_nerd_icons })
 
@@ -554,11 +450,6 @@ later(function()
 	)
 
 	vim.keymap.set("n", "<leader>fR", "<Cmd>Pick registers<CR>", { desc = "Pick [R]egisters" })
-end)
-
--- Mini.Icons
-later(function()
-	require("mini.icons").setup()
 end)
 
 -- Mini.Hipatterns
@@ -638,15 +529,6 @@ later(function()
 		vim.cmd.UndotreeToggle()
 		vim.cmd.UndotreeFocus()
 	end, { desc = "[u]ndo tree" })
-end)
--- }}}
--- {{{ Codeium                         EDIT - Copilot like alternative
-later(function()
-	require("codeium").setup({})
-	vim.api.nvim_set_keymap("n", "<leader>tC", ":Codeium Toggle<cr>", {
-		desc = "Toggle [C]odium",
-		noremap = true,
-	})
 end)
 -- }}}
 -- {{{ Oil-Nvim                        FILE - Dired for neovim
