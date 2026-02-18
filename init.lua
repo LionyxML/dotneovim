@@ -118,7 +118,7 @@ vim.pack.add({
 	"https://github.com/lionyxml/gitlineage.nvim",
 })
 -- }}}
--- {{{ Catppuccin                      UI - The Only and One Theme :)
+-- {{{ Catppuccin                      UI   - The Only and One Theme :)
 require("catppuccin").setup({
 	flavour = "mocha",
 	transparent_background = true,
@@ -544,7 +544,7 @@ later(function()
 	vim.keymap.set("n", "<leader>ed", "<cmd>Oil<CR>", { desc = "Explore on [d]ir (Oil)" })
 end)
 -- }}}
--- {{{ Org-mode                        TXT - Org-mode for Neovim
+-- {{{ Org-mode                        TXT  - Org-mode for Neovim
 later(function()
 	require("orgmode").setup({
 		org_agenda_files = "~/orgfiles/**/*",
@@ -552,7 +552,7 @@ later(function()
 	})
 end)
 -- }}}
--- {{{ Cloack-Nvim                     TXT - Hides secrets on env files
+-- {{{ Cloack-Nvim                     TXT  - Hides secrets on env files
 later(function()
 	vim.keymap.set("n", "<leader>tk", ":CloakToggle<CR>", { desc = "Toggle Cloa[k]", silent = true })
 
@@ -574,24 +574,24 @@ later(function()
 	})
 end)
 -- }}}
--- {{{ Vim-Sleuth                      TXT - Detect tabstop and shiftwidth automatically
+-- {{{ Vim-Sleuth                      TXT  - Detect tabstop and shiftwidth automatically
 -- vim-sleuth configures itself automatically, no setup needed
 -- }}}
--- {{{ Nvim-Treesitter-Context         TXT - Adds tree sitter context to the buffer
+-- {{{ Nvim-Treesitter-Context         TXT  - Adds tree sitter context to the buffer
 later(function()
 	require("treesitter-context").setup({
 		enable = true, -- Defaults to disabled, use <leader>tc to toggle Context
 	})
 end)
 -- }}}
--- {{{ Aerial                          TXT - The tree viewer for symbols
+-- {{{ Aerial                          TXT  - The tree viewer for symbols
 later(function()
 	require("aerial").setup({
 		enabled = false, -- Defaults to disabled, use <leader>ta to toggle Aerial
 	})
 end)
 -- }}}
--- {{{ Rainbow Delimiters              TXT - Colorize parentheses, brackets, etc
+-- {{{ Rainbow Delimiters              TXT  - Colorize parentheses, brackets, etc
 require("rainbow-delimiters.setup").setup({
 	query = {
 		[""] = "rainbow-delimiters",
@@ -601,7 +601,7 @@ require("rainbow-delimiters.setup").setup({
 	},
 })
 -- }}}
--- {{{ TreeSitter                      TXT - Highlight, edit and navigate code
+-- {{{ TreeSitter                      TXT  - Highlight, edit and navigate code
 local tree_sitter_langs = {
 	"regex",
 	"c",
@@ -636,7 +636,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- vim.wo[0][0].foldmethod = "expr"
 -- }}}
--- {{{ CCC                             TXT - Colorize color codes / Color picker
+-- {{{ CCC                             TXT  - Colorize color codes / Color picker
 later(function()
 	local ccc = require("ccc")
 	ccc.setup({
@@ -655,7 +655,7 @@ later(function()
 	vim.keymap.set("n", "<leader>ch", "<cmd>CccHighlighterToggle<cr>", { desc = "Color [h]ighlighter" })
 end)
 -- }}}
--- {{{ Image                           TXT - Shows images on markdown, org, etc.
+-- {{{ Image                           TXT  - Shows images on markdown, org, etc.
 later(function()
 	require("image").setup({})
 end)
@@ -711,7 +711,7 @@ later(function()
 	})
 end)
 -- }}}
--- {{{ Diffview                        VC - Diff visualizer
+-- {{{ Diffview                        VC   - Diff visualizer
 later(function()
 	vim.keymap.set("n", "<leader>gD", function()
 		if next(require("diffview.lib").views) == nil then
@@ -733,7 +733,7 @@ later(function()
 end)
 -- NOTE: waiting for https://github.com/sindrets/diffview.nvim/pull/571 so everything can be mini icons
 -- }}},
--- {{{ GitLineage                      VC - History of selected lines
+-- {{{ GitLineage                      VC   - History of selected lines
 later(function()
 	require("gitlineage").setup({
 		keymap = "<leader>gh",
@@ -746,7 +746,7 @@ end)
 -- require("gitlineage").setup()
 -- }}}
 
--- {{{ Classic VIM Configs             VIM - Options / Keymaps
+-- {{{ Classic VIM Configs             VIM  - Options / Keymaps
 -- Theme and transparency
 vim.opt.shortmess:append("I")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
