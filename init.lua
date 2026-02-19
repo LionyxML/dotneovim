@@ -554,26 +554,24 @@ later(function()
 end)
 -- }}}
 -- {{{ Cloack-Nvim                     TXT  - Hides secrets on env files
-later(function()
-	vim.keymap.set("n", "<leader>tk", ":CloakToggle<CR>", { desc = "Toggle Cloa[k]", silent = true })
+vim.keymap.set("n", "<leader>tk", "<Cmd>CloakToggle<CR>", { desc = "Toggle Cloa[k]", silent = true })
 
-	require("cloak").setup({
-		enabled = true,
-		cloak_character = "*",
-		highlight_group = "Comment",
-		cloak_length = 20, -- Provide a number if you want to hide the true length of the value.
-		try_all_patterns = true,
-		cloak_telescope = false,
-		cloak_on_leave = true,
-		patterns = {
-			{
-				file_pattern = ".env*",
-				cloak_pattern = "=.+",
-				replace = nil,
-			},
+require("cloak").setup({
+	enabled = true,
+	cloak_character = "*",
+	highlight_group = "Comment",
+	cloak_length = 20, -- Provide a number if you want to hide the true length of the value.
+	try_all_patterns = true,
+	cloak_telescope = false,
+	cloak_on_leave = true,
+	patterns = {
+		{
+			file_pattern = ".env*",
+			cloak_pattern = "=.+",
+			replace = nil,
 		},
-	})
-end)
+	},
+})
 -- }}}
 -- {{{ Vim-Sleuth                      TXT  - Detect tabstop and shiftwidth automatically
 -- vim-sleuth configures itself automatically, no setup needed
