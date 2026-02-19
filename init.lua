@@ -542,7 +542,7 @@ later(function()
 		},
 		delete_to_trash = true,
 	})
-	vim.keymap.set("n", "<leader>ed", "<cmd>Oil<CR>", { desc = "Explore on [d]ir (Oil)" })
+	vim.keymap.set("n", "<leader>ed", "<Cmd>Oil<CR>", { desc = "Explore on [d]ir (Oil)" })
 end)
 -- }}}
 -- {{{ Org-mode                        TXT  - Org-mode for Neovim
@@ -649,9 +649,9 @@ later(function()
 			lsp = true,
 		},
 	})
-	vim.keymap.set("n", "<leader>cp", "<cmd>CccPick<cr>", { desc = "Color [p]icker" })
-	vim.keymap.set("n", "<leader>cc", "<cmd>CccConvert<cr>", { desc = "Color [c]ycle convert" })
-	vim.keymap.set("n", "<leader>ch", "<cmd>CccHighlighterToggle<cr>", { desc = "Color [h]ighlighter" })
+	vim.keymap.set("n", "<leader>cp", "<Cmd>CccPick<CR>", { desc = "Color [p]icker" })
+	vim.keymap.set("n", "<leader>cc", "<Cmd>CccConvert<CR>", { desc = "Color [c]ycle convert" })
+	vim.keymap.set("n", "<leader>ch", "<Cmd>CccHighlighterToggle<CR>", { desc = "Color [h]ighlighter" })
 end)
 -- }}}
 -- {{{ Image                           TXT  - Shows images on markdown, org, etc.
@@ -928,7 +928,7 @@ vim.o.errorbells = false
 vim.o.autochdir = false -- While nice for :e ... commands, explorer also changes chdir, bummer...
 
 -- Keybindings
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>")
+vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<CR>")
 
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
@@ -944,10 +944,10 @@ vim.keymap.set(
 	{ desc = "Paste without loosing yanked data" }
 )
 
-vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
-vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
-vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+vim.keymap.set("n", "<A-j>", "<Cmd>m .+1<CR>==", { desc = "Move line down" })
+vim.keymap.set("n", "<A-k>", "<Cmd>m .-2<CR>==", { desc = "Move line up" })
+vim.keymap.set("v", "<A-j>", "<Cmd>m '>+1<CR>gv=gv", { desc = "Move selection down" })
+vim.keymap.set("v", "<A-k>", "<Cmd>m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -955,13 +955,13 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
 vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 
-vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer", silent = true })
-vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer", silent = true })
-vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer", silent = true })
-vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Previous buffer", silent = true })
+vim.keymap.set("n", "<S-l>", "<Cmd>bnext<CR>", { desc = "Next buffer", silent = true })
+vim.keymap.set("n", "<S-h>", "<Cmd>bprev<CR>", { desc = "Previous buffer", silent = true })
+vim.keymap.set("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer", silent = true })
+vim.keymap.set("n", "[b", "<Cmd>bprev<CR>", { desc = "Previous buffer", silent = true })
 
-vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix item", silent = true })
-vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix item", silent = true })
+vim.keymap.set("n", "]q", "<Cmd>cnext<CR>", { desc = "Next quickfix item", silent = true })
+vim.keymap.set("n", "[q", "<Cmd>cprev<CR>", { desc = "Previous quickfix item", silent = true })
 
 -- Diagnostics --
 vim.keymap.set("n", "[d", function()
@@ -1006,8 +1006,8 @@ vim.diagnostic.config({
 })
 
 -- Some other toggles --
-vim.keymap.set("n", "<leader>ta", "<cmd>AerialToggle!<CR>", { desc = "Toggle [a]erial" })
-vim.keymap.set("n", "<leader>tc", "<cmd>TSContext toggle<CR>", { desc = "Toggle treesitter [c]ontext" })
+vim.keymap.set("n", "<leader>ta", "<Cmd>AerialToggle!<CR>", { desc = "Toggle [a]erial" })
+vim.keymap.set("n", "<leader>tc", "<Cmd>TSContext toggle<CR>", { desc = "Toggle treesitter [c]ontext" })
 
 -- Buffers --
 
@@ -1058,17 +1058,22 @@ vim.keymap.set("n", "<leader>bb", function()
 	end)
 end, { desc = "[b]uffer picker" })
 
-vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "buffer [d]elete", silent = true })
-vim.keymap.set("n", "<leader>bD", ":bufdo bd<CR>", { desc = "buffer [D]elete all", silent = true })
+vim.keymap.set("n", "<leader>bd", "<Cmd>bd<CR>", { desc = "buffer [d]elete", silent = true })
+vim.keymap.set("n", "<leader>bD", "<Cmd>bufdo bd<CR>", { desc = "buffer [D]elete all", silent = true })
 
-vim.keymap.set({ "n", "v" }, "<leader>M", ":Mason<CR>", { desc = "[M]ason", silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>S", ":Mason<CR>", { desc = "[S]end Requests", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>M", "<Cmd>Mason<CR>", { desc = "[M]ason", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>S", "<Cmd>Mason<CR>", { desc = "[S]end Requests", silent = true })
 
-vim.keymap.set({ "n", "v" }, "<leader>w", ":w<CR>", { desc = "[w]rite", silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>q", ":q<CR>", { desc = "[q]quit", silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>Q", ":qa<CR>", { desc = "[q]quit all", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>w", "<Cmd>w<CR>", { desc = "[w]rite", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>q", "<Cmd>q<CR>", { desc = "[q]quit", silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>Q", "<Cmd>qa<CR>", { desc = "[q]quit all", silent = true })
 
-vim.keymap.set({ "n", "v" }, "<leader>P", ":lua vim.pack.update()<CR>", { desc = "[P]lugins update", silent = true })
+vim.keymap.set(
+	{ "n", "v" },
+	"<leader>P",
+	"<Cmd>lua vim.pack.update()<CR>",
+	{ desc = "[P]lugins update", silent = true }
+)
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -1133,8 +1138,8 @@ end)
 -- }}}
 -- {{{ MY - TABLINE
 later(function()
-	vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "Toggle [t]abs" })
-	vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "[T]ab E[x]terminate" })
+	vim.keymap.set("n", "<leader>tn", "<Cmd>tabnew<CR>", { desc = "Toggle [t]abs" })
+	vim.keymap.set("n", "<leader>tx", "<Cmd>tabclose<CR>", { desc = "[T]ab E[x]terminate" })
 
 	vim.keymap.set("n", "<leader>tt", function()
 		if vim.o.showtabline == 2 then
@@ -1144,8 +1149,8 @@ later(function()
 		end
 	end, { desc = "Toggle [t]abs" })
 
-	vim.keymap.set("n", "]t", ":tabnext<CR>", { desc = "Next tab", silent = true })
-	vim.keymap.set("n", "[t", ":tabprevious<CR>", { desc = "Previous tab", silent = true })
+	vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>", { desc = "Next tab", silent = true })
+	vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Previous tab", silent = true })
 
 	vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE", fg = "#666666" }) -- fallback for non-pill content
 	vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" }) --             background of unused space
