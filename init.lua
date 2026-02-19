@@ -62,6 +62,7 @@ local custom_diagnostic_symbols = use_nerd_icons
 	}
 
 -- Global helper functions
+---@diagnostic disable-next-line: deprecated
 local unpack = table.unpack or unpack
 
 -- Deferred execution: runs fn after the first screen draw (like mini.deps later())
