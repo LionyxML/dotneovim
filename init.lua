@@ -165,6 +165,8 @@ later(function()
 				vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 			end
 
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { silent = true })
+
 			map("<leader>ln", vim.lsp.buf.rename, "re[n]ame")
 
 			map("<leader>la", vim.lsp.buf.code_action, "code [a]ction")
@@ -440,6 +442,13 @@ later(function()
 		"<Cmd>Pick lsp scope='references'<CR>",
 		{ desc = "LSP: [r]eferences", silent = true }
 	) -- grr still works with quickfix list
+
+	vim.keymap.set(
+		"n",
+		"<leader>ld",
+		"<Cmd>Pick lsp scope='definition'<CR>",
+		{ desc = "LSP: [d]efinition", silent = true }
+	) -- gd also works without this picker
 
 	vim.keymap.set(
 		"n",
