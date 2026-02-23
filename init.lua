@@ -1066,6 +1066,7 @@ vim.keymap.set("n", "<leader>bb", function()
 		end
 	end)
 end, { desc = "[b]uffer picker" })
+vim.keymap.set("n", "<leader><Space>", "<leader>bb", { desc = "buffer picker", remap = true })
 
 vim.keymap.set("n", "<leader>bd", "<Cmd>bd<CR>", { desc = "buffer [d]elete", silent = true })
 vim.keymap.set("n", "<leader>bD", "<Cmd>bufdo bd<CR>", { desc = "buffer [D]elete all", silent = true })
