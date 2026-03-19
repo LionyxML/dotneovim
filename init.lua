@@ -108,7 +108,7 @@ vim.pack.add({
 	"https://github.com/3rd/image.nvim",
 
 	-- Theme
-	"https://github.com/catppuccin/nvim",
+	-- "https://github.com/catppuccin/nvim",
 
 	-- Utilities
 	"https://github.com/alexghergh/nvim-tmux-navigation",
@@ -120,36 +120,36 @@ vim.pack.add({
 })
 -- }}}
 -- {{{ Catppuccin                      UI   - The Only and One Theme :)
-require("catppuccin").setup({
-	flavour = "mocha",
-	transparent_background = true,
-	float = {
-		transparent = true,
-		solid = false,
-	},
-	integrations = {
-		aerial = true,
-		cmp = true,
-		mason = true,
-		markdown = true,
-		mini = {
-			enabled = true,
-			indentscope_color = "",
-		},
-		native_lsp = {
-			enabled = true,
-			underlines = {
-				errors = { "undercurl" },
-				hints = { "undercurl" },
-				warnings = { "undercurl" },
-				information = { "undercurl" },
-			},
-		},
-		treesitter = true,
-		treesitter_context = true,
-		rainbow_delimiters = true,
-	},
-})
+-- require("catppuccin").setup({
+-- 	flavour = "mocha",
+-- 	transparent_background = true,
+-- 	float = {
+-- 		transparent = true,
+-- 		solid = false,
+-- 	},
+-- 	integrations = {
+-- 		aerial = true,
+-- 		cmp = true,
+-- 		mason = true,
+-- 		markdown = true,
+-- 		mini = {
+-- 			enabled = true,
+-- 			indentscope_color = "",
+-- 		},
+-- 		native_lsp = {
+-- 			enabled = true,
+-- 			underlines = {
+-- 				errors = { "undercurl" },
+-- 				hints = { "undercurl" },
+-- 				warnings = { "undercurl" },
+-- 				information = { "undercurl" },
+-- 			},
+-- 		},
+-- 		treesitter = true,
+-- 		treesitter_context = true,
+-- 		rainbow_delimiters = true,
+-- 	},
+-- })
 vim.cmd.colorscheme("catppuccin")
 -- }}}
 -- {{{ LSPConfig                       CODE - LSP Configurations and plugins
