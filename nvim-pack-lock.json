@@ -61,7 +61,7 @@
       "src": "https://github.com/alexghergh/nvim-tmux-navigation"
     },
     "nvim-treesitter": {
-      "rev": "877f724846f2202a16e311bd19efb954bd1c430e",
+      "rev": "e5f65e31a5ec0e8526b2311ff8c7aaea4a581c82",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-context": {
@@ -69,7 +69,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "7359dfcefa38db632541e1f9b5b5f291626a1d47",
+      "rev": "93d60a475f0b08a8eceb99255863977d3a25f310",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
     },
     "nvim-ts-autotag": {
