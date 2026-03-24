@@ -44,10 +44,6 @@
       "rev": "439cdcd6992bc9012efd7d8ed7a7b7a0f1fac32a",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
-    "nvim": {
-      "rev": "a7788416689dbefea659d9e9415c87926b0ba5d8",
-      "src": "https://github.com/catppuccin/nvim"
-    },
     "nvim-0x0": {
       "rev": "2c8ec9c9a4920de729aa2de7724a46d3448df30a",
       "src": "https://github.com/LionyxML/nvim-0x0"

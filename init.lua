@@ -60,6 +60,7 @@ local custom_diagnostic_symbols = use_nerd_icons
 		hint = "H",
 		info = "I",
 	}
+vim.cmd.colorscheme("catppuccin")
 
 -- Global helper functions
 ---@diagnostic disable-next-line: deprecated
@@ -70,7 +71,8 @@ local function later(fn)
 	vim.defer_fn(fn, 0)
 end
 -- }}}
--- {{{ vim.pack
+--
+-- {{{ vim.pack                        Plugins Installer
 vim.pack.add({
 	-- LSP and tooling
 	"https://github.com/williamboman/mason.nvim",
@@ -107,9 +109,6 @@ vim.pack.add({
 	-- Images
 	"https://github.com/3rd/image.nvim",
 
-	-- Theme
-	-- "https://github.com/catppuccin/nvim",
-
 	-- Utilities
 	"https://github.com/alexghergh/nvim-tmux-navigation",
 	"https://github.com/LionyxML/nvim-0x0",
@@ -118,39 +117,6 @@ vim.pack.add({
 	"https://github.com/sindrets/diffview.nvim",
 	"https://github.com/lionyxml/gitlineage.nvim",
 })
--- }}}
--- {{{ Catppuccin                      UI   - The Only and One Theme :)
--- require("catppuccin").setup({
--- 	flavour = "mocha",
--- 	transparent_background = true,
--- 	float = {
--- 		transparent = true,
--- 		solid = false,
--- 	},
--- 	integrations = {
--- 		aerial = true,
--- 		cmp = true,
--- 		mason = true,
--- 		markdown = true,
--- 		mini = {
--- 			enabled = true,
--- 			indentscope_color = "",
--- 		},
--- 		native_lsp = {
--- 			enabled = true,
--- 			underlines = {
--- 				errors = { "undercurl" },
--- 				hints = { "undercurl" },
--- 				warnings = { "undercurl" },
--- 				information = { "undercurl" },
--- 			},
--- 		},
--- 		treesitter = true,
--- 		treesitter_context = true,
--- 		rainbow_delimiters = true,
--- 	},
--- })
-vim.cmd.colorscheme("catppuccin")
 -- }}}
 -- {{{ LSPConfig                       CODE - LSP Configurations and plugins
 later(function()
@@ -759,6 +725,11 @@ end)
 vim.opt.shortmess:append("I")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
+vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "none" })
+vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none" })
 -- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" }) -- this makes ~ visible, I don't like it
 
 -- For the times I came across no selectors or UI's let me drop this here...
