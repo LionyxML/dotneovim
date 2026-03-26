@@ -1113,7 +1113,9 @@ later(function()
 		-- enable scrollbind on both windows so they stay in sync
 		vim.wo.scrollbind = true
 		vim.api.nvim_win_set_option(original_win, "scrollbind", true)
+		vim.wo[original_win].foldenable = false
 		vim.cmd("syncbind")
+		vim.api.nvim_set_current_win(original_win)
 	end, { desc = "Git annotate current file" })
 end)
 -- }}}
