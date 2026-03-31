@@ -86,7 +86,6 @@ vim.pack.add({
 	"https://github.com/nvim-mini/mini.nvim",
 	"https://github.com/kkharji/sqlite.lua",
 	"https://github.com/gbprod/yanky.nvim",
-	"https://github.com/mbbill/undotree",
 
 	-- File management
 	"https://github.com/stevearc/oil.nvim",
@@ -497,13 +496,8 @@ require("mini.diff").setup({
 vim.keymap.set("n", "<leader>t=", "<Cmd>:lua MiniDiff.toggle_overlay()<CR>", { desc = "Toggle Inline Diff" })
 -- }}}
 -- {{{ UndoTree                        EDIT - Perfect pitch Undoing
-later(function()
-	vim.g.undotree_WindowLayout = 3 -- tree on the right
-	vim.keymap.set("n", "<leader>u", function()
-		vim.cmd.UndotreeToggle()
-		vim.cmd.UndotreeFocus()
-	end, { desc = "[u]ndo tree" })
-end)
+vim.cmd("packadd nvim.undotree")
+vim.keymap.set("n", "<leader>u", require("undotree").open, { desc = "[u]ndo tree" })
 -- }}}
 -- {{{ Oil-Nvim                        FILE - Dired for neovim
 later(function()
