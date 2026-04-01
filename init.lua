@@ -497,7 +497,12 @@ vim.keymap.set("n", "<leader>t=", "<Cmd>:lua MiniDiff.toggle_overlay()<CR>", { d
 -- }}}
 -- {{{ UndoTree                        EDIT - Perfect pitch Undoing
 vim.cmd("packadd nvim.undotree")
-vim.keymap.set("n", "<leader>u", require("undotree").open, { desc = "[u]ndo tree" })
+
+vim.keymap.set("n", "<leader>u", function()
+	require("undotree").open({
+		command = "topleft 30vnew",
+	})
+end, { desc = "[u]ndo tree" })
 -- }}}
 -- {{{ Oil-Nvim                        FILE - Dired for neovim
 later(function()
