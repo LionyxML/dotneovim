@@ -41,7 +41,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "27a3e747a4e603b4121f5759e74020430ec7b7d5",
+      "rev": "29447d7b0e1fc9bc9d0384953e63be3fae816736",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-0x0": {
@@ -49,7 +49,7 @@
       "src": "https://github.com/LionyxML/nvim-0x0"
     },
     "nvim-lspconfig": {
-      "rev": "d10ce09e42bb0ca8600fd610c3bb58676e61208d",
+      "rev": "4b7fbaa239c5db6b36f424a4521ca9f1a401be33",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-tmux-navigation": {
