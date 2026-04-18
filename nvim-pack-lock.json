@@ -41,7 +41,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "29447d7b0e1fc9bc9d0384953e63be3fae816736",
+      "rev": "418ef4930ddabe80f449c6f1323f8b6abb172d1c",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-0x0": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
-      "rev": "aab6caaffd79b8def22ec4320a5344f7c42f58d2",
+      "rev": "08783ec022e7ddefe0f12a16f1ac4968f55478b0",
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "sqlite.lua": {
