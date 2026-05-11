@@ -25,7 +25,7 @@
       "src": "https://github.com/lionyxml/gitlineage.nvim"
     },
     "image.nvim": {
-      "rev": "da2be65c153ba15a14a342b05591652a6df70d58",
+      "rev": "9d3c45cf214c63e4daa1dabe74301b01a994ed51",
       "src": "https://github.com/3rd/image.nvim"
     },
     "mason-lspconfig.nvim": {
