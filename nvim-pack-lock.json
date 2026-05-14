@@ -25,7 +25,7 @@
       "src": "https://github.com/lionyxml/gitlineage.nvim"
     },
     "image.nvim": {
-      "rev": "73a64613048216bda1a4f464bf7bed2dbaaf4cec",
+      "rev": "44e07129cd0ea0c60afa7a1991d35b5765b51a6b",
       "src": "https://github.com/3rd/image.nvim"
     },
     "mason-lspconfig.nvim": {
@@ -49,7 +49,7 @@
       "src": "https://github.com/LionyxML/nvim-0x0"
     },
     "nvim-lspconfig": {
-      "rev": "75e49cfa588a89ca667d767c0afef3ceac205faa",
+      "rev": "4d9647d7b14dd2756578761f8cc2cf80f671b926",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-tmux-navigation": {
