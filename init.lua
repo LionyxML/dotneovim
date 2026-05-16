@@ -335,6 +335,10 @@ MiniIcons.tweak_lsp_kind()
 -- Mini.Completion
 require("mini.completion").setup()
 
+-- Optionally disable the mini completion for the builtin:
+-- vim.opt.complete:append("o")
+-- vim.o.autocomplete = true
+
 -- Mini.Statusline
 require("mini.statusline").setup({ use_icons = use_nerd_icons })
 
