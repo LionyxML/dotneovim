@@ -77,11 +77,11 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "orgmode": {
-      "rev": "19209e6f2483bbfa61210f24d149a69e78b93bd0",
+      "rev": "98b3a2b7ff1475ddd921803df54558da22a0f354",
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
-      "rev": "08783ec022e7ddefe0f12a16f1ac4968f55478b0",
+      "rev": "9bcf34fa65def40aef16bbd60b6155bf76edf57b",
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "sqlite.lua": {
