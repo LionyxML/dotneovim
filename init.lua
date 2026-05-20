@@ -931,6 +931,11 @@ vim.keymap.set("n", "[b", "<Cmd>bprev<CR>", { desc = "Previous buffer", silent =
 vim.keymap.set("n", "]q", "<Cmd>cnext<CR>", { desc = "Next quickfix item", silent = true })
 vim.keymap.set("n", "[q", "<Cmd>cprev<CR>", { desc = "Previous quickfix item", silent = true })
 
+vim.keymap.set("n", "<leader>/", function()
+	vim.cmd([[cexpr [] | g//caddexpr expand('%').':'.line('.').':'.getline('.')]])
+	vim.cmd("copen")
+end, { desc = "Search matches -> quickfix" })
+
 -- Diagnostics --
 vim.keymap.set("n", "[d", function()
 	vim.diagnostic.jump({ count = -1, float = true })
