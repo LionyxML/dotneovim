@@ -1178,37 +1178,34 @@ later(function()
 	vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>", { desc = "Next tab", silent = true })
 	vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Previous tab", silent = true })
 
-	vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE", fg = "#666666" }) -- fallback for non-pill content
-	vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" }) --             background of unused space
+	local tabs_bg = "#181816"
+	vim.api.nvim_set_hl(0, "TabLine", { bg = tabs_bg, fg = "#6c7086" })
+	vim.api.nvim_set_hl(0, "TabLineFill", { bg = tabs_bg })
+	vim.api.nvim_set_hl(0, "TabLineSel", { bg = tabs_bg, fg = "#cdd6f4" })
+	vim.api.nvim_set_hl(0, "TabLineTmuxAccent", { bg = tabs_bg, fg = "#b4befe" })
 
-	vim.api.nvim_set_hl(0, "TabLinePillActiveLeft", { fg = "#8aadf4", bg = "#1e1e2e" })
-	vim.api.nvim_set_hl(0, "TabLinePillActiveText", { fg = "#1e1e2e", bg = "#8aadf4", bold = false })
-	vim.api.nvim_set_hl(0, "TabLinePillActiveRight", { fg = "#8aadf4", bg = "#1e1e2e" })
+	vim.o.tabline = "%!v:lua.TmuxTabline()"
 
-	vim.api.nvim_set_hl(0, "TabLinePillInactiveLeft", { fg = "#737994", bg = "#1e1e2e" })
-	vim.api.nvim_set_hl(0, "TabLinePillInactiveText", { fg = "#1e1e2e", bg = "#737994" })
-	vim.api.nvim_set_hl(0, "TabLinePillInactiveRight", { fg = "#737994", bg = "#1e1e2e" })
-
-	vim.o.tabline = "%!v:lua.PillTabline()"
-
-	function _G.PillTabline()
-		local s = ""
+	function _G.TmuxTabline()
+		local s = "%#TabLineFill#"
 		local tabs = vim.api.nvim_list_tabpages()
 		local current = vim.api.nvim_get_current_tabpage()
 
 		for i, tab in ipairs(tabs) do
 			local is_active = (tab == current)
 
-			local hl_left = is_active and "%#TabLinePillActiveLeft#" or "%#TabLinePillInactiveLeft#"
-			local hl_text = is_active and "%#TabLinePillActiveText#" or "%#TabLinePillInactiveText#"
-			local hl_right = is_active and "%#TabLinePillActiveRight#" or "%#TabLinePillInactiveRight#"
+			s = s .. "%" .. i .. "T"
 
-			s = s .. hl_left .. ""
-			s = s .. hl_text .. " " .. i .. " "
-			s = s .. hl_right .. ""
-			s = s .. "%#TabLine# " -- reset highlight after each tab
+			if is_active then
+				s = s .. "%#TabLineTmuxAccent#⌞"
+				s = s .. "%#TabLineSel#" .. i
+				s = s .. "%#TabLineTmuxAccent#⌝"
+			else
+				s = s .. "%#TabLine# " .. i .. " "
+			end
 		end
 
+		s = s .. "%#TabLineFill#%T"
 		return s
 	end
 end)
