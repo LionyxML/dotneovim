@@ -40,6 +40,10 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_node_provider = 0
 vim.o.winborder = "rounded" -- can be: single, double, rounded, solid, shadow
 vim.o.pumborder = vim.o.winborder
 vim.o.termguicolors = true
@@ -179,7 +183,7 @@ later(function()
 	local servers = {
 		-- ruff = {},
 		pyright = {},
-		gopls = {},
+		gopls = { filetypes = { "go", "gomod", "gowork" } },
 		prismals = {},
 		-- htmx = {},
 		bashls = {},
@@ -188,8 +192,8 @@ later(function()
 		ruby_lsp = {},
 		jsonls = {},
 		cssls = {},
-		somesass_ls = { "scss", "sass" },
-		biome = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+		somesass_ls = { filetypes = { "scss", "sass" } },
+		biome = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
 		ts_ls = {
 			filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 			-- TODO: this is not working yet for typescript
@@ -209,26 +213,40 @@ later(function()
 			},
 		},
 		eslint = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
-		tailwindcss = {},
+		tailwindcss = {
+			filetypes = {
+				"html",
+				"css",
+				"scss",
+				"sass",
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"vue",
+			},
+		},
 		html = {},
 		-- html = { filetypes = { 'html', 'twig', 'hbs'} },
 		lua_ls = {
-			Lua = {
-				workspace = { checkThirdParty = false },
-				telemetry = { enable = false },
-				hint = { enable = true },
-				diagnostics = {
-					enable = true,
-					globals = {
-						"vim",
-						"describe",
-						"it",
-						"before_each",
-						"after_each",
-						"packer_plugins",
-						"MiniTest",
+			settings = {
+				Lua = {
+					workspace = { checkThirdParty = false },
+					telemetry = { enable = false },
+					hint = { enable = true },
+					diagnostics = {
+						enable = true,
+						globals = {
+							"vim",
+							"describe",
+							"it",
+							"before_each",
+							"after_each",
+							"packer_plugins",
+							"MiniTest",
+						},
+						disable = { "missing-fields", "lowercase-global" },
 					},
-					disable = { "missing-fields", "lowercase-global" },
 				},
 			},
 		},
@@ -1052,7 +1070,7 @@ vim.keymap.set(
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.hl_op()
 	end,
 	group = highlight_group,
 	pattern = "*",
@@ -1068,13 +1086,11 @@ require("vim._core.ui2").enable({
 		targets = {
 			[""] = "msg",
 			empty = "cmd",
-			bufwrite = "msg",
 			confirm = "cmd",
 			emsg = "pager",
 			echo = "msg",
 			echomsg = "msg",
 			echoerr = "pager",
-			completion = "cmd",
 			list_cmd = "pager",
 			lua_error = "pager",
 			lua_print = "msg",
