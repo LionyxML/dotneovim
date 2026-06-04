@@ -350,6 +350,9 @@ local MiniIcons = require("mini.icons")
 MiniIcons.setup()
 MiniIcons.tweak_lsp_kind()
 
+-- Mini.Input
+require("mini.input").setup()
+
 -- Mini.Completion
 require("mini.completion").setup()
 
