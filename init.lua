@@ -433,12 +433,12 @@ later(function()
 		{ desc = "LSP: [d]efinition", silent = true }
 	) -- gd also works without this picker
 
-	vim.keymap.set(
-		"n",
-		"<leader>fs",
-		"<Cmd>lua MiniExtra.pickers.git_files({ scope = 'modified' })<CR>",
-		{ desc = "[s]tatus picker" }
-	)
+	vim.keymap.set("n", "<leader>fs", function()
+		MiniPick.builtin.cli(
+			{ command = { "git", "ls-files", "--modified", "--others", "--exclude-standard" } },
+			{ source = { name = "Git status (modified + untracked)" } }
+		)
+	end, { desc = "[s]tatus picker" })
 
 	vim.keymap.set("n", "<leader>fR", "<Cmd>Pick registers<CR>", { desc = "Pick [R]egisters" })
 end)
