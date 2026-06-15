@@ -77,7 +77,7 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "orgmode": {
-      "rev": "b1952f782d00f21f7f3701d83de44c6a40d52de5",
+      "rev": "c8e3d6c42f22c5fb52e30f50fa7f5f962c577097",
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
