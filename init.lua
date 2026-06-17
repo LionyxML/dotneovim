@@ -433,11 +433,74 @@ later(function()
 		{ desc = "LSP: [d]efinition", silent = true }
 	) -- gd also works without this picker
 
+	local MiniPick = require("mini.pick")
 	vim.keymap.set("n", "<leader>fs", function()
-		MiniPick.builtin.cli(
-			{ command = { "git", "ls-files", "--modified", "--others", "--exclude-standard" } },
-			{ source = { name = "Git status (modified + untracked)" } }
-		)
+		local out = vim.fn.systemlist({ "git", "status", "--porcelain" })
+		if vim.v.shell_error ~= 0 then
+			vim.notify("Not a git repository", vim.log.levels.ERROR)
+			return
+		end
+		if #out == 0 then
+			vim.notify("No changes", vim.log.levels.INFO)
+			return
+		end
+
+		-- two-column code (index | worktree) -> human label
+		local labels = {
+			[" M"] = "Modified",
+			["M "] = "Staged",
+			["MM"] = "Staged + Modified",
+			[" A"] = "Added",
+			["A "] = "Added (staged)",
+			["AM"] = "Added + Modified",
+			[" D"] = "Deleted",
+			["D "] = "Deleted (staged)",
+			["R "] = "Renamed",
+			["C "] = "Copied",
+			["??"] = "Untracked",
+			["UU"] = "Conflict",
+			["!!"] = "Ignored",
+		}
+
+		local items = {}
+		for _, line in ipairs(out) do
+			local code = line:sub(1, 2)
+			local file = line:sub(4)
+			-- rename shows "old -> new"; open the new path
+			local path = file:match("%->%s*(.+)$") or file
+			local icon, icon_hl = MiniIcons.get("file", path)
+			-- prefix holds code + label; icon sits right before the filename
+			local prefix = string.format("%s %-18s ", code, labels[code] or code)
+			table.insert(items, {
+				text = prefix .. icon .. " " .. file,
+				path = path,
+				icon = icon,
+				icon_col = #prefix,
+				icon_hl = icon_hl,
+			})
+		end
+
+		local ns = vim.api.nvim_create_namespace("MiniPickGitStatusIcons")
+		MiniPick.start({
+			source = {
+				items = items,
+				name = "Git status",
+				-- show_icons off (it would prepend at col 0); color the inline icon ourselves
+				show = function(buf_id, items_, query)
+					MiniPick.default_show(buf_id, items_, query, { show_icons = false })
+					vim.api.nvim_buf_clear_namespace(buf_id, ns, 0, -1)
+					for i, it in ipairs(items_) do
+						if it.icon_hl then
+							vim.api.nvim_buf_set_extmark(buf_id, ns, i - 1, it.icon_col, {
+								end_col = it.icon_col + #it.icon,
+								hl_group = it.icon_hl,
+							})
+						end
+					end
+				end,
+				choose = MiniPick.default_choose,
+			},
+		})
 	end, { desc = "[s]tatus picker" })
 
 	vim.keymap.set("n", "<leader>fR", "<Cmd>Pick registers<CR>", { desc = "Pick [R]egisters" })
