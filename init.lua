@@ -1297,8 +1297,8 @@ end)
 later(function()
 	function LazyGitFloating()
 		-- Calculate floating window size
-		local width = math.floor(vim.o.columns * 0.8)
-		local height = math.floor(vim.o.lines * 0.8)
+		local width = math.floor(vim.o.columns * 0.9)
+		local height = math.floor(vim.o.lines * 0.9)
 		local row = math.floor((vim.o.lines - height) / 2)
 		local col = math.floor((vim.o.columns - width) / 2)
 
