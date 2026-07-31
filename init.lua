@@ -76,7 +76,7 @@ local function later(fn)
 end
 -- }}}
 --
--- {{{ vim.pack                        Plugins Installer
+-- {{{ vim.pack                               The built-in plugins manager
 vim.pack.add({
 	-- LSP and tooling
 	"https://github.com/williamboman/mason.nvim",
@@ -123,10 +123,6 @@ vim.pack.add({
 -- }}}
 -- {{{ LSPConfig                       CODE - LSP Configurations and plugins
 later(function()
-	--  This function gets run when an LSP attaches to a particular buffer.
-	--    That is to say, every time a new file is opened that is associated with
-	--    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-	--    function will be executed to configure the current buffer
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 		callback = function(event)
@@ -799,7 +795,6 @@ end)
 -- vim.opt.runtimepath:prepend("/Users/rmj/Projects/github/gitlineage.nvim")
 -- require("gitlineage").setup()
 -- }}}
-
 -- {{{ Classic VIM Configs             VIM  - Options / Keymaps
 -- Theme and transparency
 vim.opt.shortmess:append("I")
@@ -913,11 +908,12 @@ vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none" })
 
 -- Basics
 vim.wo.number = true
-vim.o.relativenumber = true -- Toggle with <leader>tr
-vim.o.showtabline = 0 --       Toggle Tabs with <leader>tt
+vim.o.relativenumber = true --  NOTE: Toggle with <leader>tr
+vim.o.showtabline = 0 --        NOTE: Toggle Tabs with <leader>tt
 vim.o.scrolloff = 8
 vim.o.sidescrolloff = 8
 vim.o.cursorline = true
+vim.opt_local.textwidth = 70 -- NOTE: So gw is the same as M-q in Emacs
 
 -- Identation
 vim.o.tabstop = 2
