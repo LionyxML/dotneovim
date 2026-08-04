@@ -258,6 +258,14 @@ later(function()
 	vim.list_extend(ensure_installed, {
 		"stylua", -- Used to format Lua code
 	})
+	if vim.fn.has("bsd") == 1 then
+		-- Mason ships no FreeBSD binaries for these; install via pkg/cargo instead
+		-- and rely on them being present on $PATH.
+		local unsupported_on_bsd = { rust_analyzer = true, lua_ls = true, stylua = true }
+		ensure_installed = vim.tbl_filter(function(name)
+			return not unsupported_on_bsd[name]
+		end, ensure_installed)
+	end
 	require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 	-- NOTE: kepp an eye on:
