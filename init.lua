@@ -113,7 +113,6 @@ vim.pack.add({
 	"https://github.com/3rd/image.nvim",
 
 	-- Utilities
-	"https://github.com/alexghergh/nvim-tmux-navigation",
 	"https://github.com/LionyxML/nvim-0x0",
 
 	-- Version control
@@ -746,49 +745,6 @@ later(function()
 	require("image").setup({})
 end)
 -- }}}
--- {{{ Nvim-Tmux-Navigator             UTIL - Integration with tmux
---
--- NOTE: you do have to make some config on the tmux side. This should
---       be placed on your `tmux.conf`:
---
--- is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
---     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
---
--- bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
--- bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
--- bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'
--- bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l' 'select-pane -R'
---
--- tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
---
--- if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
---     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
--- if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
---     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
---
--- bind-key -n 'C-Space' if-shell "$is_vim" 'send-keys C-Space' 'select-pane -t:.+'
---
--- bind-key -T copy-mode-vi 'C-h' select-pane -L
--- bind-key -T copy-mode-vi 'C-j' select-pane -D
--- bind-key -T copy-mode-vi 'C-k' select-pane -U
--- bind-key -T copy-mode-vi 'C-l' select-pane -R
--- bind-key -T copy-mode-vi 'C-\' select-pane -l
--- bind-key -T copy-mode-vi 'C-Space' select-pane -t:.+
-
-later(function()
-	require("nvim-tmux-navigation").setup({
-		disable_when_zoomed = false,
-		keybindings = {
-			left = "<C-h>",
-			down = "<C-j>",
-			up = "<C-k>",
-			right = "<C-l>",
-			-- last_active = "<C-\\>",
-			-- next = "<C-Space>",
-		},
-	})
-end)
--- }}}
 -- {{{ Nvim-0x0                        UTIL - Paste text / files to 0x0.st
 later(function()
 	require("nvim-0x0").setup({
@@ -1223,6 +1179,64 @@ require("vim._core.ui2").enable({
 		},
 	},
 })
+-- }}}
+-- {{{ MY - TMUX NAVIGATOR
+--
+-- NOTE: you do have to make some config on the tmux side. This should
+--       be placed on your `tmux.conf`:
+--
+-- is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+--     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+--
+-- bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
+-- bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
+-- bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'
+-- bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l' 'select-pane -R'
+--
+-- tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+--
+-- if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
+--     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
+-- if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
+--     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+--
+-- bind-key -n 'C-Space' if-shell "$is_vim" 'send-keys C-Space' 'select-pane -t:.+'
+--
+-- bind-key -T copy-mode-vi 'C-h' select-pane -L
+-- bind-key -T copy-mode-vi 'C-j' select-pane -D
+-- bind-key -T copy-mode-vi 'C-k' select-pane -U
+-- bind-key -T copy-mode-vi 'C-l' select-pane -R
+-- bind-key -T copy-mode-vi 'C-\' select-pane -l
+-- bind-key -T copy-mode-vi 'C-Space' select-pane -t:.+
+
+later(function()
+	local function tmux_navigate(direction)
+		vim.system({ "tmux", "select-pane", "-" .. direction })
+	end
+
+	local function navigate(vim_direction, tmux_direction)
+		local before = vim.api.nvim_get_current_win()
+
+		vim.cmd("wincmd " .. vim_direction)
+
+		if vim.api.nvim_get_current_win() == before then
+			tmux_navigate(tmux_direction)
+		end
+	end
+
+	vim.keymap.set("n", "<C-h>", function()
+		navigate("h", "L")
+	end)
+	vim.keymap.set("n", "<C-j>", function()
+		navigate("j", "D")
+	end)
+	vim.keymap.set("n", "<C-k>", function()
+		navigate("k", "U")
+	end)
+	vim.keymap.set("n", "<C-l>", function()
+		navigate("l", "R")
+	end)
+end)
 -- }}}
 -- {{{ MY - GIT ANNOTATE
 later(function()
