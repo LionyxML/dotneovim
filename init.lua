@@ -418,6 +418,34 @@ later(function()
 	vim.keymap.set("n", "<leader>fr", "<Cmd>Pick resume<CR>", { desc = "Resume", silent = true })
 end)
 
+-- Mini.Trailspace
+later(function()
+	local MiniTrailspace = require("mini.trailspace")
+	MiniTrailspace.setup()
+
+	-- Change highlight so we can see it with catppuccin
+	local function set_trailspace_hl()
+		vim.api.nvim_set_hl(0, "MiniTrailspace", { bg = "#f38ba8" })
+	end
+	set_trailspace_hl()
+	vim.api.nvim_create_autocmd("ColorScheme", { callback = set_trailspace_hl })
+
+	-- Key bindings
+	vim.keymap.set("n", "<leader>tw", function()
+		vim.b.minitrailspace_disable = not vim.b.minitrailspace_disable
+
+		if vim.b.minitrailspace_disable then
+			MiniTrailspace.unhighlight()
+		else
+			MiniTrailspace.highlight()
+		end
+	end, { desc = "Toggle [w]hitespaces" })
+
+	vim.keymap.set("n", "<leader>tW", function()
+		MiniTrailspace.trim()
+	end, { desc = "Trim [W]hitespaces" })
+end)
+
 -- Mini.Extra
 later(function()
 	local MiniExtra = require("mini.extra")
