@@ -1164,15 +1164,15 @@ require("vim._core.ui2").enable({
 			wmsg = "msg",
 			typed_cmd = "cmd",
 		},
-		cmd = {
-			height = 0.5,
-		},
 		dialog = {
 			height = 0.5,
 		},
 		msg = {
 			height = 0.3,
+		},
+		messagesopt = {
 			timeout = 5000,
+			maxheight = 0.5,
 		},
 		pager = {
 			height = 0.5,
