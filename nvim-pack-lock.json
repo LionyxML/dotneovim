@@ -85,7 +85,7 @@
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
-      "rev": "6dc4082a22588d719a75f60c1e0aad1c1bc81720",
+      "rev": "7d7645f06751501fc9a17986c934e6354a71019b",
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "sqlite.lua": {
