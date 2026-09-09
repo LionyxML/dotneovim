@@ -29,7 +29,7 @@
       "src": "https://github.com/3rd/image.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "40276c4df7e6bdce6801d6c035c6227f9115a855",
+      "rev": "5d32a9b8de9f90466797a740edb0fb4b3c27e423",
       "src": "https://github.com/williamboman/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
@@ -41,7 +41,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "455856f765c78220fe547fb0862708942b52c42c",
+      "rev": "25f25d3e6661d942323e56711096de1850d814ec",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim": {
@@ -53,7 +53,7 @@
       "src": "https://github.com/LionyxML/nvim-0x0"
     },
     "nvim-lspconfig": {
-      "rev": "da1aff0332774a0f60d52bf972e815dfc226f276",
+      "rev": "19576de1c1b6d1b5e231ea6ef9cba9a811c322bb",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-tmux-navigation": {
