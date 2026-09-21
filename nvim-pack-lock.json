@@ -41,7 +41,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "4389a4f31f854ce066949ea89c72dc71564f5c20",
+      "rev": "81ed10ebe1144b0eb9a7f289ffae000c22772c20",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "orgmode": {
-      "rev": "11f5f903f275544207f643855b9a2ba74de73f5e",
+      "rev": "d9cd82d732cf4322100cf2c4c57b285c870bd893",
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
@@ -101,7 +101,7 @@
       "src": "https://github.com/tpope/vim-sleuth"
     },
     "yanky.nvim": {
-      "rev": "dd6689fdda85f66cab7d9b1a1664625f3be0920d",
+      "rev": "4b4ddd196526fd3d6fd091d931810f9743e936d3",
       "src": "https://github.com/gbprod/yanky.nvim"
     }
   }
