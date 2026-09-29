@@ -1,4 +1,4 @@
--- Lionyx Config for:
+-- Lionyx configuration for:
 --
 -- ,-. ,-. ,-. .  , . ,-,-.
 -- | | |-' | | | /  | | | |
