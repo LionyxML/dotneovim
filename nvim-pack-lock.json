@@ -20,6 +20,10 @@
       "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
       "src": "https://github.com/sindrets/diffview.nvim"
     },
+    "feed.nvim": {
+      "rev": "d31adf8a406dc6aa67e4dec22c623dc0d160f5e8",
+      "src": "https://github.com/neo451/feed.nvim"
+    },
     "gitlineage.nvim": {
       "rev": "da795833925aae2e4d0cf75d2529d258bf4fb82c",
       "src": "https://github.com/lionyxml/gitlineage.nvim"
@@ -53,7 +57,7 @@
       "src": "https://github.com/LionyxML/nvim-0x0"
     },
     "nvim-lspconfig": {
-      "rev": "a9bb4d5f4276aa5cddc015faa3ecc5a7b5a26b14",
+      "rev": "910f0c4d46aa186641518395bc7e6fffb4d23baf",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-tmux-navigation": {
@@ -101,7 +105,7 @@
       "src": "https://github.com/tpope/vim-sleuth"
     },
     "yanky.nvim": {
-      "rev": "4b4ddd196526fd3d6fd091d931810f9743e936d3",
+      "rev": "b50e7b57b9a2296dc4393e024eb0b8235b41c641",
       "src": "https://github.com/gbprod/yanky.nvim"
     }
   }
