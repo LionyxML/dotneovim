@@ -20,10 +20,6 @@
       "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
       "src": "https://github.com/sindrets/diffview.nvim"
     },
-    "feed.nvim": {
-      "rev": "d31adf8a406dc6aa67e4dec22c623dc0d160f5e8",
-      "src": "https://github.com/neo451/feed.nvim"
-    },
     "gitlineage.nvim": {
       "rev": "da795833925aae2e4d0cf75d2529d258bf4fb82c",
       "src": "https://github.com/lionyxml/gitlineage.nvim"
@@ -45,7 +41,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "65d615e1f78775323bfd4651f694824256e2adc1",
+      "rev": "6f0cd5049f414932ba55a5d6f3282a59d55c71a3",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim": {
@@ -85,11 +81,11 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "orgmode": {
-      "rev": "2f650b2fa0dc80d399093d35fb25232f96ad16d6",
+      "rev": "ac46fc7641dd77bdddfbec4eaeb8eb86b2629b22",
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
-      "rev": "3a0fc08dd39e8bf034a4cfef3f2845bd5f565a2e",
+      "rev": "b55decda611755171bc5bf8f4c99603a75de4b41",
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "sqlite.lua": {
