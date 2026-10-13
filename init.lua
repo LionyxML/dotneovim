@@ -43,7 +43,7 @@ vim.o.pumborder = vim.o.winborder
 vim.o.termguicolors = true
 vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
-local use_nerd_icons = true
+local use_nerd_icons = vim.env.NO_ICONS ~= "true"
 local use_special_chars = true
 local custom_diagnostic_symbols = use_nerd_icons
 		and {
