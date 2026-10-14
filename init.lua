@@ -1108,12 +1108,7 @@ vim.keymap.set({ "n", "v" }, "<leader>w", "<Cmd>w<CR>", { desc = "[w]rite", sile
 vim.keymap.set({ "n", "v" }, "<leader>q", "<Cmd>q<CR>", { desc = "[q]quit", silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>Q", "<Cmd>qa<CR>", { desc = "[q]quit all", silent = true })
 
-vim.keymap.set(
-	{ "n", "v" },
-	"<leader>P",
-	"<Cmd>lua vim.pack.update()<CR>",
-	{ desc = "[P]lugins update", silent = true }
-)
+vim.keymap.set({ "n", "v" }, "<leader>P", ":packupdate<CR>", { desc = "[P]lugins update", silent = true })
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
