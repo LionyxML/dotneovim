@@ -61,7 +61,7 @@
       "src": "https://github.com/alexghergh/nvim-tmux-navigation"
     },
     "nvim-treesitter": {
-      "rev": "1a4f47b03dfe92d28de7d5654c67327ef008c9e6",
+      "rev": "ca581c3436fc2b236847f5b739ebc263739e5ca6",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-context": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "orgmode": {
-      "rev": "150993e56c2e5b983e13c397e9bde6b01e07c23a",
+      "rev": "78c9928c151ff6ec07fd72da74bdf50a8034f0a5",
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
