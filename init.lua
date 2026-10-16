@@ -169,6 +169,17 @@ later(function()
 
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 
+	local ts_inlay_hints = {
+		includeInlayParameterNameHints = "all",
+		includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+		includeInlayFunctionParameterTypeHints = true,
+		includeInlayVariableTypeHints = true,
+		includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+		includeInlayPropertyDeclarationTypeHints = true,
+		includeInlayFunctionLikeReturnTypeHints = true,
+		includeInlayEnumMemberValueHints = true,
+	}
+
 	local servers = {
 		-- ruff = {},
 		pyright = {},
@@ -185,20 +196,9 @@ later(function()
 		biome = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
 		ts_ls = {
 			filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-			-- TODO: this is not working yet for typescript
 			settings = {
-				typescript = {
-					inlayHints = {
-						includeInlayParameterNameHints = "all",
-						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-						includeInlayFunctionParameterTypeHints = true,
-						includeInlayVariableTypeHints = true,
-						includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-						includeInlayPropertyDeclarationTypeHints = true,
-						includeInlayFunctionLikeReturnTypeHints = true,
-						includeInlayEnumMemberValueHints = true,
-					},
-				},
+				typescript = { inlayHints = ts_inlay_hints },
+				javascript = { inlayHints = ts_inlay_hints },
 			},
 		},
 		eslint = { filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" } },
