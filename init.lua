@@ -1127,7 +1127,7 @@ require("vim._core.ui2").enable({
 	enable = true,
 	msg = {
 		targets = {
-			[""] = "msg",
+			default = "msg",
 			empty = "cmd",
 			confirm = "cmd",
 			-- emsg = "pager",
