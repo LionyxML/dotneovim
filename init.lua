@@ -962,7 +962,10 @@ vim.o.errorbells = false
 vim.o.autochdir = false -- While nice for :e ... commands, explorer also changes chdir, bummer...
 
 -- Keybindings
-vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<Esc>", function()
+	vim.cmd.nohlsearch()
+	vim.api.nvim_buf_clear_namespace(0, vim.api.nvim_create_namespace("nvim.multicursor"), 0, -1)
+end, { desc = "Clear search highlight and multicursors" })
 
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
