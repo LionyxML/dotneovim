@@ -357,8 +357,82 @@ require("mini.completion").setup()
 -- vim.opt.complete:append("o")
 -- vim.o.autocomplete = true
 
--- Mini.Statusline
-require("mini.statusline").setup({ use_icons = use_nerd_icons })
+-- Mini.Statusline (customized to rounded pills to match my custom tmux bar)
+local MiniStatusline = require("mini.statusline")
+local pill_caps = use_nerd_icons and { "\u{e0b6}", "\u{e0b4}" } or { "", "" }
+local inner_pill_bg = "#313244"
+local pill_hls = {
+	"MiniStatuslineModeNormal",
+	"MiniStatuslineModeInsert",
+	"MiniStatuslineModeVisual",
+	"MiniStatuslineModeReplace",
+	"MiniStatuslineModeCommand",
+	"MiniStatuslineModeOther",
+	"MiniStatuslineDevinfo",
+	"MiniStatuslineFileinfo",
+}
+
+-- Caps take the pill's bg as fg, over the bar's bg, so the ends look rounded
+local function set_statusline_hls()
+	local get = function(name)
+		return vim.api.nvim_get_hl(0, { name = name, link = false })
+	end
+	local tweak = function(name, overrides)
+		vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", get(name), overrides))
+	end
+	for _, hl in ipairs({ "StatusLine", "StatusLineNC", "MiniStatuslineFilename", "MiniStatuslineInactive" }) do
+		tweak(hl, { bg = "NONE", ctermbg = "NONE" })
+	end
+	tweak("MiniStatuslineDevinfo", { bg = inner_pill_bg })
+	tweak("MiniStatuslineFileinfo", { bg = inner_pill_bg })
+	tweak("MiniStatuslineFilename", { fg = "#a6adc8" })
+	local bar_bg = get("StatusLine").bg
+	for _, hl in ipairs(pill_hls) do
+		vim.api.nvim_set_hl(0, hl .. "Cap", { fg = get(hl).bg, bg = bar_bg })
+	end
+end
+
+local function pill(hl, strings)
+	if table.concat(strings) == "" then
+		return ""
+	end
+	local cap = "%#" .. hl .. "Cap#"
+	return cap
+		.. pill_caps[1]
+		.. MiniStatusline.combine_groups({ { hl = hl, strings = strings } })
+		.. cap
+		.. pill_caps[2]
+end
+
+MiniStatusline.setup({
+	use_icons = use_nerd_icons,
+	content = {
+		active = function()
+			local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+			return MiniStatusline.combine_groups({
+				pill(mode_hl, { mode }),
+				" ",
+				pill("MiniStatuslineDevinfo", {
+					MiniStatusline.section_git({ trunc_width = 40 }),
+					MiniStatusline.section_diff({ trunc_width = 75 }),
+					MiniStatusline.section_diagnostics({ trunc_width = 75 }),
+					MiniStatusline.section_lsp({ trunc_width = 75 }),
+				}),
+				"%<",
+				{ hl = "MiniStatuslineFilename", strings = { MiniStatusline.section_filename({ trunc_width = 140 }) } },
+				"%=",
+				pill("MiniStatuslineFileinfo", { MiniStatusline.section_fileinfo({ trunc_width = 120 }) }),
+				" ",
+				pill(mode_hl, {
+					MiniStatusline.section_searchcount({ trunc_width = 75 }),
+					MiniStatusline.section_location({ trunc_width = 75 }),
+				}),
+			})
+		end,
+	},
+})
+set_statusline_hls()
+vim.api.nvim_create_autocmd("ColorScheme", { callback = set_statusline_hls })
 
 -- Mini.Pairs
 later(function()
