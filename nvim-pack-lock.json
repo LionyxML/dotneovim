@@ -29,7 +29,7 @@
       "src": "https://github.com/3rd/image.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "55eceab8975036ac43a4176cbfe0d4bf1ddae93f",
+      "rev": "97ccf96bb2e7adb5f82975068bd4c7307d2afa8a",
       "src": "https://github.com/williamboman/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
@@ -53,7 +53,7 @@
       "src": "https://github.com/LionyxML/nvim-0x0"
     },
     "nvim-lspconfig": {
-      "rev": "993d048db0d83d8e8ba3f9cb376456321acdcce3",
+      "rev": "443d92c6bea761ab54cdde46fb197a2b4d614bdd",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-tmux-navigation": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "orgmode": {
-      "rev": "a7fdbd3cfdd94b425c655cc72e3a6c4dd0a3959f",
+      "rev": "08c3ea6ca3745d49435378cddfa93d06e0b39574",
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
