@@ -41,7 +41,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "b8a0af521530f8ee68c738657429eab59de6a2ae",
+      "rev": "24cf4ad5840f0d092e3d8296b17eaf7026bf27f3",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim": {
@@ -61,7 +61,7 @@
       "src": "https://github.com/alexghergh/nvim-tmux-navigation"
     },
     "nvim-treesitter": {
-      "rev": "37e52c733ada9d8d544d53a763140ef1ba404353",
+      "rev": "52773f0d13a0c11d0c3ef33c14ab6ecc1c17148b",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-context": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "orgmode": {
-      "rev": "e29856da93af4b68f8d5f204f6c584c29b035470",
+      "rev": "803cd5f8aa680946d48707724f583f990175075b",
       "src": "https://github.com/nvim-orgmode/orgmode"
     },
     "rainbow-delimiters.nvim": {
